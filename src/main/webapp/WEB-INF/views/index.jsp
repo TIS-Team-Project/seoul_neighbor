@@ -1,10 +1,11 @@
 <!-- index.jsp ---------------->
 <!-- 
-1. 메인
+1. Landing page
 1.1 로그인 폼
-1.2 일러스트
-1.3 비회원 접속 폼
-2. javaScript -->
+1.2 비회원 입장
+2. javaScript 
+3. CSS
+-->
 <!-- index.jsp -->
 
 
@@ -13,7 +14,7 @@
 <html>
 
 <head>
-	<title>Home</title>
+<title>서울이웃 :: I SEOUL U</title>
 </head>
 
 <body>
@@ -21,59 +22,56 @@
 	<%@include file="common/header.jsp"%>
 	<!-- header include -->
 
-	<!-- 1. main ---------------->
-	<main class="container">
-		<h1 class="text-center">반가워요 이웃!</h1>
-
-		<div class="row">
-			<div class="col-md-6">
+	<!-- 1. Landing page ------------------------------>	
+	<div class="container">
+		<div class="wrap-login">
+			<form class="login-form validate-form flex-sb flex-w p-3">
+				<span class="login-form-title pt-3 pb-4"> Login </span>
+				<!-- 1.1 로그인 폼 ------------------------------>	
+				<div class="login-body pb-3">
+					<div class="wrap-input validate-input mb-3" data-validate="아이디를 입력해주세요">
+						<input class="input-text" type="text" name="username" placeholder="아이디"> 
+						<span class="focus-on-input"></span>
+					</div>
+					<div class="wrap-input validate-input mb-3" data-validate="비밀번호를 입력해주세요">
+						<input class="input-text" type="password" name="pass" placeholder="비밀번호">
+						<span class="focus-on-input"></span>
+					</div>
+					<div class="container-login-button pb-3">
+						<button class="login-button">Login</button>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<input class="input-checkbox" id="ckb1" type="checkbox" name="remember-me"> 
+							<label class="label-checkbox" for="ckb1">로그인 상태 유지 </label>
+						</div>
+						<div class="col-md-6 text-right">
+							<a href="#" class="forgot-text"> 비밀번호 찾기 </a>
+						</div>
+					</div>
+				</div>
+				<div class="text-center pt-4 pb-1">
+					<p>아직 서울이웃의 회원이 아니신가요?</p>
+					<a href="#" class="forgot-text">회원가입 하기</a>
+				</div>
+				<!-- 1.1 로그인 폼 -->	
 				
-				<!-- 1.1 로그인 폼 ---------------->
-				<h4>로그인</h4>
-				<form method="post" action="login">
-					<div class="form-group">
-						<input class="form-control" type="text" name="id" placeholder="Id" />
-					</div>
-
-					<div class="form-group">
-						<input class="form-control" type="password" name="pwd" placeholder="Password" />
-					</div>
-
-					<div class="form-group">
-						<input class="btn btn-primary" type="submit" name="login" value="로그인" />
-						<input class="btn btn-primary" type="submit" name="idFind" value="ID/PW 찾기" />
-					</div>
-				</form>
-				<!-- 1.1 로그인 폼 -->
-			</div>
-
-			<!-- 1.2 일러스트 ------------------>
-			<div class="col-md-6">
-				<img src="/resources/img/common/main_img.jpg">
-			</div>
-			<!-- 1.2 일러스트 -->
-			
-			<div class="col-md-6">
-				<h4>비회원</h4>
-
-				<!-- 1.3 비회원 접속 폼 ----------------------->
-				<form method="post" action="home.html">
-					<div class="form-group">
-						<input class="form-control" type="text" name="location" placeholder="Location" />
-					</div>
-
-					<div class="form-group">
-						<input class="btn btn-success" type="submit" name="register" value="접속"/>
-					</div>
-				</form>
-				<!-- 1.3 비회원 접속 폼 -->
-			</div>
-
+				<!-- 1.2 비회원 입장 ------------------------------>
+				<div class="text-center pt-4 pb-3">
+					<p>비회원으로 입장하시겠어요?</p>
+					<a href="#" class="forgot-text">서울이웃 체험하기</a>
+				</div>
+				<!-- 1.2 비회원 입장 -->
+			</form>
 		</div>
-	</main>
-	<!-- ./main -->
+	</div>
 </body>
+
 <!-- 2. javaScript ------------------------------>
 <%@include file="/resources/js/index_js.jsp"%>
 <!-- 2. javaScirpt -->
+
+<!-- 3. CSS ------------------------------>
+<link rel="stylesheet" href="/resources/css/common/index.css">
+<!-- 3. CSS -->
 </html>
