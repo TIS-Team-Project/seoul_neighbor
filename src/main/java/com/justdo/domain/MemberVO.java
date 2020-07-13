@@ -6,6 +6,11 @@ import lombok.Data;
 @Data
 public class MemberVO {
 	
-	private String id; //회원 아이디
-	private String pwd; //회원 비밀번호
+	private String userId;
+	private String nickName;
+	private String userPw;
+	private String email;
+	private String memberLocation;
+	private String memberFileName;
+	private String enabled;
 }

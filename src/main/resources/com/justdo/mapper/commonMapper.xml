@@ -8,4 +8,10 @@
 		select * from tbl_member
 		where id= #{id} and pwd =#{pwd}
 	</select>
+	
+	<insert id="insertUser">
+		insert into tbl_member(userid, nickname, userpw, email, member_location)
+		values(#{userId}, #{nickName}, #{userPw}, #{email}, #{memberLocation})
+	</insert>
+	
 </mapper>
