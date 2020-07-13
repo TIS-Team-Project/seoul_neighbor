@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 public class CommonController {
 	
 	 private commonService service;
-	// test-bomi
+
 	// 메인 이동 //////////////////////////////////
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
