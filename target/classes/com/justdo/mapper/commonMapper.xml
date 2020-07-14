@@ -14,4 +14,9 @@
 		values(#{userId}, #{nickName}, #{userPw}, #{email}, #{memberLocation})
 	</insert>
 	
+	<select id="selectByUserID" resultType="com.justdo.domain.MemberVO">
+		select * from tbl_member
+		where userid = #{userId}
+	</select>
+	
 </mapper>

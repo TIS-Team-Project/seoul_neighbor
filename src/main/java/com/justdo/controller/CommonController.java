@@ -54,7 +54,7 @@ public class CommonController {
 	@GetMapping("join")
 	public String join() {
 		System.out.println("회원가입페이지로 이동합니다.");
-		return "joinpage/testjoin";
+		return "joinpage/join";
 	}
 	
 	@PostMapping("join")

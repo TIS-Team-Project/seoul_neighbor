@@ -9,5 +9,8 @@ public interface commonService {
 	
 	//회원가입
 	public void join(MemberVO vo);
+	
+	//아이디 중복체크
+	public boolean isUnique(String userId);
 
 }

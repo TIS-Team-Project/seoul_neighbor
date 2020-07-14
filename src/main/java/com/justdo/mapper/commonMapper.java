@@ -9,4 +9,7 @@ public interface commonMapper {
 	
 	// tbl_member에 insert
 	public void insertUser(MemberVO vo);
+	
+	//중복된 아이디가 있는지 체크
+	public MemberVO selectByUserID(String userId);
 }

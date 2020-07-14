@@ -9,7 +9,7 @@
 .wrapper {
 	width: 700px;
 	margin: auto;
-	padding-top: 100px;
+	padding-top: 50px;
 }
 
 .wrapper form {
@@ -31,7 +31,7 @@
 .input-container {
 	display: flex;
 	width: 500px;
-	margin-bottom: 15px;
+	margin-bottom: 6px;
 	border: 1px solid #bbbbbb;
 }
 
@@ -44,11 +44,11 @@
 	opacity: 0.5;
 }
 
-.checkicon {
-	display: none;
+.vCheck-icon {
+	display: none !important;
 }
 
-.checkicon-show {
+.vCheck-icon-show {
 	display: block !important;
 	padding: 10px;
 	color: skyblue;
@@ -113,7 +113,7 @@
 	display: block !important;
 	color: red;
 	padding-left: 20px;
-	padding-bottom: 20px;
+	margin-bottom:0px;
 	font-size: 14px;
 }
 

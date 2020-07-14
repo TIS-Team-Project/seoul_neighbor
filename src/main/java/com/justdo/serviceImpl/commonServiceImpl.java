@@ -26,4 +26,14 @@ public class commonServiceImpl implements commonService {
 		mapper.insertUser(vo);
 	}
 
+	@Override
+	public boolean isUnique(String userId) {
+		if(mapper.selectByUserID(userId) == null) {
+			System.out.println("중복된 아이디가 없습니다. 사용가능합니다.");
+			return true;
+		}
+		System.out.println("중복된 아이디가 없습니다. 사용가능합니다.");
+		return false;
+	}
+
 }
