@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
 import com.justdo.service.commonService;
 
@@ -28,20 +30,7 @@ public class CommonController {
 	}
 	// 메인 이동 //
 	 
-	// 로그인 ////////////////////////////////////
-	@PostMapping("login")
-	public String login(Model model,MemberVO vo,RedirectAttributes rttr) {
-	
-		try { 
-			vo = service.login(vo);
-			rttr.addFlashAttribute("id",vo.getId());
-			return "redirect:/list";
-		}catch(Exception e) {
-		  rttr.addFlashAttribute("result","fail");
-		  return"redirect:/"; 
-		  }
-	}
-	// 로그인 //
+
 	
 	
 	// 목록 페이지 이동 //////////////////////////
@@ -50,5 +39,15 @@ public class CommonController {
 		return "board/list";
 	};
 	// 목록 페이지 이동 //
+	
+	//bno로 상세페이지 부르기/////////////////////
+	@GetMapping("read")
+	public String read(@RequestParam("bno") int bno, Model model) {
+		BoardVO vo=service.read(bno);
+		model.addAttribute("board",vo);
+		return "board/read";
+	}
+	//bno로 상세페이지 부르기  
+
 	
 }

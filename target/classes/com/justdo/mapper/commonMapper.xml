@@ -8,4 +8,10 @@
 		select * from tbl_member
 		where id= #{id} and pwd =#{pwd}
 	</select>
+	
+	
+	<select id="selctBoard" resultType="com.justdo.domain.BoardVO">
+		select * from tbl_board
+		where bno=#{bno}
+	</select>
 </mapper>

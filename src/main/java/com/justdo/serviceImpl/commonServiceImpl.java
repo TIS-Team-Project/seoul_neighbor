@@ -2,6 +2,7 @@ package com.justdo.serviceImpl;
 
 import org.springframework.stereotype.Service;
 
+import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
 import com.justdo.mapper.commonMapper;
 import com.justdo.service.commonService;
@@ -20,4 +21,11 @@ public class commonServiceImpl implements commonService {
 		return mapper.login(vo);
 	}
 
+	@Override
+	public BoardVO read(int bno) {
+		// TODO Auto-generated method stub
+		return mapper.selctBoard(bno);
+	}
+
+	
 }
