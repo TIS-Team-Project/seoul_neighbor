@@ -1,5 +1,4 @@
-/*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
+/* 태그 기본 css ////////////////////////////////////////////*/
 
 * {
 	margin: 0px; 
@@ -11,7 +10,6 @@ body, html {
 	height: 100%;
 }
 
-/*---------------------------------------------*/
 a {
 	font-size: 15px;
 	line-height: 1.7;
@@ -31,7 +29,6 @@ a:hover {
 	text-decoration: none;
 }
 
-/*---------------------------------------------*/
 h1,h2,h3,h4,h5,h6 {
 	margin: 0px;
 }
@@ -48,8 +45,6 @@ ul, li {
 	list-style-type: none;
 }
 
-
-/*---------------------------------------------*/
 input {
 	outline: none;
 	border: none;
@@ -79,7 +74,6 @@ label {
   margin: 0;
 }
 
-/*---------------------------------------------*/
 button {
 	outline: none !important;
 	border: none;
@@ -93,14 +87,30 @@ button:hover {
 iframe {
 	border: none !important;
 }
+/* 태그 기본 css */
 
-/*//////////////////////////////////////////////////////////////////
-[ login ]*/
-.limiter {
-  width: 100%;
-  margin: 0 auto;
+/* 스타일 적용  ////////////////////////////////////////////*/
+.add-border-top {
+  border-top: 1px solid;
+  border-top-color: #e6e6e6
 }
 
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-colored {
+  font-size: 15px;
+  color: #827ffe;
+  line-height: 1.4;
+}
+/* 스타일 적용   */
+
+/* 배경  ////////////////////////////////////////////*/
 .container {
   width: 100%;  
   min-height: 90vh;
@@ -132,7 +142,9 @@ iframe {
   left: 0;
   pointer-events: none;
 }
+/* 배경  */
 
+/* 로그인  ////////////////////////////////////////////*/
 .wrap-login {
   width: 390px;
   background: #fff;
@@ -146,23 +158,14 @@ iframe {
   -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
-.login-body {
-  border-bottom: 1px solid;
-  border-color: #e6e6e6
+@media (max-width: 480px) {
+  .wrap-login {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 
-.text-right {
-  text-align: right;
-}
-
-.text-center {
-  text-align: center;
-}
-
-/*==================================================================
-[ Form ]*/
-
-.login-form {
+.container-form {
   width: 100%;
 }
 
@@ -176,15 +179,6 @@ iframe {
   width: 100%;
   display: block;
 }
-
-.forgot-text {
-  font-size: 15px;
-  color: #827ffe;
-  line-height: 1.4;
-}
-
-/*------------------------------------------------------------------
-[ Input ]*/
 
 .wrap-input {
   width: 100%;
@@ -205,10 +199,6 @@ iframe {
   height: 62px;
   padding: 0 20px 0 38px;
 }
-
-
-/*------------------------------------------------------------------
-[ Focus Input ]*/
 
 .focus-on-input {
   position: absolute;
@@ -246,21 +236,6 @@ iframe {
   -o-transform: scale(1);
   transform: scale(1);
 }
-
-.eff-focus-selection {
-  visibility: visible;
-  opacity: 1;
-
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -ms-transform: scale(1);
-  -o-transform: scale(1);
-  transform: scale(1);
-}
-
-
-/*==================================================================
-[ Restyle Checkbox ]*/
 
 .input-checkbox {
   display: none;
@@ -309,9 +284,6 @@ iframe {
   color: #827ffe;
 }
 
-
-/*------------------------------------------------------------------
-[ Button ]*/
 .container-login-button {
   width: 100%;
   display: -webkit-box;
@@ -322,12 +294,10 @@ iframe {
   flex-wrap: wrap;
 }
 
-
-.login-button {
+.button-colored {
   font-size: 16px;
   color: #fff;
   line-height: 1.2;
-  text-transform: uppercase;
 
   display: -webkit-box;
   display: -webkit-flex;
@@ -348,13 +318,82 @@ iframe {
   transition: all 0.4s;
 }
 
-.login-button:hover {
+.button-colored:hover {
   background-color: #403866;
 }
 
-/*------------------------------------------------------------------
-[ Alert validate ]*/
+.mini-button {
+  font-size: 16px;	
+  color: #fff;
+  line-height: 1.2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  width: 100%;
+  height: 40px;
+  background-color: #827ffe;
+  border-radius: 3px;
+  
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
 
+.mini-button:hover {
+  background-color: #403866;
+}
+
+.selectBox {
+	position: relative;
+	width: 100%; /* 너비설정 */
+	border: 1px solid #999; /* 테두리 설정 */
+	z-index: 1;
+}
+
+.selectBox:before { /* 화살표 대체 */
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	width: 0;
+	height: 0;
+	margin-top: -1px;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid #333;
+}
+
+.selectBox label {
+	position: absolute;
+	top: 1px; /* 위치정렬 */
+	left: 5px; /* 위치정렬 */
+	padding: .8em .5em; /* select의 여백 크기 만큼 */
+	color: #999;
+	z-index: -1; /* IE8에서 label이 위치한 곳이 클릭되지 않는 것 해결 */
+}
+
+.selectbox select {
+	width: 100%;
+	height: auto; /* 높이 초기화 */
+	line-height: normal; /* line-height 초기화 */
+	font-family: inherit; /* 폰트 상속 */
+	padding: .8em .5em; /* 여백과 높이 결정 */
+	border: 0;
+	opacity: 0; /* 숨기기 */
+	filter: alpha(opacity = 0); /* IE8 숨기기 */
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+}
+/* 로그인   */
+
+/* 자바스크립트 유효값 검사 //////////////////////////////////////////////*/
 .validate-input {
   position: relative;
 }
@@ -416,13 +455,4 @@ iframe {
     opacity: 1;
   }
 }
-
-/*//////////////////////////////////////////////////////////////////
-[ Responsive ]*/
-
-@media (max-width: 480px) {
-  .wrap-login {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-}
+/* 자바스크립트 유효값 검사  */

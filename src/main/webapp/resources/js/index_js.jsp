@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script>
+
+	/* 제이쿼리 사용 */
 	(function ($) {
 	    "use strict";
-	
-	    /*==================================================================
-	    [ Validate ]*/
+		/* 로그인 유호값 검사 ////////////////////////////////////////*/
 	    var input = $('.validate-input .input-text');
 	
 	    $('.validate-form').on('submit',function(){
@@ -59,6 +59,6 @@
 	        $(thisAlert).removeClass('alert-validate');
 	        $(thisAlert).find('.btn-hide-validate').remove();
 	    }
-	    
+	    /* 로그인 유호값 검사  */
 	})(jQuery);
 </script>
