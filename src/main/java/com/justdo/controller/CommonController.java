@@ -28,20 +28,20 @@ public class CommonController {
 	}
 	// 메인 이동 //
 	 
-	// 로그인 ////////////////////////////////////
-	@PostMapping("login")
-	public String login(Model model,MemberVO vo,RedirectAttributes rttr) {
-	
-		try { 
-			vo = service.login(vo);
-			rttr.addFlashAttribute("id",vo.getId());
-			return "redirect:/list";
-		}catch(Exception e) {
-		  rttr.addFlashAttribute("result","fail");
-		  return"redirect:/"; 
-		  }
-	}
-	// 로그인 //
+// 로그인 ////////////////////////////////////
+//	@PostMapping("login")
+//	public String login(Model model,MemberVO vo,RedirectAttributes rttr) {
+//	
+//		try { 
+//			vo = service.login(vo);
+//			rttr.addFlashAttribute("id",vo.getId());
+//			return "redirect:/list";
+//		}catch(Exception e) {
+//		  rttr.addFlashAttribute("result","fail");
+//		  return"redirect:/"; 
+//		  }
+//	}
+// 로그인 //
 	
 	
 	// 목록 페이지 이동 //////////////////////////

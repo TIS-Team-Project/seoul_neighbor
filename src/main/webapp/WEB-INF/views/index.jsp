@@ -25,7 +25,7 @@
 	<main class="container">
 		<h1 class="text-center">반가워요 이웃!</h1>
 
-		<div class="row">
+		<div class="row">list
 			<div class="col-md-6">
 				
 				<!-- 1.1 로그인 폼 ---------------->
@@ -66,12 +66,17 @@
 						<input class="btn btn-success" type="submit" name="register" value="접속"/>
 					</div>
 				</form>
+
 				<!-- 1.3 비회원 접속 폼 -->
 			</div>
 
 		</div>
 	</main>
 	<!-- ./main -->
+	
+	<script>
+		self.location="/board/list";
+	</script>
 </body>
 <!-- 2. javaScript ------------------------------>
 <%@include file="/resources/js/index_js.jsp"%>
