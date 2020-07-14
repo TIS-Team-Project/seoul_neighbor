@@ -19,7 +19,7 @@
 
         </property>
         <property name="username" value="root"></property> <!-- 본인의 아이디에 맞게 변경해 주세요 -->
-        <property name="password" value="Q7945613@"></property> <!-- 본인의 비밀번호에 맞게 변경해 주세요 -->
+        <property name="password" value=""></property> <!-- 본인의 비밀번호에 맞게 변경해 주세요 -->
     </bean> 
     
     <!-- HikariCP configuration -->
