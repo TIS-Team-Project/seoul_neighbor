@@ -14,5 +14,8 @@
 
 <h1>${board.userId}</h1>
 <h1>${board.title}</h1>
+<h1>${board.updateDate}</h1>
 <h1>${board.content}</h1></body>
+
+
 </html>
