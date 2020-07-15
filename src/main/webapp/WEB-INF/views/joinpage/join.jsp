@@ -15,6 +15,9 @@
 <!-- 회원가입페이지 전용 css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/join/join.css">
 
+<!-- 다음 주소검색 api -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 </head>
 <body>
 	<!-- header include ------------>
@@ -31,25 +34,27 @@
             <div class="input-group mb-3">
 	            <div class="input-container">
 	                <label for="userId"><i class="fas fa-mobile-alt icon"></i></label>
-	                <input id="userId" name="userId" type="text" class="input-field" placeholder="아이디 입력" onfocusout="verifyID()">
+	                <input id="userId" name="userId" type="text" class="input-field" placeholder="아이디 입력" maxlength="20" onfocusout="verifyID()">
 	                <i id="userIdV" class="fas fa-check vCheck-icon"></i>
 	            </div>
 	            <p id="userId-wrong-text" class="wrong-text-hide">ID를 정확히 입력해 주세요.(5~20자의 영소문자, 숫자만 가능합니다.)</p>
+	            <p id="userId-duplicated-text" class="wrong-text-hide">이미 사용중인 아이디 입니다. 다시 작성해주세요</p>
 			</div>
 			
 			<div class="input-group mb-3">
 	            <div class="input-container">
 	                <label for="nickName"><i class="far fa-user icon"></i></label>
-	                <input id="nickName" name="nickName" type="text" class="input-field" placeholder="닉네임 입력" onfocusout="verifyNickName()">
+	                <input id="nickName" name="nickName" type="text" class="input-field" placeholder="닉네임 입력" maxlength="10" onfocusout="verifyNickName()">
 	                <i id="nickNameV" class="fas fa-check vCheck-icon"></i>
 	            </div>
 	            <p id="nickName-wrong-text" class="wrong-text-hide">닉네임을 정확히 입력하세요.(2~10글자)</p>
+	            <p id="nickName-duplicated-text" class="wrong-text-hide">중복된 닉네임입니다. 다른 닉네임을 입력하세요</p>
 			</div>
 
 			<div class="input-group mb-3">
 				<div class="input-container">
                 	<label for="email"><i class="far fa-envelope icon"></i></label>
-                	<input id="email" name="email" type="text" class="input-field" placeholder="아이디(이메일)" onfocusout="verifyEmail()">
+                	<input id="email" name="email" type="text" class="input-field" placeholder="이메일 주소 입력" onfocusout="verifyEmail()">
                 	<i id="emailv" class="fas fa-check vCheck-icon"></i>
             	</div>
             	<p id="email-wrong-text" class="wrong-text-hide">이메일을 형식이 맞지 않습니다.</p>
@@ -59,7 +64,7 @@
             <div class="input-container">
                 <label for="pw"><i class="fas fa-shield-alt icon"></i></label>
                 <input id="pw" name="userPw" type="password" class="input-field" placeholder="비밀번호(영문 숫자 특수문자 섞어서 6~15자 이내)"
-                    onfocusout="verifyPW()">
+                    maxlength="15" onfocusout="verifyPW()">
                 <i id="pwv" class="fas fa-check vCheck-icon"></i>
             </div>
             <p id="pw-wrong-text" class="wrong-text-hide">비밀번호(영문 숫자 특수문자 섞어서 6~15자 이내)</p>
@@ -72,13 +77,13 @@
                     onfocusout="verifyPWcheck()">
                 <i id="pwcv" class="fas fa-check vCheck-icon"></i>
             </div>
-            <p id="pwc-wrong-text" class="wrong-text-hide">비밀번호가 일치하지 않습니다.</p>
+            <p id="pwc-wrong-text" class="wrong-text-hide">비밀번호가 일치하지 않거나 형식에 맞지 않습니다.</p>
 			</div>
 					
 			<div class="input-group mb-3">
 	            <div class="input-container">
 	                <label for="memberLocation"><i class="fas fa-mobile-alt icon"></i></label>
-	                <input id="memberLocation" name="memberLocation" type="text" class="input-field" placeholder="관심 지역 선택" onfocusout="verifyPhone()">
+	                <input id="memberLocation" name="memberLocation" type="text" class="input-field" placeholder="관심 지역 선택" readonly>
 	                <i id="locationV" class="fas fa-check vCheck-icon"></i>
 	            </div>
 	            <p id="location-wrong-text" class="wrong-text-hide">지역을 선택해 주세요</p>

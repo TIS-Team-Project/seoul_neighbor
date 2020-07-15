@@ -3,9 +3,7 @@
 <script>
 $(document).ready(function(){
 	//최종적으로 submit 하기 위해 점검 변수
-	var id, email, pw, name;
-	
-	
+	var id, email, pw, name, location;
 
 	//아이디 입력 검증
 	verifyID = function () {
@@ -14,18 +12,43 @@ $(document).ready(function(){
 	    var regExp = /^[0-9a-z]{5,20}$/;
 	    var pattern_special = /[~!@#$%^&*()_+|<>?:{}]\s/;
 	    
+	    
+	    $("#userId-duplicated-text").removeClass("wrong-text-show");
+	    $("#userId-wrong-text").removeClass("wrong-text-show");
+	    $("#userId").parent().removeClass("wrong-input");
+	    
 	    if (userIDVal.match(regExp) != null) {
-	        $("#userId").parent().removeClass("wrong-input");
-	        $("#userId-wrong-text").removeClass("wrong-text-show");
 	        $("#userIdV").addClass("vCheck-icon-show");
-	        id = true;
+	        id = true; //아이디가 형식에 맞게 작성이 되있음
 	    }
 	    else {
 	        $("#userId").parent().addClass("wrong-input");
 	        $("#userId-wrong-text").addClass("wrong-text-show");
 	        $("#userIdV").removeClass("vCheck-icon-show");
-	        id = false;
+	        id = false; //아이디가 형식에 맞지 않음
 	    }
+	    
+	    //id가 형식에 맞다면 ajax로 중복된 값인지 체크
+	    if(id){
+	    	var idStatus;
+	    	$.ajax({
+	    		url: "/checkId/" + userIDVal,
+	    		type: "GET",
+	    		dataType: "text",
+	    		success: function(result, status, xhr){
+	    			console.log(result);
+	    			idStatus = result;
+	    			if(idStatus == 'duplicated'){
+	    	    		console.log("idStatus : " + idStatus);
+	    	    		
+	    	    		$("#userId").parent().addClass("wrong-input");
+	    	    		$("#userId-duplicated-text").addClass("wrong-text-show");
+	    	    		$("#userIdV").removeClass("vCheck-icon-show");
+	    	    	}
+	    		}
+	    	});
+	    }
+	    
 	}
 
 	// 닉네임 입력 검증
@@ -33,9 +56,12 @@ $(document).ready(function(){
 
 	    var nickNameVal = $("#nickName").val();
 	    var regExp = /^[\wㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z]{2,10}$/;
+	    
+	    $("#nickName-duplicated-text").removeClass("wrong-text-show");
+	    $("#nickName-wrong-text").removeClass("wrong-text-show");
+	    $("#nickName").parent().removeClass("wrong-input");
+	    
 	    if (nickNameVal.match(regExp) != null) {
-	        $("#nickName").parent().removeClass("wrong-input");
-	        $("#nickName-wrong-text").removeClass("wrong-text-show");
 	        $("#nickNameV").addClass("vCheck-icon-show");
 	        name = true;
 	    }
@@ -45,10 +71,32 @@ $(document).ready(function(){
 	        $("#nickNameV").removeClass("vCheck-icon-show");
 	        name = false;
 	    }
+	    
+	  //닉네임이 형식에 맞다면 ajax로 중복된 값인지 체크
+	    if(name){
+	    	var nameStatus;
+	    	$.ajax({
+	    		url: "/checkId/" + nickNameVal,
+	    		type: "GET",
+	    		dataType: "text",
+	    		success: function(result, status, xhr){
+	    			console.log(result);
+	    			nameStatus = result;
+	    			if(nameStatus == 'duplicated'){
+	    	    		console.log("nameStatus : " + nameStatus);
+	    	    		
+	    	    		$("#nickName").parent().addClass("wrong-input");
+	    	    		$("#nickName-duplicated-text").addClass("wrong-text-show");
+	    	    		$("#nickNameV").removeClass("vCheck-icon-show");
+	    	    	}
+	    		}
+	    	});
+	    }
 	}
 
+	// 이메일 검증 스크립트 작성
 	verifyEmail = function () {
-	    // 이메일 검증 스크립트 작성
+	    
 	    var emailVal = $("#email").val();
 
 	    var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -66,10 +114,11 @@ $(document).ready(function(){
 	        email = false;
 	    }
 	}
-
+	
+	 // 비밀번호 검증 스크립트 작성
 	var pwVerifyOk = false; // 비밀번호 확인용
 	verifyPW = function () {
-	    // 비밀번호 검증 스크립트 작성
+	   
 	    var pwVal = $("#pw").val();
 
 	    var regExp = /^.*(?=^.{6,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
@@ -88,8 +137,9 @@ $(document).ready(function(){
 	    }
 	}
 
+	// 비밀번호 확인 검증 스크립트 작성
 	verifyPWcheck = function () {
-	    // 비밀번호 확인 검증 스크립트 작성
+	    
 	    var pwVal = $("#pw").val();
 	    var pwCheck = $("#pwcheck").val();
 
@@ -106,9 +156,75 @@ $(document).ready(function(){
 	        pw = false;
 	    }
 	}
+	
+	// 지역선택 검증 스크립트
+	verifyLocation = function () {
+	    
+	    var locationVal = $("#memberLocation").val();
 
-
-
+	    if (locationVal) {
+	        $("#memberLocation").parent().removeClass("wrong-input");
+	        $("#location-wrong-text").removeClass("wrong-text-show");
+	        $("#locationV").addClass("vCheck-icon-show");
+	        location = true;
+	    }
+	    else {
+	        $("#memberLocation").parent().addClass("wrong-input");
+	        $("#location-wrong-text").addClass("wrong-text-show");
+	        $("#locationV").removeClass("vCheck-icon-show");
+	        location = false;
+	    }
+	}
+	
+	// 카카오 주소 검색 ///////////////////////////////////////////
+	/* $("#memberLocation").focus(function()){
+        new daum.Postcode({
+            oncomplete: function(data) {
+                gu = data.sigungu; // 구
+				dong = data.bname; // 동
+                console.log(gu+dong);
+				
+				$("#memberLocation").val(gu+" "+dong)
+				
+				// 주소 정보를 해당 필드에 넣는다.
+                changeDong(gu);
+                
+    			$("#member_location").empty();
+    			$("#member_location").append("<input type='hidden' name='member_location' value='"+gu+"_"+dong+"' />");
+            }
+        }).open();
+	}) */
+	// 카카오 주소 검색 //
+	
+	$("#memberLocation").focus(function(){
+		$("#memberLocation").trigger("blur");
+		new daum.Postcode({
+            oncomplete: function(data) {
+                gu = data.sigungu; // 구
+				dong = data.bname; // 동
+                console.log(gu+dong);
+				
+				$("#memberLocation").val(gu+" "+dong)
+            }
+            /* onclose: function(state) {
+                //state는 우편번호 찾기 화면이 어떻게 닫혔는지에 대한 상태 변수 이며, 상세 설명은 아래 목록에서 확인하실 수 있습니다.
+                if(state === 'FORCE_CLOSE'){
+                    //사용자가 브라우저 닫기 버튼을 통해 팝업창을 닫았을 경우, 실행될 코드를 작성하는 부분입니다.
+                    console.log("focusout 했습니다.11");
+                	
+                	verifyLocation();
+                } else if(state === 'COMPLETE_CLOSE'){
+                    //사용자가 검색결과를 선택하여 팝업창이 닫혔을 경우, 실행될 코드를 작성하는 부분입니다.
+                    //oncomplete 콜백 함수가 실행 완료된 후에 실행됩니다.
+                    console.log("focusout 했습니다.22");
+                
+                	verifyLocation();
+                }
+            } */
+        }).open();
+		
+		
+	});
 	
 
 	//버튼 누를시 전체 입력값 제대로 된지 검사하기
@@ -118,7 +234,8 @@ $(document).ready(function(){
 		verifyNickName();
 	    verifyPW();
 	    verifyPWcheck();
-	    if(!email||!pw||!pwVerifyOk||!name||!phone){
+	    verifyLocation();
+	    if(!email||!pw||!pwVerifyOk||!name||!location){
 	        return false;
 	    }
 	}

@@ -11,6 +11,9 @@ public interface commonService {
 	public void join(MemberVO vo);
 	
 	//아이디 중복체크
-	public boolean isUnique(String userId);
+	public boolean isUniqueID(String userId);
+	
+	//닉네임 중복체크
+	public boolean isUniqueNickName(String nickName);
 
 }

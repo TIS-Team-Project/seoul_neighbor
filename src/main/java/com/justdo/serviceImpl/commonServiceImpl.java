@@ -27,12 +27,22 @@ public class commonServiceImpl implements commonService {
 	}
 
 	@Override
-	public boolean isUnique(String userId) {
-		if(mapper.selectByUserID(userId) == null) {
+	public boolean isUniqueID(String userId) {
+		if(mapper.checkID(userId) == 0) {
 			System.out.println("중복된 아이디가 없습니다. 사용가능합니다.");
 			return true;
 		}
-		System.out.println("중복된 아이디가 없습니다. 사용가능합니다.");
+		System.out.println(" *Warning!!! 아이디가 중복되었습니다!!! ***********");
+		return false;
+	}
+
+	@Override
+	public boolean isUniqueNickName(String nickName) {
+		if(mapper.checkNickName(nickName) == 0) {
+			System.out.println("중복된 닉네임이 없습니다. 사용가능합니다.");
+			return true;
+		}
+		System.out.println(" *Warning!!! 닉네임이 중복되었습니다!!! ***********");
 		return false;
 	}
 
