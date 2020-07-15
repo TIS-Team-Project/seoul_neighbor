@@ -25,7 +25,8 @@
 	<!-- 1. Landing page ------------------------------>	
 	<div class="container">
 		<div class="wrap-login">
-			<form class="container-form validate-form p-3">
+			<form class="container-form validate-form p-3" action="/login" method="post" role="form">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<span class="login-form-title pt-3 pb-4"> Login </span>
 				<!-- 1.1 로그인 폼 ------------------------------>
 				<div class="login-body pb-3">
