@@ -10,5 +10,6 @@ public class MessageVO {
 	String receiver;
 	String writedate;
 	String message_content;
+	String nickname;
 	char read_check;
 }

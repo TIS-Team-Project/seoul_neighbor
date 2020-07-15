@@ -30,8 +30,10 @@ public class MyPageController {
 	private myPageService myPageService;
 	
 	@GetMapping("mylist")
-	public String myList(Model model) {
-		model.addAttribute("member", myPageService.selectUser("test")); //test -> 동적으로 바꿔야함
+	public String myList(Model model,MemberVO vo) {
+		vo = myPageService.selectUser("test");//test -> 동적으로 바꿔야함
+		model.addAttribute("member", myPageService.selectUser(vo.getUserid())); 
+		model.addAttribute("board",myPageService.selectMyBoardList(vo.getUserid()));
 		return "mypage/mylist";
 	}
 	
@@ -51,12 +53,18 @@ public class MyPageController {
 	@GetMapping("myMessageAjax")
 	@ResponseBody
 	public ResponseEntity<List<MessageVO>> myMessageAjax(String userid, int pageNum) {
-		System.out.print(userid);
-		System.out.print(pageNum);
 		return new ResponseEntity<List<MessageVO>>(myPageService.selectMessageList(userid, pageNum),HttpStatus.OK);
 	}
 	//쪽지 Ajax로 불러오기 //
 
+	//쪽지 Ajax로 보내기 ///////////////////////////////////////////////////
+	@PostMapping("myMessageSendAjax")
+	@ResponseBody public void myMessageSendAjax(MessageVO vo){
+		vo.setReceiver(myPageService.selectFindReceiver(vo.getMno()));
+		myPageService.sendMessage(vo); 
+	}
+	//쪽지 보내기 //
+	  
 	@GetMapping("myQA")
 	public String myQA(Model model) {
 		model.addAttribute("member", myPageService.selectUser("test")); //test -> 동적으로 바꿔야함
@@ -69,6 +77,8 @@ public class MyPageController {
 		model.addAttribute("member", myPageService.selectUser("test")); //test -> 동적으로 바꿔야함
 		return "mypage/myPassword";
 	}
+	
+	
 	
 	
 	//유저 정보 수정 //////////////////////////////////////
@@ -122,4 +132,5 @@ public class MyPageController {
 	}
 	//비밀번호 변경//
 
+	
 }

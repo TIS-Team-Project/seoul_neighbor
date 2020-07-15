@@ -396,7 +396,7 @@
 		$("#selectGu").change(function(){ // 구 바뀜
 			gu = $("#selectGu option:selected");
 			changeDong(gu.val());
-			dong = $("#selectDong option:selected");
+			dong = $("#selectDong option:selected");	
 			$("#member_location").empty();
 			$("#member_location").append("<input type='hidden' name='member_location' value='"+gu.val()+"_"+dong.val()+"' />");	
 		})

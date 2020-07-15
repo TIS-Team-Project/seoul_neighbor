@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
 import com.justdo.domain.MessageVO;
 import com.justdo.mapper.myPageMapper;
@@ -45,6 +46,21 @@ public class myPageServiceImpl implements myPageService {
 	@Override
 	public int selectCountMessage(String userid) {
 		return mapper.selectCountMessage(userid);
+	}
+
+	@Override
+	public void sendMessage(MessageVO vo) {
+		mapper.sendMessage(vo);
+	}
+
+	@Override
+	public String selectFindReceiver(int mno) {
+		return mapper.selectFindReceiver(mno);
+	}
+
+	@Override
+	public List<BoardVO> selectMyBoardList(String userid) {
+		return mapper.selectMyBoardList(userid);
 	}
 
 

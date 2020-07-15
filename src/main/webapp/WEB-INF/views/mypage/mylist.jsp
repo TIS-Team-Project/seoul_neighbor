@@ -31,7 +31,29 @@
 		<!-- 1.2 나의 게시글 레이아웃 ---------------------------------->
 			<div id="rightDiv" class="col-lg-9">
 				<h1>나의 게시글</h1>
-				<div id="rightDivContent" class="container-fluid">
+				<div id="rightDivContent" class="container">
+						<table class="table text-center table-hover">
+						<thead class="thead-dark">
+							<tr>
+								<th>지역</th>
+								<th>키테고리</th>
+								<th>제목</th>
+								<th>추천</th>
+								<th>작성일</th>
+							</tr>
+						</thead>
+						<tbody id="messageList">
+							<c:forEach items="${board}" var="board">
+							<tr>
+								<td>${board.location }</td>
+								<td>${board.category}</td>
+								<td>${board.title}</td>
+								<td>${board.like_count}</td>
+								<td>${board.regdate}</td>
+							</tr>
+							</c:forEach>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		<!-- 1.2 나의 게시글 레이아웃 -->
