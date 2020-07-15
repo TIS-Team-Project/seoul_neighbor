@@ -12,10 +12,10 @@ public class BoardVO {
 	private String content;
 	private Date regdate;
 	private Date updatedate;
-	private int replycnt;
+	private int reply_cnt;
 	private String category;
-	private int likecount;
-	private int unlikecount;
+	private int like_count;
+	private int unlike_count;
 	private String location;
-	private int viewcount;
+	private int view_count;
 }

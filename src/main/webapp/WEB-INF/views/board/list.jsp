@@ -60,13 +60,13 @@
 									<th colspan="3">추천 수가 많은 소식</th>
 								</thead>
 								<tbody>
-									<c:forEach items="${list}" var="board" begin="1" end="5" step="1" varStatus="i">
+									<c:forEach items="${locationlist}" var="board">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
 											<td><a class='move' href='<c:out value="${board.bno}" />'>
 												<c:out value="${board.title}"/></a>
-												<b>[<c:out value="${board.replycnt}"/>]</b></td>
-											<td><c:out value="${board.likecount}"/></td>
+												<b>[<c:out value="${board.reply_cnt}"/>]</b></td>
+											<td><c:out value="${board.like_count}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -79,13 +79,13 @@
 									<th colspan="3">댓글 수가 많은 소식</th>
 								</thead>
 								<tbody>
-									<c:forEach items="${list}" var="board" begin="1" end="5" step="1" varStatus="i">
+									<c:forEach items="${locationlist}" var="board">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
 											<td><a class='move' href='<c:out value="${board.bno}" />'>
 												<c:out value="${board.title}"/></a>
-												<b>[<c:out value="${board.replycnt}"/>]</b></td>
-											<td><c:out value="${board.likecount}"/></td>
+												<b>[<c:out value="${board.reply_cnt}"/>]</b></td>
+											<td><c:out value="${board.like_count}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -104,13 +104,14 @@
 							<table class="table table-hover"
 								id="dataTables-example">
 								<tbody>
-									<c:forEach items="${list}" var="board" begin="1" end="6" step="1" varStatus="i">
+									<c:forEach items="${locationlist}" var="board">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
 											<td><a class='move' href='<c:out value="${board.bno}" />'>
 												<c:out value="${board.title}"/></a>
-												<b>[<c:out value="${board.replycnt}"/>]</b></td>
-											<td><c:out value="${board.likecount}"/></td>
+												<b>[<c:out value="${board.reply_cnt}"/>]</b></td>
+											<td><c:out value="${board.like_count}"/></td>
+											
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -158,6 +159,7 @@
 										<th>지역</th>
 										<th>카테고리</th>
 										<th>제목</th>
+										<th>작성자</th>
 										<th>조회수</th>
 										<th>추천수</th>
 									</tr>
@@ -170,9 +172,10 @@
 											<td><c:out value="${board.category}" /></td>
 											<td><a class='move' href='<c:out value="${board.bno}" />'>
 												<c:out value="${board.title}"/></a>
-												<b>[<c:out value="${board.replycnt}"/>]</b></td>
-											<td><c:out value="${board.viewcount}"/></td>
-											<td><c:out value="${board.likecount}"/></td>
+												<b>[<c:out value="${board.reply_cnt}"/>]</b></td>
+											<td><c:out value="${board.userid}"/></td>
+											<td><c:out value="${board.view_count}"/></td>
+											<td><c:out value="${board.like_count}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -349,12 +352,41 @@
 						</ul>
 					</div>
 					<!-- end pageination -->
-						<form id='actionForm' action="/board/list" method="get">
+					<form id='actionForm' action="/board/list" method="get">
 						<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
 						<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+						<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>'>
+						<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'>
 					</form>
 			</div>
 		</div>
+		
+							<div class='row'>
+						<div class="col-lg-12">
+							<form id='searchForm' action="/board/list" method='get'>
+								<select name='type'>
+									<option value=""
+									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>---</option>
+									<option value="A"
+									<c:out value="${pageMaker.cri.type eq 'A'?'selected':''}"/>>전체</option>
+									<option value="T"
+									<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+									<option value="C"
+									<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+									<option value="N"
+									<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>작성자</option>
+									<option value="L"
+									<c:out value="${pageMaker.cri.type eq 'L'?'selected':''}"/>>지역</option>
+								</select> 
+									<input type='text' name='keyword' /> 
+									<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
+									<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+									
+									<button class='btn btn-default'>검색</button>
+							</form>
+						</div>
+					</div>
+		
 	</div>
 </body>
 
@@ -369,6 +401,23 @@ $(document).ready(function(){
   	  
   	  actionForm.find("input[name='pageNum']").val($(this).attr("href"));
   	  actionForm.submit();
+    });
+    
+    var searchForm = $("#searchForm");
+    $("#searchForm button").on("click", function(e){
+  	  if(!searchForm.find("option:selected").val()){
+  		  alert("검색종류를 선택하세요");
+  		  return false;
+  	  }
+  	  if(!searchForm.find("input[name='keyword']").val()){
+  		  alert("키워드를 입력하세요");
+  		  return false;
+  	  }
+  	  searchForm.find("input[name='pageNum']").val("1");
+  	  e.preventDefault();
+  	  
+  	  searchForm.submit();
+  	  
     });
 });
 </script>

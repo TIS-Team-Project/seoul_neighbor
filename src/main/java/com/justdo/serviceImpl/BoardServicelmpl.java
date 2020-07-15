@@ -36,4 +36,10 @@ public class BoardServicelmpl implements BoardService{
 		return mapper.getTotalCount(cri);
 	}
 
+
+	@Override
+	public List<BoardVO> getLocationList(Criteria cri) {
+		return mapper.getLocationList(cri);
+	}
+
 }

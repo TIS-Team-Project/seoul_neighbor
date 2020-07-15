@@ -14,24 +14,40 @@ public class Criteria {
 	private int amount;
 	private int startIndex;
 	
+	private String gu;
+	
 	private String type;
 	private String keyword;
 
 	public Criteria() {
-		this(1, 20 ,0);
+		this(1, 20 ,0,null);
 	}
 
-
-	public Criteria(int pageNum, int amount, int startIndex) {
+	public Criteria(int pageNum, int amount, int startIndex,String gu) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 		this.startIndex=startIndex;
+		this.gu=gu;
 	}
 	
 	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
 		this.startIndex = (this.pageNum - 1) * this.amount;
 		
+	}
+	
+	public String[] getTypeArr() {
+		return type == null? new String[] {}: type.split("");
+	}
+	
+	public String getListLink() {
+		UriComponentsBuilder builder=UriComponentsBuilder.fromPath("")
+				.queryParam("pageNum",this.pageNum)
+				.queryParam("amount",this.getAmount())
+				.queryParam("type",this.getType())
+				.queryParam("keyword",this.getKeyword());
+		
+		return builder.toUriString();
 	}
 	
 }

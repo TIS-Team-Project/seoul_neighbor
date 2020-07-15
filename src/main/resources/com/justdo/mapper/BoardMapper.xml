@@ -8,14 +8,64 @@
 		select *from tbl_board where bno > 0
 	</select>
 	
+	<select id="getLocationList" resultType="com.justdo.domain.BoardVO">
+		select *from tbl_board 
+		where location LIKE CONCAT('%',#{gu},'%')
+		order by like_count desc
+		limit 0,6
+	</select>
+	
+<!-- 	<sql id="criteria">
+	<trim prefix="" suffix=" AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							where title like CONCAT('%',#{keyword},'%')
+						</when>
+						<when test="type == 'C'.toString()">
+							where content like CONCAT('%',#{keyword},'%')
+						</when>
+						<when test="type == 'N'.toString()">
+							where userid like CONCAT('%',#{keyword},'%')
+						</when>
+						<when test="type == 'L'.toString()">
+							where location like CONCAT('%',#{keyword},'%')
+						</when>
+						<when test="type == 'CA1'.toString()">
+							category like '%'||소통해요||'%'
+						</when>
+						<when test="type == 'CA2'.toString()">
+							category like '%'||불만있어요||'%'
+						</when>
+						<when test="type == 'CA3'.toString()">
+							category like '%'||모여요||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql> -->
+	
+	<sql id="criteria">
+		<if test="type != null">
+			<if test="type == 'T'.toString()">where title LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="type == 'C'.toString()">where content LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="type == 'N'.toString()">where userid LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="type == 'L'.toString()">where location LIKE CONCAT('%',#{keyword},'%')</if>
+		</if>
+	</sql>
+	
 	<select id="getListWithPaging" resultType="com.justdo.domain.BoardVO">
 		select * from tbl_board
+		<include refid="criteria"></include>
 		order by bno desc
 		limit #{startIndex}, #{amount}
 	</select>
 	
 	<select id="getTotalCount" resultType="int">
-		select count(*) from tbl_board where bno > 0
+		select count(*) from tbl_board 
+		<include refid="criteria"></include>
 	</select>
 	
 </mapper>

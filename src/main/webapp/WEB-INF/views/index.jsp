@@ -69,14 +69,14 @@
 
 				<!-- 1.3 비회원 접속 폼 -->
 			</div>
-
+<form action="/board/list" method="get">
+	<button>게시판
+		<input type='hidden' name='gu' value='영등포구'>
+	</button>
+</form>
 		</div>
 	</main>
 	<!-- ./main -->
-	
-	<script>
-		self.location="/board/list";
-	</script>
 </body>
 <!-- 2. javaScript ------------------------------>
 <%@include file="/resources/js/index_js.jsp"%>
