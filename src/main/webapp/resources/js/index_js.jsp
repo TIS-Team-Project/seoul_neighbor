@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script>
-
 	/* 제이쿼리 사용 */
 	(function ($) {
 	    "use strict";

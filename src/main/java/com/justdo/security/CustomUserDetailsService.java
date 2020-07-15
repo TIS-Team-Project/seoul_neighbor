@@ -22,7 +22,11 @@ public class CustomUserDetailsService implements UserDetailsService{
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
+		// 아이디가 없을 시 예외 발생시킴
+		if (username == null) {
+			throw new UsernameNotFoundException(username);
+		}
+	
 		log.warn("-------------1--------------");
 		log.warn("아이디로 유저 불러오기 :"+username);
 		
@@ -32,6 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 		
 		log.warn("-------------3-------------");
 		CustomUser user = new CustomUser(vo);
+		
 		log.warn("CustomUser에서 불러온 유저 :"+user);
 		
 		return vo == null? null : user;
