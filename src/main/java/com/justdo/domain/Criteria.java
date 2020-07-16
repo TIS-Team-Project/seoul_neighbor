@@ -14,20 +14,22 @@ public class Criteria {
 	private int amount;
 	private int startIndex;
 	
+	private String recommend;	
 	private String gu;
 	
 	private String type;
 	private String keyword;
 
 	public Criteria() {
-		this(1, 20 ,0,null);
+		this(1, 20 ,0,null,null);
 	}
 
-	public Criteria(int pageNum, int amount, int startIndex,String gu) {
+	public Criteria(int pageNum, int amount, int startIndex,String gu, String recommend) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 		this.startIndex=startIndex;
 		this.gu=gu;
+		this.recommend=recommend;
 	}
 	
 	public void setPageNum(int pageNum) {

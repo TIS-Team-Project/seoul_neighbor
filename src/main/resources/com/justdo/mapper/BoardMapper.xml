@@ -3,69 +3,47 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.justdo.mapper.BoardMapper">
-
-	<select id="getList" resultType="com.justdo.domain.BoardVO">
-		select *from tbl_board where bno > 0
-	</select>
 	
-	<select id="getLocationList" resultType="com.justdo.domain.BoardVO">
-		select *from tbl_board 
-		where location LIKE CONCAT('%',#{gu},'%')
-		order by like_count desc
-		limit 0,6
-	</select>
-	
-<!-- 	<sql id="criteria">
-	<trim prefix="" suffix=" AND " prefixOverrides="OR">
-			<foreach item='type' collection="typeArr">
-				<trim prefix="OR">
-					<choose>
-						<when test="type == 'T'.toString()">
-							where title like CONCAT('%',#{keyword},'%')
-						</when>
-						<when test="type == 'C'.toString()">
-							where content like CONCAT('%',#{keyword},'%')
-						</when>
-						<when test="type == 'N'.toString()">
-							where userid like CONCAT('%',#{keyword},'%')
-						</when>
-						<when test="type == 'L'.toString()">
-							where location like CONCAT('%',#{keyword},'%')
-						</when>
-						<when test="type == 'CA1'.toString()">
-							category like '%'||소통해요||'%'
-						</when>
-						<when test="type == 'CA2'.toString()">
-							category like '%'||불만있어요||'%'
-						</when>
-						<when test="type == 'CA3'.toString()">
-							category like '%'||모여요||'%'
-						</when>
-					</choose>
-				</trim>
-			</foreach>
-		</trim>
-	</sql> -->
-	
+	<!-- 검색기능을 위한 키워드 include 쿼리문 -->
 	<sql id="criteria">
 		<if test="type != null">
-			<if test="type == 'T'.toString()">where title LIKE CONCAT('%',#{keyword},'%')</if>
-			<if test="type == 'C'.toString()">where content LIKE CONCAT('%',#{keyword},'%')</if>
-			<if test="type == 'N'.toString()">where userid LIKE CONCAT('%',#{keyword},'%')</if>
-			<if test="type == 'L'.toString()">where location LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="type == 'T'.toString()">and title LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="type == 'C'.toString()">and content LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="type == 'N'.toString()">and userid LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="type == 'L'.toString()">and location LIKE CONCAT('%',#{keyword},'%')</if>
 		</if>
 	</sql>
+	<!-- 검색기능을 위한 키워드 include 쿼리문 (end) -->
 	
+	<!-- 추천 및 인기글  불러오는 쿼리문 -->
+	<select id="getLocationList" resultType="com.justdo.domain.BoardVO">
+		(select location, bno, title, reply_count,like_count 
+		from tbl_board where location like concat('%',#{gu},'%') order by like_count desc limit 0,6)
+		UNION ALL
+		(select location, bno, title, reply_count,like_count 
+		from tbl_board where location like concat('%',#{gu},'%') order by reply_count desc limit 0,6)
+		UNION ALL
+		(select location, bno, title, reply_count,like_count 
+		from tbl_board order by reply_count desc limit 0,7);
+	</select>
+	<!-- 추천 및 인기글  불러오는 쿼리문 (end) -->
+	
+	<!-- 하단영역 선택된 지역의 전체 글목록 및 페이징 쿼리문 -->
 	<select id="getListWithPaging" resultType="com.justdo.domain.BoardVO">
 		select * from tbl_board
+		where (location LIKE CONCAT('%',#{gu},'%'))
 		<include refid="criteria"></include>
 		order by bno desc
 		limit #{startIndex}, #{amount}
 	</select>
+	<!-- 하단영역 선택된 지역의 전체 글목록 및 페이징 쿼리문 (end) -->
 	
+	<!-- 페이징 시 필요한 글의갯수를 구하는 쿼리문 -->
 	<select id="getTotalCount" resultType="int">
 		select count(*) from tbl_board 
+		where (location LIKE CONCAT('%',#{gu},'%'))
 		<include refid="criteria"></include>
 	</select>
+	<!-- 페이징 시 필요한 글의갯수를 구하는 쿼리문 (end) -->
 	
 </mapper>
