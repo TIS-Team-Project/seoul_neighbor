@@ -113,10 +113,10 @@
 								조회 ${board.viewCount} |
 					</span>
 					<span>
-						<i class="fas fa-thumbs-up"> 좋아요  ${board.likeCount}</i> |
+						<i class="fas fa-thumbs-up"> 좋아요  <p class="likeCount">${board.likeCount}</p></i> |
 					</span>					
 					<span >
-						<i class="fas fa-thumbs-down"> 싫어요  ${board.unlikeCount}</i> |
+						<i class="fas fa-thumbs-down"> 싫어요  <p class="unlikeCount">${board.unlikeCount}</p></i> |
 					</span>
 					<span >
 						<i class="far fa-comment-dots"> 댓글  ${board.replyCount}</i>
@@ -164,7 +164,7 @@
 		            success: function(result, status, xhr){
 		               console.log(result);
 		               
-		               $("#likeCount").html(result);
+		               $(".likeCount").html(result);
 		            }
 		         });
 		      });
@@ -179,7 +179,7 @@
 		            success: function(result, status, xhr){
 		               console.log(result);
 		               
-		               $("#unlikeCount").html(result);
+		               $(".unlikeCount").html(result);
 		            }
 		         });
 		      });
@@ -188,13 +188,13 @@
 								
 		<button class="btn btn-primary" id="likeButton">
 			<i class="fas fa-thumbs-up"> 
-				좋아요  <p id="likeCount">${board.likeCount}</p>
+				좋아요  <p class="likeCount">${board.likeCount}</p>
 			</i>
 		</button>
 		
 		<button class="btn btn-danger" id="unlikeButton">
 			<i class="fas fa-thumbs-down"> 
-				싫어요  <p id="unlikeCount">${board.unlikeCount}</p>
+				싫어요  <p class="unlikeCount">${board.unlikeCount}</p>
 			</i>
 		</button>
 
