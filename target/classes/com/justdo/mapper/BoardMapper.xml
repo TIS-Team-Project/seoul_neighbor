@@ -29,7 +29,7 @@
 	
 	<!-- 수정 -->
 	<update id="update">
-		update tbl_board set title= #{title}, content= #{content}, updatedate= sysdate()
+		update tbl_board set title= #{title}, content= #{content}, updatedate= sysdate(), category= #{category}, location= #{location}
 		where bno = #{bno}
 	</update>
 </mapper>

@@ -54,7 +54,7 @@
 	
 	<!-- 1.2 글쓰기페이지로 이동 ------------->
 	<form role="form" action="/board/register" method="get">
-	<input type="hidden" name="userid" value="<c:out value='${userid}'/>">
+	<input type="hidden" name="userid" value="admin"><!-- 임시로그인처리 -->
 	<button>글쓰기</button>
 	</form>
 	<!-- 1.2 글쓰기페이지로 이동 -->
