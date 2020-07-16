@@ -11,10 +11,14 @@
 	<bean id="customUserDetailsService" class="com.justdo.security.CustomUserDetailsService"></bean>
 	
 	<security:http>
+		<security:intercept-url pattern="/" access="permitAll"/>
+		<security:intercept-url pattern="/list" access="permitAll"/>
 		<security:form-login 
 			login-page="/" 
 			authentication-success-handler-ref="loginSuccess"
 			authentication-failure-handler-ref="loginFailure"/>
+		<!-- 자동로그인 유지기간 30일 -->
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="2419200"/>
 	</security:http>
 	
 	<security:authentication-manager>

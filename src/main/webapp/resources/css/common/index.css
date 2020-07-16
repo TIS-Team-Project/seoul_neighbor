@@ -284,6 +284,11 @@ iframe {
   color: #827ffe;
 }
 
+.error-message {
+  font-size: 13px;
+  color: red;	
+}
+
 .container-login-button {
   width: 100%;
   display: -webkit-box;
