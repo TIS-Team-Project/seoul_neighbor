@@ -10,8 +10,6 @@ $(document).ready(function(){
 	    
 	    var userIDVal = $("#userId").val();
 	    var regExp = /^[0-9a-z]{5,20}$/;
-	    var pattern_special = /[~!@#$%^&*()_+|<>?:{}]\s/;
-	    
 	    
 	    $("#userId-duplicated-text").removeClass("wrong-text-show");
 	    $("#userId-wrong-text").removeClass("wrong-text-show");
@@ -36,8 +34,8 @@ $(document).ready(function(){
 	    		type: "GET",
 	    		dataType: "text",
 	    		success: function(result, status, xhr){
-	    			console.log(result);
 	    			idStatus = result;
+	    			console.log("idStatus : " + idStatus);
 	    			if(idStatus == 'duplicated'){
 	    	    		console.log("idStatus : " + idStatus);
 	    	    		
@@ -76,12 +74,12 @@ $(document).ready(function(){
 	    if(name){
 	    	var nameStatus;
 	    	$.ajax({
-	    		url: "/checkId/" + nickNameVal,
+	    		url: "/checkNickName/" + nickNameVal,
 	    		type: "GET",
 	    		dataType: "text",
 	    		success: function(result, status, xhr){
-	    			console.log(result);
 	    			nameStatus = result;
+	    			console.log("nameStatus : " + nameStatus);
 	    			if(nameStatus == 'duplicated'){
 	    	    		console.log("nameStatus : " + nameStatus);
 	    	    		
@@ -185,7 +183,8 @@ $(document).ready(function(){
                 gu = data.sigungu; // 구
 				dong = data.bname; // 동
                 console.log(gu+dong);
-				$("#memberLocation").val(gu+" "+dong)
+				$("#memberLocation").val(gu+" "+dong);
+				verifyLocation();
             }
         }).open();
 		

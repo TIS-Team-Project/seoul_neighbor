@@ -34,6 +34,8 @@
             </div>
             <!-- 1.1 상단 로고 이미지 -->
             
+            <p>${warning }</p>
+            
             <!-- 아이디 입력 칸 ------------------>
             <div class="input-group mb-3">
 	            <div class="input-container">
@@ -95,7 +97,8 @@
 			<div class="input-group mb-3">
 	            <div class="input-container">
 	                <label for="memberLocation"><i class="fas fa-mobile-alt icon"></i></label>
-	                <input id="memberLocation" name="memberLocation" type="text" class="input-field" placeholder="관심 지역 선택" readonly>
+	                <input id="memberLocation" name="memberLocation" type="text" class="input-field" placeholder="관심 지역 선택" 
+	                readonly onfocusout="verifyLocation()">
 	                <i id="locationV" class="fas fa-check vCheck-icon"></i>
 	            </div>
 	            <p id="location-wrong-text" class="wrong-text-hide">지역을 선택해 주세요</p>
