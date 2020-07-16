@@ -17,13 +17,15 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
+		
 		log.warn("로그인 실패");
 		
-		String loginId = request.getParameter("username");
+		String loginId = request.getParameter("username"); // 사용자 아이디
 		log.warn("접속 실패한 아이디 : " + loginId);
 		
-		String errorMessage = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.";
-		request.setAttribute("message", errorMessage);
+		String errorMessage = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다."; 
+		request.setAttribute("message", errorMessage); // 로그인 실패시 뜰 문구
+		
 		response.sendRedirect("/login?error=true");
 	}
 

@@ -19,18 +19,20 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {@Overr
 			Authentication authentication) throws IOException, ServletException {
 	
 		log.warn("loginhandler - 로그인 성공");
+		
 		List<String> roleNames = new ArrayList<>();
 		
 		authentication.getAuthorities().forEach(authority -> {
 			roleNames.add(authority.getAuthority());
-		});
+		}); // 권한 목록 받아옴
 		
 		log.warn("loginhandler - 역할 이름 : " +roleNames);
+		
 		if (roleNames.contains("ROLE_USER")) {
 			response.sendRedirect("/list");
-			return;
+			return; // user 권한 있을 시 list로 이동
 		}
-		response.sendRedirect("/");
+		response.sendRedirect("/"); // 권한 없을시 메인 페이지로 이동
 	}
 	
 }

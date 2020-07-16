@@ -1,13 +1,14 @@
-<!-- index.jsp ---------------->
+<!-- subLogin.jsp ---------------->
 <!-- 
--CSS 적용
-0. 상단 네비게이션 바
-1. 메인 페이지 전체
-	1.1 로그인 폼 (자동로그인/비밀번호 찾기, 회원가입)
-	1.2 비회원 접속
--자바스크립트 적용
+(미완)
+sub login page 
+로고 클릭시 메인 로그인 페이지로 이동
+
+수정해야할 것
+1) 로그인 실패시 main으로 돌아감
+2) 주석 정리 X
 -->
-<!-- index.jsp -->
+<!-- subLogin.jsp -->
 
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -17,22 +18,28 @@
 
 <head>
 <title>서울이웃 :: I SEOUL U</title>
-<!-- CSS style ------------------------------>
+<!-- 3. CSS ------------------------------>
 <link rel="stylesheet" href="/resources/css/common/index.css">
+<!-- 3. CSS -->
+<!-- Latest compiled and minified CSS ------------>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<!-- Latest compiled JavaScript ------------>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- fontawesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 </head>
 
 <body>
-	<!-- 0. 상단 네비게이션 바 ------------>
-	<%@include file="common/header.jsp"%>
-	<!-- 0. 상단 네비게이션 바 -->
-
-	<!-- 1. 메인 페이지 전체 ------------------------------>	
-	<div class="container">
+	
+	<!-- 1. Landing page ------------------------------>	
+	<div class="container-simple">
 		<div class="wrap-login">
-			<!-- 1.1 로그인 폼 ------------------------------>
 			<form class="container-form validate-form p-3" action="/login" method="post" role="form">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				<span class="login-form-title pt-3 pb-4">Login</span>
+				<span class="login-form-title pt-3 pb-4">
+					<a href="/">서울이웃로고</a>
+				</span>
+				<!-- 1.1 로그인 폼 ------------------------------>
 				<div class="login-body pb-3">
 					<div class="wrap-input validate-input mb-3" data-validate="아이디를 입력해주세요">
 						<input class="input-text" type="text" name="username" placeholder="아이디"> <span class="focus-on-input"></span>
@@ -48,7 +55,6 @@
 					<div class="container-login-button pb-3">
 						<button type="submit" class="button-colored login-button">로그인</button>
 					</div>
-					<!-- 자동로그인/비밀번호 찾기  ---------------------------------------->
 					<div class="row">
 						<div class="col-md-6">
 							<input class="input-checkbox" id="remember-me-checkbox" type="checkbox" name="remember-me">
@@ -58,14 +64,11 @@
 							<a href="#" class="text-colored"> 비밀번호 찾기 </a>
 						</div>
 					</div>
-					<!-- 자동로그인/비밀번호 찾기  -->
 				</div>
-				<!-- 회원가입  ---------------------------------->
 				<div class="add-border-top text-center pt-4 pb-1">
 					<p>아직 서울이웃의 회원이 아니신가요?</p>
 					<a href="/join" class="text-colored">회원가입 하기</a>
 				</div>
-				<!-- 회원가입  -->
 			</form>
 			<!-- 1.1 로그인 폼 -->
 			
@@ -117,12 +120,11 @@
 				<!-- 1.2 비회원 입장 -->
 		</div>
 	</div>
-	<!-- 1. 메인 페이지 -->	
-	
+	<!-- 1. Landing page -->	
+
 </body>
 
-<!-- javaScript ------------------------------>
+<!-- 2. javaScript ------------------------------>
 <%@include file="/resources/js/index_js.jsp"%>
-<!-- javaScirpt -->
-
+<!-- 2. javaScirpt -->
 </html>
