@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
+import com.justdo.mapper.boardMapper;
 import com.justdo.mapper.commonMapper;
 import com.justdo.service.commonService;
 
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 public class commonServiceImpl implements commonService {
 	
 	private commonMapper mapper;
+	private boardMapper boardMapper;
 	
 	//로그인
 	@Override
@@ -27,5 +29,19 @@ public class commonServiceImpl implements commonService {
 		return mapper.selctBoard(bno);
 	}
 
-	
+	@Override
+	public int likeBoard(int bno) {
+		// TODO Auto-generated method stub
+		boardMapper.like(bno);
+	      return boardMapper.selectLikeCount(bno);
+      }
+
+	@Override
+	public int unlikeBoard(int bno) {
+		// TODO Auto-generated method stub
+		boardMapper.unlike(bno);
+	      return boardMapper.selectUnlikeCount(bno);
+	}
+
+
 }

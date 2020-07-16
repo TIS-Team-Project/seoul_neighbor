@@ -10,5 +10,13 @@ public interface commonService {
 	
 	//bno로 상세페이지 불러오기
 	public BoardVO read(int bno);
+	
+	//like좋아요
+	public int likeBoard(int bno);
+	
+	//unlike 싫어요
+	public int unlikeBoard(int bno);
+	
+
 
 }

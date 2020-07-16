@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.justdo.mapper.boardMapper">
+
+	
+	<update id="like" >
+		UPDATE tbl_board
+		SET LIKE_COUNT = LIKE_COUNT+1
+		where bno=#{bno}
+	</update>
+	
+   <select id="selectLikeCount" resultType="int">
+      select LIKE_COUNT from tbl_board where bno = #{bno}
+   </select>
+   
+	<update id="unlike">
+		UPDATE tbl_board
+		SET UNLIKE_COUNT = UNLIKE_COUNT+1
+		where bno=#{bno}
+	</update>
+	
+   <select id="selectUnlikeCount" resultType="int">
+      select UNLIKE_COUNT from tbl_board where bno = #{bno}
+   </select> 
+
+   
+   
+</mapper>

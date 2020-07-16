@@ -10,4 +10,6 @@ public interface commonMapper {
 	
 	//상세페이지 bno로 데이터 불러오
 	public BoardVO selctBoard(int bno);
+	
+
 }
