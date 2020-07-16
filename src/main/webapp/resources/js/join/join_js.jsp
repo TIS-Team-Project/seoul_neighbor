@@ -176,26 +176,8 @@ $(document).ready(function(){
 	    }
 	}
 	
-	// 카카오 주소 검색 ///////////////////////////////////////////
-	/* $("#memberLocation").focus(function()){
-        new daum.Postcode({
-            oncomplete: function(data) {
-                gu = data.sigungu; // 구
-				dong = data.bname; // 동
-                console.log(gu+dong);
-				
-				$("#memberLocation").val(gu+" "+dong)
-				
-				// 주소 정보를 해당 필드에 넣는다.
-                changeDong(gu);
-                
-    			$("#member_location").empty();
-    			$("#member_location").append("<input type='hidden' name='member_location' value='"+gu+"_"+dong+"' />");
-            }
-        }).open();
-	}) */
-	// 카카오 주소 검색 //
 	
+	//지역선택?
 	$("#memberLocation").focus(function(){
 		$("#memberLocation").trigger("blur");
 		new daum.Postcode({
@@ -203,24 +185,8 @@ $(document).ready(function(){
                 gu = data.sigungu; // 구
 				dong = data.bname; // 동
                 console.log(gu+dong);
-				
 				$("#memberLocation").val(gu+" "+dong)
             }
-            /* onclose: function(state) {
-                //state는 우편번호 찾기 화면이 어떻게 닫혔는지에 대한 상태 변수 이며, 상세 설명은 아래 목록에서 확인하실 수 있습니다.
-                if(state === 'FORCE_CLOSE'){
-                    //사용자가 브라우저 닫기 버튼을 통해 팝업창을 닫았을 경우, 실행될 코드를 작성하는 부분입니다.
-                    console.log("focusout 했습니다.11");
-                	
-                	verifyLocation();
-                } else if(state === 'COMPLETE_CLOSE'){
-                    //사용자가 검색결과를 선택하여 팝업창이 닫혔을 경우, 실행될 코드를 작성하는 부분입니다.
-                    //oncomplete 콜백 함수가 실행 완료된 후에 실행됩니다.
-                    console.log("focusout 했습니다.22");
-                
-                	verifyLocation();
-                }
-            } */
         }).open();
 		
 		

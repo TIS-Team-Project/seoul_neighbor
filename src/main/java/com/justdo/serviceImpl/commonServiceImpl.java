@@ -19,13 +19,15 @@ public class commonServiceImpl implements commonService {
 	public MemberVO login(MemberVO vo) {
 		return mapper.login(vo);
 	}
-
+	
+	//회원가입 
 	@Override
 	public void join(MemberVO vo) {
 		System.out.println("회원가입을 처러하기 위한 mapper를 호출합니다.");
 		mapper.insertUser(vo);
 	}
 
+	//아이디 중복체크
 	@Override
 	public boolean isUniqueID(String userId) {
 		if(mapper.checkID(userId) == 0) {
@@ -36,6 +38,7 @@ public class commonServiceImpl implements commonService {
 		return false;
 	}
 
+	//닉네임 중복체크
 	@Override
 	public boolean isUniqueNickName(String nickName) {
 		if(mapper.checkNickName(nickName) == 0) {

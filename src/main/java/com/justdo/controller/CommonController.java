@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 
 
 @Controller
-@RequestMapping("/*")
+@RequestMapping("/")
 @AllArgsConstructor
 public class CommonController {
 	
@@ -31,8 +31,6 @@ public class CommonController {
 	}
 	// 메인 이동 //
 	 
-
-	
 	
 	// 목록 페이지 이동 //////////////////////////
 	@GetMapping("list")
@@ -41,18 +39,22 @@ public class CommonController {
 	};
 	// 목록 페이지 이동 //
 	
-	//회원가입페이지 요청
+	
+	//회원가입 페이지 호출
 	@GetMapping("join")
 	public String joinForm() {
 		System.out.println("회원가입페이지로 이동합니다.");
 		return "joinpage/join";
 	}
 	
+	//회원가입 진행
 	@PostMapping("join")
-	public void join(MemberVO vo) {
+	public String join(MemberVO vo) {
 		System.out.println("회원가입 처리 서비스를 호출합니다.");
 		System.out.println("받은 회원 정보 : " + vo.toString());
 		service.join(vo);
+		
+		return "redirect: index";
 	}
 	
 	//유저 ID 중복됬는지 체크(ajax처리)
@@ -67,14 +69,15 @@ public class CommonController {
 	}
 	
 	//유저 닉네임 중복됬는지 체크(ajax처리)
-		@GetMapping(value="/checkNickName/{nickName}",
-				produces={MediaType.TEXT_PLAIN_VALUE})
-		@ResponseBody
-		public ResponseEntity<String> checkNickName(@PathVariable("nickName") String nickName){
-			if(service.isUniqueNickName(nickName)) {
-				return new ResponseEntity<String>("new",HttpStatus.OK);
-			}
-			return new ResponseEntity<String>("duplicated",HttpStatus.OK);
+	@GetMapping(value="/checkNickName/{nickName}",
+			produces={MediaType.TEXT_PLAIN_VALUE})
+	@ResponseBody
+	public ResponseEntity<String> checkNickName(@PathVariable("nickName") String nickName){
+		if(service.isUniqueNickName(nickName)) {
+			return new ResponseEntity<String>("new",HttpStatus.OK);
 		}
+		return new ResponseEntity<String>("duplicated",HttpStatus.OK);
+	}
+	
 	
 }

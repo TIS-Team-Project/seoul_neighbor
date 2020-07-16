@@ -7,7 +7,7 @@ public interface commonService {
 	//로그인
 	public MemberVO login(MemberVO vo);
 	
-	//회원가입
+	//회원가입 
 	public void join(MemberVO vo);
 	
 	//아이디 중복체크
