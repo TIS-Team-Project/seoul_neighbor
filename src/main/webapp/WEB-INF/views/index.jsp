@@ -32,7 +32,7 @@
 				<h4>로그인</h4>
 				<form method="post" action="login">
 					<div class="form-group">
-						<input class="form-control" type="text" name="id" placeholder="Id" />
+						<input class="form-control" type="text" name="userid" placeholder="Id" />
 					</div>
 
 					<div class="form-group">

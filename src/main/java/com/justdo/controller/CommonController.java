@@ -34,21 +34,12 @@ public class CommonController {
 	
 		try { 
 			vo = service.login(vo);
-			rttr.addFlashAttribute("id",vo.getId());
-			return "redirect:/list";
+			rttr.addFlashAttribute("userid",vo.getUserid());
+			return "redirect:/board/list";
 		}catch(Exception e) {
 		  rttr.addFlashAttribute("result","fail");
 		  return"redirect:/"; 
 		  }
 	}
-	// 로그인 //
-	
-	
-	// 목록 페이지 이동 //////////////////////////
-	@GetMapping("list")
-	public String list() {
-		return "board/list";
-	};
-	// 목록 페이지 이동 //
-	
+	// 로그인 //	
 }
