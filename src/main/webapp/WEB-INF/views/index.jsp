@@ -36,7 +36,7 @@
 					</div>
 
 					<div class="form-group">
-						<input class="form-control" type="password" name="pwd" placeholder="Password" />
+						<input class="form-control" type="password" name="userpw" placeholder="Password" />
 					</div>
 
 					<div class="form-group">

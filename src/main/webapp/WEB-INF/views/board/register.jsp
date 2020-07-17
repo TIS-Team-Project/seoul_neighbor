@@ -2,6 +2,7 @@
 <!-- 
 1. 메인
 1.1 지도
+1.1.1 이름으로 지역선택
 1.2 작성 폼
 2. javaScript -->
 <!-- register.jsp -->
@@ -15,7 +16,7 @@
 <meta charset="UTF-8">
 <title>게시글 작성</title>
 <!-- customStyle ------------>
-<link rel="stylesheet" type="text/css" href="/resources/css/common/map/style.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/map/style.css">
 </head>
 <body>
 <!-- header include ------------>
@@ -27,21 +28,54 @@
 			<div class="col-md-4">
 				<!-- 1.1 지도 ------------------------>
 				<h3>지역 선택</h3>
+				<h3><span style="color:red"> * </span>지도</h3>
 				<div class="map_wrap">
 				    <div id="map" style="width:100%;height:300px;position:relative;overflow:hidden;"></div>
 				</div>
 				<!-- 카카오 지도 앱키 -->
 				<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a12736a6f1b3f9306ad9531ab47e6e4&libraries=services"></script>
 				<!-- 1.1 지도 -->
-				<p>이름으로 지역선택</p>
-				
+				<!-- 1.1.1 이름으로 지역선택 --------------->
+				<h3><span style="color:red"> * </span>명칭</h3>
+				<div class="form-row ">
+					<select id="selectGu" name="gu" class="form-control col-md-6">
+					<option>강남구</option>
+					<option>강동구</option>
+					<option>강북구</option>
+					<option>강서구</option>
+					<option>관악구</option>
+					<option>광진구</option>
+					<option>구로구</option>
+					<option>금천구</option>
+					<option>노원구</option>
+					<option>도봉구</option>
+					<option>동대문구</option>
+					<option>동작구</option>
+					<option>마포구</option>
+					<option>서대문구</option>
+					<option>서초구</option>
+					<option>성동구</option>
+					<option>성북구</option>
+					<option>송파구</option>
+					<option>양천구</option>
+					<option>영등포구</option>
+					<option>용산구</option>
+					<option>은평구</option>
+					<option>종로구</option>
+					<option>중구</option>
+					<option>중랑구</option>
+					</select>
+					<select id="selectDong" name="dong" class="form-control col-md-6">
+					</select>
+				</div>
+				<!-- 1.1.1 이름으로 지역선택 -->				
 			</div>
 			<div class="col-md-8">
 				<!-- 1.2 작성 폼 ------------------>
 		        <form name="frm" role="form" action="/board/register" method="Post">
 		        	<h3>글쓰기</h3>
 		        	<div class="dropdown">
-					    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownButton" data-toggle="dropdown">카테고리
+					    <button class="btn btn-primary dropdown-toggle" type="button" id="selectcategory" data-toggle="dropdown">카테고리
 					    <span class="caret"></span></button>
 					    <input type="hidden" id="category" name="category">
 					    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">

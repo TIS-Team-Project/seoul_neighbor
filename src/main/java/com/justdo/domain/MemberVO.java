@@ -7,5 +7,5 @@ import lombok.Data;
 public class MemberVO {
 	
 	private String userid; //회원 아이디
-	private String pwd; //회원 비밀번호
+	private String userpw; //회원 비밀번호
 }
