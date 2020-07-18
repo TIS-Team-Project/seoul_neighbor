@@ -11,6 +11,6 @@
 <%@include file="../common/header.jsp"%>
 <!-- header include -->
 
-<h1>${userid}</h1>
+<h1>${id}</h1>
 </body>
 </html>

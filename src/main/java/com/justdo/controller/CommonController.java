@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.justdo.domain.MemberVO;
 import com.justdo.service.commonService;
-import com.justdo.service.myPageService;
 
 import lombok.AllArgsConstructor;
 
@@ -21,8 +20,7 @@ import lombok.AllArgsConstructor;
 public class CommonController {
 	
 	 private commonService service;
-	 private myPageService myPageService;
-	// test //
+	
 	// 메인 이동 //////////////////////////////////
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
@@ -33,12 +31,12 @@ public class CommonController {
 	// 로그인 ////////////////////////////////////
 	@PostMapping("login")
 	public String login(Model model,MemberVO vo,RedirectAttributes rttr) {
+	
 		try { 
 			vo = service.login(vo);
-			rttr.addFlashAttribute("userid",vo.getUserid());
+			rttr.addFlashAttribute("id",vo.getId());
 			return "redirect:/list";
 		}catch(Exception e) {
-			e.printStackTrace();
 		  rttr.addFlashAttribute("result","fail");
 		  return"redirect:/"; 
 		  }
@@ -52,13 +50,5 @@ public class CommonController {
 		return "board/list";
 	};
 	// 목록 페이지 이동 //
-	
-	// 프로필 페이지 이동 ////////////////////////
-	@GetMapping("profile")
-	public String profile(Model model, MemberVO vo) {
-		model.addAttribute("member", myPageService.selectUser("test")); //test -> 동적으로 바꿔야함
-		return "mypage/profile";
-	}
-	// 프로필 페이지 이동 //
 	
 }
