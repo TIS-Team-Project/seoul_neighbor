@@ -14,8 +14,8 @@
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="jdbcUrl"
-                 value="jdbc:mysql://localhost:3306/seoul?useSSL=false&amp;serverTimezone=UTC&amp;allowMultiQueries=true">
-<!--             value="jdbc:mysql://34.64.138.203/seoul?useSSL=false&amp;serverTimezone=UTC&amp;allowMultiQueries=true"> -->
+                 value="jdbc:mysql://localhost:3306/seoul?characterEncoding=UTF-8&amp;allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC&amp;allowMultiQueries=true">
+<!--             value="jdbc:mysql://34.64.138.203/seoul?characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC&amp;allowMultiQueries=true"> -->
 
         </property>
         <property name="username" value="root"></property> <!-- 본인의 아이디에 맞게 변경해 주세요 -->
@@ -35,5 +35,22 @@
     
     <!-- 게시판 mapper -->
     <mybatis-spring:scan base-package="com.justdo.mapper"></mybatis-spring:scan>
+
+	<!-- 메일 보내기 빈 등록 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+		<property name="host" value="smtp.gmail.com" /> 
+		<property name="port" value="587" /> 
+		<property name="username" value="justdo0812@gmail.com" /> 
+		<property name="password" value="justdo12!" /> 
+		<property name="javaMailProperties"> 
+			<props> 
+				<prop key="mail.smtp.auth">true</prop> 
+				<prop key="mail.smtp.starttls.enable">true</prop> 
+			</props> 
+		</property> 
+	</bean>
+
+
+    
     
 </beans>
