@@ -52,7 +52,7 @@ body, html {
 
 .input-container {
 	display: flex;
-	width: 500px;
+	width: 100%;
 	margin-bottom: 6px;
 	border: 1px solid #bbbbbb;
 }
@@ -95,20 +95,29 @@ body, html {
 	border: 3px solid skyblue;
 }
 
-.btn {
+.submit-btn {
 	background-color: dodgerblue;
 	color: white;
 	padding: 15px 20px;
 	border: none;
 	cursor: pointer;
-	width: 500px;
+	width: 100%;
 	opacity: 0.9;
 	font-weight: bold;
 	font-size: 20px;
 }
 
+.btn {
+	width:40%;
+}
+
+
 .btn:hover {
 	opacity: 1;
+}
+
+.side-button {
+	width:100px !important;
 }
 
 .instruction {

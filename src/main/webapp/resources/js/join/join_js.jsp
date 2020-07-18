@@ -4,6 +4,11 @@
 $(document).ready(function(){
 	//최종적으로 submit 하기 위해 점검 변수
 	var id, email, pw, name, location;
+	
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}";
+	
+	var isEmailDuplicated = true;
 
 	//아이디 입력 검증
 	verifyID = function () {
@@ -76,7 +81,7 @@ $(document).ready(function(){
 	    if(name){
 	    	var nameStatus;
 	    	$.ajax({
-	    		url: "/checkId/" + nickNameVal,
+	    		url: "/checkNickName/" + nickNameVal,
 	    		type: "GET",
 	    		dataType: "text",
 	    		success: function(result, status, xhr){
@@ -98,12 +103,13 @@ $(document).ready(function(){
 	verifyEmail = function () {
 	    
 	    var emailVal = $("#email").val();
-
 	    var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
+	    $("#email-duplicated-text").removeClass("wrong-text-show");
+	    $("#email-wrong-text").removeClass("wrong-text-show");
+	    $("#email").parent().removeClass("wrong-input");
+	    
 	    if (emailVal.match(regExp) != null) {
-	        $("#email").parent().removeClass("wrong-input");
-	        $("#email-wrong-text").removeClass("wrong-text-show");
 	        $("#emailv").addClass("vCheck-icon-show");
 	        email = true;
 	    }
@@ -113,7 +119,71 @@ $(document).ready(function(){
 	        $("#emailv").removeClass("vCheck-icon-show");
 	        email = false;
 	    }
+	    
+	  //이메일이 형식에 맞다면 ajax로 중복된 값인지 체크
+	    if(email){
+	    	var emailStatus;
+	    	$.ajax({
+	    		url: "/checkEmail",
+	    		type: "GET",
+	    		beforeSend: function(xhr){
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+				},
+	    		data: {'email' : emailVal},
+	    		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	    		dataType: "text",
+	    		success: function(result, status, xhr){
+	    			console.log(result);
+	    			emailStatus = result;
+	    			if(emailStatus == 'duplicated'){
+	    	    		console.log("emailStatus : " + emailStatus);
+	    	    		isEmailDuplicated = true;
+	    	    		$("#email").parent().addClass("wrong-input");
+	    	    		$("#email-duplicated-text").addClass("wrong-text-show");
+	    	    		$("#emailv").removeClass("vCheck-icon-show");
+	    	    	} else {
+	    	    		isEmailDuplicated = false;
+	    	    	}
+	    		}
+	    	});
+	    }
 	}
+	
+	//이메일 인증번호전송 버튼을 눌렀을 때
+	$("#emailSend").on("click",function(e){
+		e.preventDefault();
+		verifyEmail();
+		
+		var toSend = $("#email").val();
+		var temp = "";
+		
+		temp += '<div id="emailAuthContainer" class="input-container">';
+   		temp += '<input id="emailAuthInput" name="emailAuth" type="text" class="input-field" placeholder="이메일로 인증번호가 발송되었습니다.">';
+   		temp += '<button id="emailAuthBtn" type="button" class="btn btn-outline-secondary">인증</button>';
+   		temp += '</div>';
+   		
+   		
+		if(email && !isEmailDuplicated){
+			$("#inputEmail").append(temp);
+			$("#email").attr("readonly", true);
+			$("#emailSend").off("click");
+			$.ajax({
+				url: "/sendAuthMail",
+				type: "GET",
+				data: {
+					'email' : toSend
+				},
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				dataType: "text",
+				success: function(result, status, xhr){
+	    			console.log(result);
+	    		}
+			})
+		}
+		
+    	
+	})
+	
 	
 	 // 비밀번호 검증 스크립트 작성
 	var pwVerifyOk = false; // 비밀번호 확인용
@@ -205,5 +275,6 @@ $(document).ready(function(){
 	        return false;
 	    }
 	}
+
 })
 </script>

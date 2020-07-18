@@ -2,7 +2,9 @@ package com.justdo.serviceImpl;
 
 import org.springframework.stereotype.Service;
 
+import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
+import com.justdo.mapper.BoardMapper;
 import com.justdo.mapper.commonMapper;
 import com.justdo.service.commonService;
 
@@ -13,11 +15,32 @@ import lombok.AllArgsConstructor;
 public class commonServiceImpl implements commonService {
 	
 	private commonMapper mapper;
+	private BoardMapper boardMapper;
 	
 	//로그인
 	@Override
 	public MemberVO login(MemberVO vo) {
 		return mapper.login(vo);
+	}
+	
+	@Override
+	public BoardVO read(int bno) {
+		// TODO Auto-generated method stub
+		return mapper.selectBoard(bno);
+	}
+
+	@Override
+	public int likeBoard(int bno) {
+		// TODO Auto-generated method stub
+		boardMapper.like(bno);
+	      return boardMapper.selectLikeCount(bno);
+      }
+
+	@Override
+	public int unlikeBoard(int bno) {
+		// TODO Auto-generated method stub
+		boardMapper.unlike(bno);
+	      return boardMapper.selectUnlikeCount(bno);
 	}
 	
 	//회원가입 
@@ -46,6 +69,16 @@ public class commonServiceImpl implements commonService {
 			return true;
 		}
 		System.out.println(" *Warning!!! 닉네임이 중복되었습니다!!! ***********");
+		return false;
+	}
+
+	@Override
+	public boolean isUniqueEmail(String email) {
+		if(mapper.checkEmail(email) == 0) {
+			System.out.println("중복된 이메일이 없습니다. 사용가능합니다.");
+			return true;
+		}
+		System.out.println(" *Warning!!! 이메일이 중복되었습니다!!! ***********");
 		return false;
 	}
 
