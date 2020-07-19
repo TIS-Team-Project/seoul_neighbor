@@ -1,6 +1,7 @@
 package com.justdo.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import javax.mail.internet.MimeMessage;
 
@@ -9,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -180,12 +181,13 @@ public class CommonController {
 	@ResponseBody
 	public ResponseEntity<String> sendEmail(@RequestParam("email") String email) {
 		
-		int randNumber = (int)(Math.random() * 10000); // 난수 4자리를 만듬
+		int randNumber = (int)(Math.random() * 10000); // 난수 범위 0~9999
+		
 		
 		String setfrom = "justdo0812@gmail.com";
 		String tomail = email;
 		String title = "[서울이웃 회원가입]인증번호 발송";
-		String content = Integer.toString(randNumber);
+		String content = String.format("%04d", randNumber);
 		
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -195,17 +197,31 @@ public class CommonController {
 			messageHelper.setTo(tomail);
 			messageHelper.setSubject(title);
 			messageHelper.setText(content);
+			System.out.println("메일은 실제 보내진 않았습니다");
 			
-			mailSender.send(message);
+			//mailSender.send(message);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		return new ResponseEntity<String>("SendSuccess", HttpStatus.OK);
-		
+		return new ResponseEntity<String>(content, HttpStatus.OK);
 	}
 	
-	
+	//이메일로 보낸 인증번호와 사용자가 입력한 인증번호 비교
+	@PostMapping(value="/compareEmailAuth",
+			consumes = "application/json",
+			produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> compareEmailAuth(@RequestBody HashMap<String, Object> map){
+		System.out.println(map);
+		
+		String userNumber = (String) map.get("userNumber"); //유저가 입력한 번호
+		String originNumber = (String) map.get("originNumber"); //서버에서 만들어 유저에게 보내준 번호
+		
+		if(originNumber.equals(userNumber)) {
+			return new ResponseEntity<String>("same", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("different", HttpStatus.OK);
+		}
+	}
 	
 	
 }

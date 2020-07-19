@@ -20,6 +20,12 @@
 		values(#{userid}, #{nickname}, #{userpw}, #{email}, #{member_location})
 	</insert>
 	
+	<!-- tbl_member_auth테이블에 권한 추가 -->
+	<insert id="insertUserAuth">
+		insert into tbl_member_auth(userid, auth)
+		values(#{userid}, 'ROLE_USER');
+	</insert>
+	
 	<!-- id중복체크 -->
 	<select id="checkID" resultType="int">
 		select count(*) from tbl_member

@@ -48,6 +48,7 @@ public class commonServiceImpl implements commonService {
 	public void join(MemberVO vo) {
 		System.out.println("회원가입을 처러하기 위한 mapper를 호출합니다.");
 		mapper.insertUser(vo);
+		mapper.insertUserAuth(vo.getUserid());
 	}
 
 	//아이디 중복체크

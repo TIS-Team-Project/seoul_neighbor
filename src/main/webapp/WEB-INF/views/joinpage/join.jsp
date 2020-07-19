@@ -26,7 +26,7 @@
 	
 	<!-- 1. 회원가입 --------------------->
 	<div class="container wrapper">
-		<form class="justify-content-center" action="/join" method="POST" onsubmit="return verifyAll();">
+		<form id="joinForm" class="justify-content-center" action="/join" method="POST">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<!-- 1.1 상단 로고 이미지 ------------->
 			<div class="headimg">
@@ -69,10 +69,7 @@
             	</div>
             	<p id="email-wrong-text" class="wrong-text-hide">이메일을 형식이 맞지 않습니다.</p>
             	<p id="email-duplicated-text" class="wrong-text-hide">사용중인 이메일입니다. 다른 이메일을 입력하세요</p>
-            	
-            	<div id="tempContainer">
-            	
-            	</div>
+            	<p id="certification-not-text" class="wrong-text-hide">이메일 인증이 이루어지지 않았습니다.</p>
             	
 			</div>
 			<!-- 이메일 입력 칸 -->

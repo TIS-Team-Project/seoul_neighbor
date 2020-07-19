@@ -14,11 +14,14 @@ public interface commonMapper {
 	// tbl_member에 insert
 	public void insertUser(MemberVO vo);
 	
+	// tbl_member_auth에 권한 추가
+	public void insertUserAuth(String userid);
+	
 	//중복된 아이디가 있는지 체크
-	public int checkID(String userId);
+	public int checkID(String userid);
 	
 	//중복된 닉네임이 있는지 체크
-	public int checkNickName(String nickName);
+	public int checkNickName(String nickname);
 	
 	//중복된 이메일이 있는지 체크
 	public int checkEmail(String email);
