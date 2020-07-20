@@ -130,7 +130,7 @@ iframe {
 }
 
 .container::before {
-  /* background-image: url("../../img/common/index_background.jpg"); */
+  background-image: url("../../img/common/index_background.jpg");
   background-size: cover;
   content: "";
   display: block;
@@ -164,7 +164,7 @@ iframe {
 
 /* 로그인  ////////////////////////////////////////////*/
 .wrap-login {
-  width: 390px;
+  width: 600px;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -204,6 +204,10 @@ iframe {
   background-color: #e6e6e6;
   border: 1px solid transparent;
   border-radius: 3px;
+}
+
+.email-wrap-input {
+	display: flex;
 }
 
 .input-text {
@@ -368,6 +372,11 @@ iframe {
   transition: all 0.4s;
 }
 
+.email-button {
+	width: 40%;
+	height: 100%;
+}
+
 .mini-button:hover {
   background-color: #403866;
 }
@@ -480,8 +489,29 @@ iframe {
 }
 /* 자바스크립트 유효값 검사  */
 
-/* 민성 - 추가 style */
 
+/* 민성 - 추가 style */
 .wrong-text {
 	display: none;
+}
+
+.wrong-text-show {
+	display: block !important;
+	color: red;
+	padding-left: 10px;
+	margin-bottom: 0 !important;
+}
+
+.email-input {
+	width: 60% !important;
+}
+
+.wrong-input {
+	
+}
+
+.nice-text {
+	color: green;
+	padding-left: 10px;
+	margin-bottom: 0 !important;
 }

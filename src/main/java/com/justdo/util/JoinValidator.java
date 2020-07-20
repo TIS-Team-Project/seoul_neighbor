@@ -39,25 +39,25 @@ public class JoinValidator implements Validator {
 		
 		System.out.println("검증할 대상 : " + vo.toString());
 		
-		String userId = vo.getUserid();
-		String userPw = vo.getUserpw();
-		String nickName = vo.getNickname();
+		String userid = vo.getUserid();
+		String userpw = vo.getUserpw();
+		String nickname = vo.getNickname();
 		String email = vo.getEmail();
-		String memberLocation = vo.getMember_location();
+		String member_location = vo.getMember_location();
 		
-		if(userId == null || userId.trim().isEmpty() || !pattern.matches(userIdRegExp, userId)) {
+		if(userid == null || userid.trim().isEmpty() || !pattern.matches(userIdRegExp, userid)) {
 			System.out.println("아이디가 비었거나 적절하지 않습니다.");
-			errors.rejectValue("userId", "trouble");
+			errors.rejectValue("userid", "trouble");
 		}
 		
-		if(userPw == null || userPw.trim().isEmpty() || !pattern.matches(userPwRegExp, userPw)) {
+		if(userpw == null || userpw.trim().isEmpty() || !pattern.matches(userPwRegExp, userpw)) {
 			System.out.println("비밀번호가 비었거나 적절하지 않습니다.");
-			errors.rejectValue("userPw", "trouble");
+			errors.rejectValue("userpw", "trouble");
 		}
 		
-		if(nickName == null || nickName.trim().isEmpty() || !pattern.matches(nickNameRegExp, nickName)) {
+		if(nickname == null || nickname.trim().isEmpty() || !pattern.matches(nickNameRegExp, nickname)) {
 			System.out.println("닉네임이 비었거나 적절하지 않습니다.");
-			errors.rejectValue("nickName", "trouble");
+			errors.rejectValue("nickname", "trouble");
 		}
 		
 		if(email == null || email.trim().isEmpty() || !pattern.matches(emailRegExp, email)) {
@@ -65,10 +65,10 @@ public class JoinValidator implements Validator {
 			errors.rejectValue("email", "trouble");
 		}
 		
-//		if(memberLocation == null || memberLocation.trim().isEmpty()) {
-//			System.out.println("지역선택이 비었거나 적절하지 않습니다.");
-//			errors.rejectValue("memberLocation", "trouble");
-//		}
+		if(member_location == null || member_location.trim().isEmpty()) {
+			System.out.println("지역선택이 비었거나 적절하지 않습니다.");
+			errors.rejectValue("member_location", "trouble");
+		}
 		
 	}
 

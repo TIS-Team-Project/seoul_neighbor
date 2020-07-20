@@ -117,14 +117,14 @@ public class CommonController {
 		try {
 			if(!isDuplicated) {
 				System.out.println("아이디 or 닉네임 뭔가가 중복되었다");
-				rttr.addFlashAttribute("warning", "아이디 혹은 닉네임이 중복되었습니다.");
+				rttr.addFlashAttribute("warning", "회원가입에 실패하였습니다.");
 				return "redirect:/join";
 			} else {
 				JoinValidator validator = new JoinValidator();
 				validator.validate(vo, result);
 				if(result.hasErrors()) {
 					System.out.println("유호성검사 실패");
-					rttr.addFlashAttribute("warning", "올바른 형식이 아닙니다.");
+					rttr.addFlashAttribute("warning", "당신은 거절당했습니다. 가입불가");
 					return "redirect:/join";
 				}
 			}
@@ -183,7 +183,6 @@ public class CommonController {
 		
 		int randNumber = (int)(Math.random() * 10000); // 난수 범위 0~9999
 		
-		
 		String setfrom = "justdo0812@gmail.com";
 		String tomail = email;
 		String title = "[서울이웃 회원가입]인증번호 발송";
@@ -199,7 +198,7 @@ public class CommonController {
 			messageHelper.setText(content);
 			System.out.println("메일은 실제 보내진 않았습니다");
 			
-			//mailSender.send(message);
+			mailSender.send(message);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
