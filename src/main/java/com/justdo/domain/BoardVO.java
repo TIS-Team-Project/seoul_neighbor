@@ -8,17 +8,17 @@ import lombok.Data;
 public class BoardVO {
 	
 	private int bno; 
-	private String userId; 
+	private String userid; 
 	private String title; 
 	private String content; 
-	private Date regDate; 
-	private Date updateDate; 
-	private int replyCount; 
+	private Date regdate; 
+	private Date updatedate; 
+	private int reply_count; 
 	private String category; 
-	private int likeCount; 
-	private int unlikeCount; 
+	private int like_count; 
+	private int unlike_count; 
 	private String location; 
-	private int viewCount; 
+	private int view_count; 
 
 
 	

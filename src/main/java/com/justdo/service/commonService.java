@@ -17,6 +17,8 @@ public interface commonService {
 	//unlike 싫어요
 	public int unlikeBoard(int bno);
 	
+    //해당 bno의 board 삭제.
+	public boolean remove(int bno);
 
 
 }

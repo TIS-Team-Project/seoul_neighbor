@@ -24,7 +24,12 @@
    <select id="selectUnlikeCount" resultType="int">
       select UNLIKE_COUNT from tbl_board where bno = #{bno}
    </select> 
-
    
+	
+
+   	<delete id="delete">
+		delete from tbl_board 
+		where bno = #{bno}
+	</delete>
    
 </mapper>

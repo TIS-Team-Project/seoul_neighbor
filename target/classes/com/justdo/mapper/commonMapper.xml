@@ -10,7 +10,7 @@
 	</select>
 	
 	
-	<select id="selctBoard" resultType="com.justdo.domain.BoardVO">
+	<select id="selectBoard" resultType="com.justdo.domain.BoardVO">
 		select * from tbl_board
 		where bno=#{bno}
 	</select>
