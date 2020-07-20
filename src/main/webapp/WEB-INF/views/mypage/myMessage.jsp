@@ -49,13 +49,26 @@
 						</thead>
 						<tbody id="messageList">
 							<c:forEach items="${message}" var="message">
-							<tr>
-								<td style="display:none"><input type="hidden" value="${message.mno }" /></td>
-								<td>${message.nickname}</td>
-								<td class="messageContent" data-toggle="modal" data-target="#readMessage">${message.message_content}</td>
-								<td>${message.writedate}</td>
-								<td style="display:none"><input type="hidden" value="${message.message_content}" /></td>
-							</tr>
+							<c:choose>
+								<c:when test="${message.read_check eq 'N'.charAt(0) }">
+									<tr>
+										<td style="display:none"><input type="hidden" value="${message.mno }" /></td>
+										<td>${message.nickname}</td>
+										<td class="messageContent" data-toggle="modal" data-target="#readMessage">[읽지 않음] ${message.message_content}</td>
+										<td>${message.writedate}</td>
+										<td style="display:none"><input type="hidden" value="${message.message_content}" /></td>
+									</tr>
+								</c:when>
+								<c:when test="${message.read_check eq 'Y'.charAt(0) }">
+									<tr>
+										<td style="display:none"><input type="hidden" value="${message.mno }" /></td>
+										<td>${message.nickname}</td>
+										<td class="messageContent" data-toggle="modal" data-target="#readMessage">${message.message_content}</td>
+										<td>${message.writedate}</td>
+										<td style="display:none"><input type="hidden" value="${message.message_content}" /></td>
+									</tr>
+								</c:when>
+							</c:choose>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -109,8 +122,9 @@
 				<div class="modal-body">
 					<p id="readMessageContent"></p>
 				</div>
-				<div class="modal-footer">
-					<button type="button" id="replyMessageBtn" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#sendMessage">답장</button>
+				<div class="modal-footer" style="display:initial">
+					<button type="button" id="deleteMessageBtn" class="btn btn-danger float-left" data-toggle="modal" data-dismiss="modal">삭제</button>
+					<button type="button" id="replyMessageBtn" class="btn btn-primary float-right" data-toggle="modal" data-dismiss="modal" data-target="#sendMessage">답장</button>
 				</div>
 				<div id="messageInfo"></div>
 			</div>
