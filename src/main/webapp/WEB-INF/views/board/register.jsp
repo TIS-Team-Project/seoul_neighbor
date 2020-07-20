@@ -3,7 +3,11 @@
 1. 메인
 1.1 지도
 1.1.1 이름으로 지역선택
+1.1.1.1 구선택
+1.1.1.2 동선택
 1.2 작성 폼
+1.2.1 카테고리 선택
+1.3 취소버튼
 2. javaScript -->
 <!-- register.jsp -->
 
@@ -36,37 +40,48 @@
 				</div>
 				<!-- 1.1 지도 -->
 				<!-- 1.1.1 이름으로 지역선택 --------------->
-				<div class="form-row" id="name_choice">
-					<select id="selectGu" name="gu" class="form-control">
-					<option>구</option>
-					<option>강남구</option>
-					<option>강동구</option>
-					<option>강북구</option>
-					<option>강서구</option>
-					<option>관악구</option>
-					<option>광진구</option>
-					<option>구로구</option>
-					<option>금천구</option>
-					<option>노원구</option>
-					<option>도봉구</option>
-					<option>동대문구</option>
-					<option>동작구</option>
-					<option>마포구</option>
-					<option>서대문구</option>
-					<option>서초구</option>
-					<option>성동구</option>
-					<option>성북구</option>
-					<option>송파구</option>
-					<option>양천구</option>
-					<option>영등포구</option>
-					<option>용산구</option>
-					<option>은평구</option>
-					<option>종로구</option>
-					<option>중구</option>
-					<option>중랑구</option>
-					</select>
-					<select id="selectDong" name="dong" class="form-control">
-					</select>
+				<div id="name_choice">
+					<!-- 1.1.1.1 구선택 ------------->
+					<div class="dropdown">
+					    <button class="btn btn-primary dropdown-toggle" type="button" id="selectGu" data-toggle="dropdown">구
+					    <span class="caret"></span></button>
+				    	<div id="gu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					    	<a class="dropdown-item" href="#">강남구</a>
+							<a class="dropdown-item" href="#">강동구</a>
+							<a class="dropdown-item" href="#">강북구</a>
+							<a class="dropdown-item" href="#">강서구</a>
+							<a class="dropdown-item" href="#">관악구</a>
+							<a class="dropdown-item" href="#">광진구</a>
+							<a class="dropdown-item" href="#">구로구</a>
+							<a class="dropdown-item" href="#">금천구</a>
+							<a class="dropdown-item" href="#">노원구</a>
+							<a class="dropdown-item" href="#">도봉구</a>
+							<a class="dropdown-item" href="#">동대문구</a>
+							<a class="dropdown-item" href="#">동작구</a>
+							<a class="dropdown-item" href="#">마포구</a>
+							<a class="dropdown-item" href="#">서대문구</a>
+							<a class="dropdown-item" href="#">서초구</a>
+							<a class="dropdown-item" href="#">성동구</a>
+							<a class="dropdown-item" href="#">성북구</a>
+							<a class="dropdown-item" href="#">송파구</a>
+							<a class="dropdown-item" href="#">양천구</a>
+							<a class="dropdown-item" href="#">영등포구</a>
+							<a class="dropdown-item" href="#">용산구</a>
+							<a class="dropdown-item" href="#">은평구</a>
+							<a class="dropdown-item" href="#">종로구</a>
+							<a class="dropdown-item" href="#">중구</a>
+							<a class="dropdown-item" href="#">중랑구</a>
+						</div>
+					</div>
+					<!-- 1.1.1.1 구선택 -->
+					<!-- 1.1.1.2 동선택 ------------->
+					<div class="dropdown">
+					    <button class="btn btn-primary dropdown-toggle" type="button" id="selectDong" data-toggle="dropdown">동
+					    <span class="caret"></span></button>
+				    	<div id="dong" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						</div>
+					</div>
+					<!-- 1.1.1.2 동선택 -->
 				</div>
 				<!-- 1.1.1 이름으로 지역선택 -->				
 			</div>
@@ -74,27 +89,31 @@
 				<!-- 1.2 작성 폼 ------------------>
 		        <form name="frm" role="form" action="/board/register" method="Post">
 		        	<p id="writer">글쓰기</p>
+		        	<!-- 1.2.1 카테고리 선택 -------->
 		        	<div class="dropdown" id="category_wrap">
 					    <button class="btn btn-primary dropdown-toggle" type="button" id="selectcategory" data-toggle="dropdown">카테고리
 					    <span class="caret"></span></button>
-					    <input type="hidden" id="category" name="category">
+					    <input type="hidden" id="category" name="category" value="<c:out value='${board.category}'/>">
 				    	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					    	<a class="dropdown-item" href="#">소통해요</a>
 					    	<a class="dropdown-item" href="#">불만있어요</a>
 					    	<a class="dropdown-item" href="#">모여요</a>
 						</div>
 					</div>
+					<!-- 1.2.1 카테고리 선택 -->
 		            <input type="text" id="title" name="title" placeholder="제목"><br>      
 		            <input type="hidden" name="userid" value="<c:out value='${userid}'/>">
 		            <textarea id="content" name="content" cols="80" rows="15" style="width:100%; resize: none;"></textarea><br>
-					<input type="hidden" id="location" name="location">
+					<input type="hidden" id="location" name="location" value="<c:out value='${board.location}'/>">
 					
-					<div align="right">
-						<input type="button" class="btn btn-primary" value="취소" onclick="goBack();">
-		            	<button type="submit" class="btn btn-primary" onclick="return boardCheck()">작성</button>  
-					</div>          
+					<button type="submit" class="btn btn-primary bottomButton" onclick="return boardCheck()">작성</button>
 		        </form>
-	        	<!-- 1.2 작성 폼 -->
+		        <!-- 1.2 수정 폼 -->
+		        <!-- 1.3 취소버튼 ----------->
+		        <form role="form" action="/board/list" method="get">
+		        	<button type="submit" class="btn btn-primary bottomButton">취소</button>
+		        </form>
+	        	<!-- 1.3 취소버튼 -->>
 			</div>
 		</div>
 	</main>

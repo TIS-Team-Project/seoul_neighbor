@@ -32,12 +32,22 @@
 	margin: 10px;
 }
 #selectGu{
+	float:left;
 	position: relative;
 	width:48%;
 	margin: 0px 1%;
 }
 #selectDong{
+	float:left;
 	position: relative;
 	width:48%;
 	margin: 0px 1%;
+}
+.dropdown-menu{
+	max-height: 200px;
+  	overflow-y: auto;
+}
+.bottomButton{
+	margin: 5px;
+	float: right;
 }

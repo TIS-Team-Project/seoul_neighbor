@@ -27,7 +27,7 @@
 			<input type="text" name="userid" value="<c:out value='${board.userid}'/>" readonly><br>			
 			<textarea name="content" id="content" cols="30" rows="10" readonly><c:out value='${board.content}' /></textarea><br>
 			<input type="hidden" name="category" value="<c:out value='${board.category}'/>">
-			<input type="hidden" name="category" value="<c:out value='${board.location}'/>">
+			<input type="hidden" name="location" value="<c:out value='${board.location}'/>">
 			
 			<button>수정하기</button>			
 			<button formmethod="POST" formaction="/board/remove">삭제</button>			

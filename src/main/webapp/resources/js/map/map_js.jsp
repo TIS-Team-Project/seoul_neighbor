@@ -51,7 +51,20 @@ var callback = function(result, status) {
                var choice = ((result[i].address_name).replace(result[i].region_1depth_name+" ","").replace(" ","_"))
                console.log(choice);
                //주소정보를 전달
-               $("#location").val(choice);               
+               $("#selectGu").text($(this).text());
+               $("#selectDong").text($(this).text());
+               $("#location").val(choice);
+               
+            	//글자자르기
+				var after_location = choice.split("_");
+	           	var before_gu = after_location[0]
+	           	var before_dong = after_location[1]
+	           	console.log("자른글자")
+	           	console.log(before_gu);
+	           	console.log(before_dong);
+	           	//자른글자 대입
+	           	$("#selectGu").text(before_gu);
+	           	$("#selectDong").text(before_dong);	
                 break;
             }
         }
