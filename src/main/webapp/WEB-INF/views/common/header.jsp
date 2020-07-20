@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,15 +24,24 @@
 </head>
 <body>
   <!-- nav ------------>
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-default fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="/"><img id="logo" src="/resources/img/common/logo_1.png" alt="logo" class="mr-3 mt-3" style="width: 100px"></a>
       </div>
       <ul class="nav justify-content-end">
-        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+        <!-- 접속에 따라 로그인/로그아웃 버튼 토글(sec tag 필요) --------------------------------------------------------------->
+        <sec:authorize access="isAuthenticated()">
+	    	<form action="/logout" method="post">
+	    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	    		<button class="btn">로그아웃</button>
+	    	</form>
+        </sec:authorize>
+        <sec:authorize access="isAnonymous()">
+			<li class="nav-item"><a class="nav-link" href="/subLogin">Login</a></li>
+        </sec:authorize>
+        <!-- 접속에 따라 로그인/로그아웃 버튼 토글 -->
       </ul>
     </div>
   </nav>
