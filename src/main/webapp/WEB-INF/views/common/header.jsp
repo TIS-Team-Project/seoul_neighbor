@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,29 +23,53 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 </head>
 <body>
-  <!-- nav ------------>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/"><img id="logo" src="/resources/img/common/logo_1.png" alt="logo" class="mr-3 mt-3" style="width: 100px"></a>
-      </div>
-      <ul class="nav justify-content-end">
-        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-        <!-- 접속에 따라 로그인/로그아웃 버튼 토글(sec tag 필요) --------------------------------------------------------------->
-        <sec:authorize access="isAuthenticated()">
-	    	<form action="/logout" method="post">
-	    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	    		<button class="btn">로그아웃</button>
-	    	</form>
-        </sec:authorize>
-        <sec:authorize access="isAnonymous()">
-			<li class="nav-item"><a class="nav-link" href="/subLogin">Login</a></li>
-        </sec:authorize>
-        <!-- 접속에 따라 로그인/로그아웃 버튼 토글 -->
-      </ul>
-    </div>
-  </nav>
-  <!-- nav -->
+	<!-- nav -------------------------------------------------------------------------------->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/">
+			<img src="../resources/img/common/logoblack-borderw.png" width="140px" alt="logo">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div class="mr-auto"></div>
+			<ul class="navbar-nav my-2 my-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="/">Home</a></li>
+				<!-- 로그인 하지 않은 상태에서 노출 ::: 상단바  -------------------------------------------------->
+				<sec:authorize access="isAnonymous()">
+					<li class="nav-item"><a class="nav-link" href="/subLogin">로그인</a></li>
+				</sec:authorize>
+				<!-- 로그인 하지 않은 상태에서 노출 ::: 상단바  -->
+				
+				<!-- 로그인 한 상태에서 노출 :: 상단바  -------------------------------------------------->
+				<sec:authorize access="isAuthenticated()">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="/profile"	id="nav-profile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+							<img src="../resources/img/mypage/profile_sample.png" width="35" height="35" class="rounded-circle">
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="nav-profile">
+							<a class="dropdown-item" href="#">프로필</a>
+							<a class="dropdown-item" href="#">작성글 보기</a>
+							<a class="dropdown-item" href="#">쪽지함</a>
+							<a class="dropdown-item" href="#">1:1 문의</a>
+							<a class="dropdown-item" href="#">비밀번호 변경</a>
+							<a class="dropdown-item" sshref="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
+							<form id="logout-form" action="<c:url value='/logout'/>" method="POST">
+							   <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+							</form>
+						</div>
+					</li>
+				</sec:authorize>
+				<!-- 로그인 한 상태에서 노출 :: 상단바  -->
+			</ul>
+		</div>
+	</nav>
+	<!-- nav -->
+</body>
+</html>
 </body>
 </html>

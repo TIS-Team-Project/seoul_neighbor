@@ -41,4 +41,30 @@ public class CustomUserDetailsService implements UserDetailsService{
 		
 		return vo == null? null : user;
 	}
+	
+	// 아이디를 넣으면 닉네임이 나오는 메소드
+	public String loadNicknameByUsername(String username) throws UsernameNotFoundException {
+		if (username == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		
+		MemberVO vo = memberMapper.read_auth(username);
+		String nickname = vo.getNickname();
+		
+		return nickname;
+	}
+	
+	// 아이디를 넣으면 '구'가 나오는 메소드
+	public String loadLocationByUsername(String username) throws UsernameNotFoundException {
+		if (username == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		
+		MemberVO vo = memberMapper.read_auth(username);
+		String[] location = vo.getMember_location().split("_");
+		log.warn("설정 지역 : "+location);
+		String location_gu = location[0];
+		log.warn("구 : "+location_gu);
+		return location_gu;
+	}
 }

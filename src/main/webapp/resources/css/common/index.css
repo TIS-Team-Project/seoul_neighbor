@@ -37,7 +37,7 @@ p {
 	font-size: 15px;
 	line-height: 1.7;
 	color: #666666;
-	margin: 0px;
+	margin: 0px !important;
 }
 
 ul, li {

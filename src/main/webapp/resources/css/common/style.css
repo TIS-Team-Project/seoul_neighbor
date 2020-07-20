@@ -4,6 +4,10 @@ a {
   color: #3b5998;
 }
 
+.collapse {
+  height: 50px;
+}
+
 .navbar {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -32,6 +36,10 @@ a {
 .navbar-default .nav>li>a:hover {
   color: #fff;
 }
+
+.nav-link {
+  line-height: 51px;
+  height: 100%;
 
 /* top nav logo */
 #logo{
