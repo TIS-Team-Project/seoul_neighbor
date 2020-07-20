@@ -48,16 +48,23 @@
 				<!-- 로그인 한 상태에서 노출 :: 상단바  -------------------------------------------------->
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="/profile"	id="nav-profile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-							<img src="../resources/img/mypage/profile_sample.png" width="35" height="35" class="rounded-circle">
+						<a class="nav-link dropdown-toggle" href="/profile"	id="nav-profile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<c:choose>
+								<c:when test="${user.member_filename eq null }">
+									 <img src="../resources/img/mypage/profile_sample.png" width="35" height="35" class="rounded-circle" alt="프로필 사진">
+								</c:when>
+								<c:when test="${user.member_filename != null}">
+									<img src="/resources/img/mypage/<c:out value="${user.member_filename}"/>" width="35" height="35" class="rounded-circle" alt="프로필 사진">
+								</c:when>
+							</c:choose>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="nav-profile">
-							<a class="dropdown-item" href="#">프로필</a>
-							<a class="dropdown-item" href="#">작성글 보기</a>
-							<a class="dropdown-item" href="#">쪽지함</a>
-							<a class="dropdown-item" href="#">1:1 문의</a>
-							<a class="dropdown-item" href="#">비밀번호 변경</a>
-							<a class="dropdown-item" sshref="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
+							<a class="dropdown-item" href="/profile">프로필</a>
+							<a class="dropdown-item" href="/mylist">작성글 보기</a>
+							<a class="dropdown-item" href="/myMessage">쪽지함</a>
+							<a class="dropdown-item" href="/myQA">1:1 문의</a>
+							<a class="dropdown-item" href="/myPassword">비밀번호 변경</a>
+							<a class="dropdown-item" href="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
 							<form id="logout-form" action="<c:url value='/logout'/>" method="POST">
 							   <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
 							</form>

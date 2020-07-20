@@ -1,6 +1,7 @@
 package com.justdo.controller;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,9 +37,11 @@ public class MyPageController {
 	
 	// 나의 게시글 불러오기 ///////////////////////////////////////////
 	@GetMapping("mylist")
-	public String myList(Model model,MemberVO vo) {
-		vo = myPageService.selectUser("test");//test -> 동적으로 바꿔야함
-		model.addAttribute("member", myPageService.selectUser(vo.getUserid())); 
+	public String myList(Model model, MemberVO vo, Principal principal) {
+		
+		String username = principal.getName();
+		vo = myPageService.selectUser(username);
+		model.addAttribute("user", myPageService.selectUser(vo.getUserid())); 
 		model.addAttribute("board",myPageService.selectMyBoardList(vo.getUserid(),0));
 		model.addAttribute("pageTotalNum",myPageService.selectCountMyBoardList(vo.getUserid()));
 		model.addAttribute("nowPageNum",1);
@@ -49,16 +52,20 @@ public class MyPageController {
 	// 나의 게시글 Ajax로 불러오기 //////////////////////////////////////////////
 	@GetMapping("myListAjax")
 	@ResponseBody
-	public ResponseEntity<List<BoardVO>> myListAjax(String userid, int pageNum) {
-		return new ResponseEntity<List<BoardVO>>(myPageService.selectMyBoardList(userid, pageNum),HttpStatus.OK);
+	public ResponseEntity<List<BoardVO>> myListAjax(Principal principal, int pageNum) {
+		String username = principal.getName();
+		return new ResponseEntity<List<BoardVO>>(myPageService.selectMyBoardList(username, pageNum),HttpStatus.OK);
 	}
 	// 나의 게시글 Ajax로 불러오기 //
 	
 	// 쪽지함 페이지 이동 ///////////////////////////////////////////
 	@GetMapping("myMessage")
-	public String myMessage(Model model, MemberVO vo) {
-		vo = myPageService.selectUser("test"); //test -> 동적으로 바꿔야함
-		model.addAttribute("member", vo); 
+	public String myMessage(Model model, MemberVO vo, Principal principal) {
+		
+		String username = principal.getName();
+		vo = myPageService.selectUser(username);
+		
+		model.addAttribute("user", myPageService.selectUser(vo.getUserid())); 
 		model.addAttribute("message",myPageService.selectMessageList(vo.getUserid(),0));
 		model.addAttribute("pageTotalNum",myPageService.selectCountMessage(vo.getUserid()));
 		model.addAttribute("nowPageNum",1);
@@ -69,8 +76,10 @@ public class MyPageController {
 	//쪽지 Ajax로 불러오기 //////////////////////////////////////////////
 	@GetMapping("myMessageAjax")
 	@ResponseBody
-	public ResponseEntity<List<MessageVO>> myMessageAjax(String userid, int pageNum) {
-		return new ResponseEntity<List<MessageVO>>(myPageService.selectMessageList(userid, pageNum),HttpStatus.OK);
+	public ResponseEntity<List<MessageVO>> myMessageAjax(Principal principal, int pageNum) {
+		
+		String username = principal.getName();
+		return new ResponseEntity<List<MessageVO>>(myPageService.selectMessageList(username, pageNum),HttpStatus.OK);
 	}
 	//쪽지 Ajax로 불러오기 //
 
@@ -84,9 +93,12 @@ public class MyPageController {
 	  
 	// 1:1 문의 이동 ///////////////////////////////////////////
 	@GetMapping("myQA")
-	public String myQA(Model model,MemberVO vo) {
-		vo = myPageService.selectUser("test");//test -> 동적으로 바꿔야함
-		model.addAttribute("member", myPageService.selectUser(vo.getUserid())); 
+	public String myQA(Model model,MemberVO vo, Principal principal) {
+		
+		String username = principal.getName();		
+		vo = myPageService.selectUser(username);
+		
+		model.addAttribute("user", myPageService.selectUser(vo.getUserid())); 
 		model.addAttribute("QA",myPageService.selectQAList(vo.getUserid(),0));
 		model.addAttribute("pageTotalNum",myPageService.selectCountQAList(vo.getUserid()));
 		model.addAttribute("nowPageNum",1);
@@ -97,8 +109,9 @@ public class MyPageController {
 	// 1:1 문의 Ajax로 불러오기 //////////////////////////////////////////////
 	@GetMapping("myQAAjax")
 	@ResponseBody
-	public ResponseEntity<List<QAVO>> myQAAjax(String userid, int pageNum) {
-		return new ResponseEntity<List<QAVO>>(myPageService.selectQAList(userid, pageNum),HttpStatus.OK);
+	public ResponseEntity<List<QAVO>> myQAAjax(Principal principal, int pageNum) {
+		String username = principal.getName();	
+		return new ResponseEntity<List<QAVO>>(myPageService.selectQAList(username, pageNum),HttpStatus.OK);
 	}
 	// 1:1문의 Ajax로 불러오기 //
 	
@@ -112,14 +125,13 @@ public class MyPageController {
 	
 	// 비밀번호 변경 페이지 이동////////////////////////////////////////
 	@GetMapping("myPassword")
-	public String myPassword(Model model) {
-		model.addAttribute("member", myPageService.selectUser("test2")); //test -> 동적으로 바꿔야함
+	public String myPassword(Model model, Principal principal) {
+		
+		String username = principal.getName();	
+		model.addAttribute("user", myPageService.selectUser(username));
 		return "mypage/myPassword";
 	}
 	// 비밀번호 변경 페이지 이동//
-	
-	
-	
 	
 	//유저 정보 수정 //////////////////////////////////////
 	@PostMapping("updateUser")

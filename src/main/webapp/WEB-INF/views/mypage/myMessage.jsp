@@ -17,6 +17,8 @@
 <html>
 <head>
 <title>쪽지함</title>
+<!-- profile.css -->
+<link rel="stylesheet" type="text/css" href="/resources/css/mypage/profile.css">
 <link rel="stylesheet" type="text/css" href="/resources/css/mypage/myMessage.css">
 </head>
 <body>
@@ -25,19 +27,17 @@
 	<!-- header include -->
 	<div style="position:fixed"><img src="/resources/img/mypage/left_background.png"></div>
 	<!-- 1. 메인 ------------------------------------------------->
-	<div class="container" style="margin-top:60px">
+	<div class="container pt-0">
 		<div class="row">
-		<!-- 1.1 왼쪽 메뉴 ---------------------------->
-			<div id="leftNav" class="col-lg-3 d-flex justify-content-center">
-				<!-- header include ------------>
+			<!-- 1.1 왼쪽 메뉴 ---------------------------->
+			<div id="leftNav" class="col-lg-3">
 				<%@include file="leftNav.jsp"%>
-				<!-- header include -->
 			</div>
-		<!-- 1.1 왼쪽 메뉴 -->
+			<!-- 1.1 왼쪽 메뉴 -->
 		<!-- 1.2 쪽지함 레이아웃 ---------------------------------->
-			<div id="rightDiv" class="col-lg-9">
+			<div id="rightDiv" class="col-lg-9 p-5">
 				<h1>쪽지함</h1>
-				<div id="rightDivContent" class="container">
+				<div id="rightDivContent" class="mt-5">
 				<!-- 1.3 쪽지 내용 출력 부분 ------------------------------->
 					<table class="table text-center table-hover">
 						<thead class="thead">

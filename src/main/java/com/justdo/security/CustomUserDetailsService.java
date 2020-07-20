@@ -27,19 +27,26 @@ public class CustomUserDetailsService implements UserDetailsService{
 			throw new UsernameNotFoundException(username);
 		}
 	
-		log.warn("-------------1--------------");
 		log.warn("아이디로 유저 불러오기 :"+username);
 		
-		log.warn("-------------2--------------");
 		MemberVO vo = memberMapper.read_auth(username);
 		log.warn("쿼리에 의해 불러와진 유저 :"+vo);
 		
-		log.warn("-------------3-------------");
 		CustomUser user = new CustomUser(vo);
 		
 		log.warn("CustomUser에서 불러온 유저 :"+user);
 		
 		return vo == null? null : user;
+	}
+	
+	// 아이디를 넣으면 VO가 나오는 메소드 
+	public MemberVO loadInfoByUsername(String username) throws UsernameNotFoundException {
+		// 아이디가 없을 시 예외 발생시킴
+		if (username == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		MemberVO vo = memberMapper.read_auth(username);
+		return vo;
 	}
 	
 	// 아이디를 넣으면 닉네임이 나오는 메소드

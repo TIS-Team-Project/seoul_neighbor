@@ -13,7 +13,11 @@
 	
 	<security:http>
 		<!-- 권한 처리 (순서대로 처리되기 때문에 특수한 경우를 위쪽으로) -->
-		<security:intercept-url pattern="/profile/**" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/profile" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/myPassword" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/myQA" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/mylist" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/myMessage" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/board/register" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/board/modify" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/**" access="permitAll"/>

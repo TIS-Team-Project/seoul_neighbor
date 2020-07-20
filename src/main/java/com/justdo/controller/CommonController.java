@@ -1,5 +1,7 @@
 package com.justdo.controller;
 
+import java.security.Principal;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
+import com.justdo.security.CustomUserDetailsService;
 import com.justdo.service.commonService;
 import com.justdo.service.myPageService;
 import com.justdo.util.JoinValidator;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 
+@Log4j
 @Controller
 @RequestMapping("/*")
 @AllArgsConstructor
@@ -32,8 +37,9 @@ public class CommonController {
 	
 	 private commonService service;
 	 private myPageService myPageService;
+	 private CustomUserDetailsService loginService;
 	 private BCryptPasswordEncoder pwdEncoder;
-	// test //
+	 
 	// 메인 이동 //////////////////////////////////
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
@@ -50,8 +56,10 @@ public class CommonController {
 	
 	// 프로필 페이지 이동 ////////////////////////
 	@GetMapping("profile")
-	public String profile(Model model, MemberVO vo) {
-		model.addAttribute("member", myPageService.selectUser("test")); //test -> 동적으로 바꿔야함
+	public String profile(Model model, Principal principal) {
+		String username = principal.getName();
+		log.warn("프로필 페이지 이동 아이디 : " + username);
+		model.addAttribute("user", myPageService.selectUser(username));
 		return "mypage/profile";
 	}
 	// 프로필 페이지 이동 //

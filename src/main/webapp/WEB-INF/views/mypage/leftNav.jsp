@@ -20,25 +20,26 @@
 </head>
 <body>
 <!-- 1.왼쪽 메뉴 ---------------------------------------------->
-	<div id="leftNavContainer" class="container-fluid">
+	<div id="leftNavContainer" class="container-fluid pt-5">
 	<!-- 1.1 프로필 이미지 --------------------------->
 		<div id="profileImg" class="card text-center">
 			<c:choose>
-				<c:when test = "${member.member_filename eq null }">
+				<c:when test = "${user.member_filename eq null }">
 		  		<img class="card-img-top" src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
 		  		</c:when>
-		  		<c:when test = "${member.member_filename != null}">
-		  		<img class="card-img-top" src="/resources/img/mypage/<c:out value="${member.member_filename}"/>" alt="프로필 사진">
+		  		<c:when test = "${user.member_filename != null}">
+		  		<img class="card-img-top leftnav-photo" src="/resources/img/mypage/<c:out value="${user.member_filename}"/>" alt="프로필 사진">
 		  		</c:when>
 		  	</c:choose>
 		  <div class="card-body">
-				    <p id="hello" class="card-title"><c:out value="${member.nickname}"/>님 안녕하세요?</p>
+				    <p id="hello" class="card-title"><c:out value="${user.nickname}"/>님 안녕하세요?</p>
 		  </div>
 		</div>
 	<!-- 1.1 프로필 이미지 -->
 	
 	<!-- 1.2 메뉴바 ----------------------------->
-		<div id="leftNavBar" class="container-fluid">
+	
+		<div id="leftNavBar" class="container-fluid sidebar">
 			<ul class="nav flex-column">
 		    <li class="nav-item">
 		    	<a class="nav-link" href="/profile">프로필</a>

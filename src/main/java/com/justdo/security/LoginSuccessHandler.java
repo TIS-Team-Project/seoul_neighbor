@@ -1,6 +1,7 @@
 package com.justdo.security;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +18,13 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @AllArgsConstructor
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
-	public LoginSuccessHandler() {}
 	
 	private CustomUserDetailsService loginService;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+
 	
 		log.warn("loginhandler - 로그인 성공");
 		
@@ -38,11 +39,15 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		// 지역 정보 받아옴
 		String username = authentication.getName();
 		log.warn("loginhandler - 로그인한 아이디 이름  : " +username);		
+		
 		String gu = loginService.loadLocationByUsername(username);
-		log.warn("loginhandler - 아이디에서 설정한 지역 이름  : " +gu);		
+		log.warn("loginhandler - 아이디에서 설정한 지역 이름  : " +gu);
+		
+		String encodedGu = URLEncoder.encode(gu, "UTF-8");
+		log.warn("loginhandler - 구 인코딩 결과  : " +gu);
 		
 		if (roleNames.contains("ROLE_USER")) {
-			response.sendRedirect("board/list?gu="+gu);
+			response.sendRedirect("board/list?gu="+encodedGu);
 			return;
 		}
 		response.sendRedirect("/"); // 권한 없을시 메인 페이지로 이동
