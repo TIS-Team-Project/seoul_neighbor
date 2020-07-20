@@ -98,14 +98,14 @@ public class CommonController {
 	//싫어요+1 ////////////////////////////////
 	
 	//회원가입 페이지 호출
-	@GetMapping("join")
+	@GetMapping("/join")
 	public String joinForm() {
 		System.out.println("회원가입페이지로 이동합니다.");
-		return "joinpage/join";
+		return "joinpage/newjoin";
 	}
 	
 	//회원가입 진행
-	@PostMapping("join")
+	@PostMapping("/join")
 	public String join(MemberVO vo, BindingResult result, RedirectAttributes rttr) {
 		System.out.println("회원가입 처리 서비스를 호출합니다.");
 		System.out.println("받은 회원 정보 : " + vo.toString());

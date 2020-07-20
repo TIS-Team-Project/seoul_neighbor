@@ -16,6 +16,7 @@ public class Criteria {
 	
 	private String recommend;	
 	private String gu;
+	private String category;
 	
 	private String type;
 	private String keyword;
