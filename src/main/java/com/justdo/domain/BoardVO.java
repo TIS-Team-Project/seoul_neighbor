@@ -8,6 +8,7 @@ import lombok.Data;
 public class BoardVO {
 	private Long bno;
 	private String userid;
+	private String nickname;
 	private String title;
 	private String content;
 	private Date regDate;

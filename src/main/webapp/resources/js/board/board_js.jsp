@@ -16,14 +16,14 @@ function boardCheck() {
 		return false;
 	}
 	if (document.frm.location.value.length == 0) {
-		alert("지역을 선택하세요.");
+		alert("지역.");
 		return false;
 	}
 	return true;
 }
 
 /* 카테고리선택 */
-$("#selectcategory ~ ul a").on("click", function() {
+$("#selectcategory ~ div a").on("click", function() {
     // 버튼에 선택된 항목 텍스트 넣기 
     $("#selectcategory").text($(this).text());
     console.log($(this).text())
@@ -37,6 +37,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	dong.empty();
 	if(gu=="강남구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>신사동</option>"+
 				"<option>논현동</option>"+
 				"<option>압구정동</option>"+
@@ -53,6 +54,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="강동구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>강일동</option>"+
 				"<option>상일동</option>"+
 				"<option>명일동</option>"+
@@ -66,6 +68,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="강북구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>삼양동</option>"+
 				"<option>미아동</option>"+
 				"<option>송중동</option>"+
@@ -79,6 +82,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="강서구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>염창동</option>"+
 				"<option>등촌동</option>"+
 				"<option>화곡동</option>"+
@@ -91,6 +95,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="관악구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>보라매동</option>"+
 				"<option>청림동</option>"+
 				"<option>행운동</option>"+
@@ -116,6 +121,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="광진구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>중곡동</option>"+
 				"<option>능동</option>"+
 				"<option>구의동</option>"+
@@ -127,6 +133,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="구로구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>신도림동</option>"+
 				"<option>구로동</option>"+
 				"<option>가리봉동</option>"+
@@ -139,6 +146,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="금천구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>가산동</option>"+
 				"<option>독산동</option>"+
 				"<option>시흥동</option>"
@@ -146,6 +154,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="노원구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>월계동</option>"+
 				"<option>공릉동</option>"+
 				"<option>하계동</option>"+
@@ -155,6 +164,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="도봉구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>쌍문동</option>"+
 				"<option>방학동</option>"+
 				"<option>창동</option>"+
@@ -163,6 +173,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="동대문구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>용신동</option>"+
 				"<option>제기동</option>"+
 				"<option>진농동</option>"+
@@ -176,6 +187,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="동작구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>노량진동</option>"+
 				"<option>상도동</option>"+
 				"<option>흑석동</option>"+
@@ -186,6 +198,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="마포구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>공덕동</option>"+
 				"<option>아현동</option>"+
 				"<option>도화동</option>"+
@@ -203,6 +216,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="서대문구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>충현동</option>"+
 				"<option>천연동</option>"+
 				"<option>북아현동</option>"+
@@ -215,6 +229,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="서초구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>서초동</option>"+
 				"<option>잠원동</option>"+
 				"<option>반포동</option>"+
@@ -225,6 +240,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="성동구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>왕십리동</option>"+
 				"<option>마장동</option>"+
 				"<option>사근동</option>"+
@@ -239,6 +255,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="성북구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>성북동</option>"+
 				"<option>삼선동</option>"+
 				"<option>동선동</option>"+
@@ -255,6 +272,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="송파구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>풍납동</option>"+
 				"<option>거여동</option>"+
 				"<option>마천동</option>"+
@@ -272,6 +290,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="양천구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>목동</option>"+
 				"<option>신월동</option>"+
 				"<option>신정동</option>"
@@ -279,6 +298,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="영등포구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>영등포동</option>"+
 				"<option>영등포본동</option>"+
 				"<option>당산동</option>"+
@@ -292,6 +312,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="용산구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>후암동</option>"+
 				"<option>용산2가동</option>"+
 				"<option>남영동</option>"+
@@ -309,6 +330,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="은평구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>녹번동</option>"+
 				"<option>불광동</option>"+
 				"<option>갈현동</option>"+
@@ -324,6 +346,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="종로구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>청운효지동</option>"+
 				"<option>사직동</option>"+
 				"<option>삼청동</option>"+
@@ -342,6 +365,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="중구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>소곡동</option>"+
 				"<option>회현동</option>"+
 				"<option>명동</option>"+
@@ -361,6 +385,7 @@ function changeDong(gu){ //구가 바뀔때 동 옵션값 바뀌는 함수
 	}
 	else if(gu=="중랑구"){
 		dong.append(
+				"<option>동</option>"+
 				"<option>면목동</option>"+
 				"<option>상봉동</option>"+
 				"<option>중화동</option>"+
@@ -379,7 +404,7 @@ function changeGu(gu,dong){
 $("#selectGu").change(function(){ // 구 바뀜
 	gu = $("#selectGu option:selected");
 	changeDong(gu.val());
-	dong = $("#selectDong option:selected");	
+	dong = $("#selectDong option:selected");
 	console.log(gu.val()+"_"+dong.val());
 })
 
@@ -391,4 +416,8 @@ $("#selectDong").change(function(){ // 동 바뀜
     $("#location").val(gu.val()+"_"+dong.val());		
 })
 // 구 -> 동 선택하기 //
+
+function goBack(){
+	window.history.back();
+}
 </script>
