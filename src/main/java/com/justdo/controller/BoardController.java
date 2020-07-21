@@ -38,6 +38,12 @@ public class BoardController {
 	@GetMapping("BoardTabListAjax")
 	@ResponseBody
 	public ResponseEntity<List<BoardVO>> BoardTabListAjax(Criteria cri) {
+		System.out.println("test......");
+		System.out.println(cri.getCategory());
+		System.out.println(cri.getGu());
+		System.out.println(cri.getStartIndex());
+		System.out.println(cri.getAmount());
+		System.out.println("test......");
 		return new ResponseEntity<List<BoardVO>>(service.getListWithPagingTabs(cri),HttpStatus.OK);
 	}
 	

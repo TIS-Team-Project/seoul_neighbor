@@ -40,7 +40,7 @@
 	
 	<select id="getListWithPagingTabs" resultType="com.justdo.domain.BoardVO">
 		select * from tbl_board
-		where (location LIKE CONCAT('%',#{gu},'%')) and category LIKE CONCAT('%','소통해요','%'))
+		where (location LIKE CONCAT('%',#{gu},'%')) and category LIKE CONCAT('%',#{category},'%')
 		order by bno desc
 		limit #{startIndex}, #{amount}
 	</select>

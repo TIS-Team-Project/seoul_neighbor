@@ -209,7 +209,7 @@ header.collapsing-parallax + .site-main{
 						<!-- 테이블 리스트 갯수 조절-->
 					</div>
 					<div class="tab-content pt-4">
-						<div id="all" class="tab-pane active">
+						<div id="all" class="navlinktab tab-pane active">
 							<!-- 선택지역의 카테고리(전체) 글목록---------------------------------------------------------------------------------------------->
 							<table style="Width:100%"
 								class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -244,10 +244,9 @@ header.collapsing-parallax + .site-main{
 							<!-- 선택지역의 카테고리(전체) 글목록-->
 						</div>
 						
-						<div id="menu1" class="container tab-pane fade">
-							<table width="100%"
-								class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
+						<div id="menu1" class="navlinktab tab-pane fade">
+							<table style="Width:100%"
+								class="table table-striped table-bordered table-hover" id="dataTables-example">
 								<thead>
 									<tr>
 										<th>글번호</th>
@@ -265,7 +264,7 @@ header.collapsing-parallax + .site-main{
 								</tbody>
 							</table>
 						</div>
-						<div id="menu2" class="container tab-pane fade">
+						<div id="menu2" class="navlinktab tab-pane fade">
 							<table width="100%"
 								class="table table-striped table-bordered table-hover"
 								id="dataTables-example">
@@ -315,7 +314,7 @@ header.collapsing-parallax + .site-main{
 								</tbody>
 							</table>
 						</div>
-						<div id="menu3" class="container tab-pane fade">
+						<div id="menu3" class="navlinktab tab-pane fade">
 							<table width="100%"
 								class="table table-striped table-bordered table-hover"
 								id="dataTables-example">
@@ -475,39 +474,43 @@ $(document).ready(function(){
   	  searchFormNum.submit();
   	  
     });
-    
-    
-});
 
-$(document).on("click",".nav-link",function(){
+
+$(".nav-link").on("click",function(e){
+	var temp = $(this).html();
     var form = {
-            category: '소통해요'
+            category:temp,
+            gu:'${criteria.gu}'
     }
+    console.log(form);    
     $.ajax({
-        url: "/BoardTabListAjax",
+        url: "/board/BoardTabListAjax",
         type: "GET",
         data: form,
         success: function(data){
             //$("#messageList").empty();
             $(data).each(function(i,board){
-                $("#menu1 tbody").append(
+                 $("#menu1 tbody").append(
 						"<tr>"+
-						"<td>"+board.bno+"></td>"+
+						"<td>"+board.bno+"</td>"+
 						"<td>"+board.location+"</td>"+
 						"<td>"+board.category+"</td>"+
 						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
+						"<td>"+board.userid+"</td>"+
+						"<td>"+board.veiw_count+"</td>"+
 						"<td>"+board.like_count+"</td>"+
-						"<td>"+board.regdate+"</td>"+
-						"</tr>"		
+						"</tr>"	 	
                 )
-                
             });
         },
         error: function(){
             alert("simpleWithObject err");
         }
     });
-})
+	
+});
+
+});
 
 
 (function($) {
