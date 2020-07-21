@@ -2,8 +2,6 @@ package com.justdo.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.Criteria;
 
@@ -46,5 +44,8 @@ public interface BoardMapper {
 	
 	//해당 bno의 싫어요 숫자를 가져옵니다.
     public int selectUnlikeCount(int bno);	
+    
+    //해당 bno의 board 삭제.
+	public int delete(int bno);
 	
 }

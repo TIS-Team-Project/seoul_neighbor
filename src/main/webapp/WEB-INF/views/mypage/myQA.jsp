@@ -23,16 +23,16 @@
 	<div class="container" style="margin-top:60px">
 		<div class="row">
 		<!-- 1.1 왼쪽 메뉴 ---------------------------->
-			<div id="leftNav" class="col-lg-3 d-flex justify-content-center">
+			<div id="leftNav" class="col-lg-3">
 				<!-- header include ------------>
 				<%@include file="leftNav.jsp"%>
 				<!-- header include -->
 			</div>
 		<!-- 1.1 왼쪽 메뉴 -->
 		<!-- 1.2 1:1 문의 레이아웃 ---------------------------------->
-			<div id="rightDiv" class="col-lg-9">
+			<div id="rightDiv" class="col-lg-9 p-5">
 				<h1>1:1 문의</h1>
-				<div id="rightDivContent" class="container text-center">
+				<div id="rightDivContent" class="mt-5">
 					<h5>도움이 필요하신가요?</h5>
 					<button type="button" id="QABtn" class="btn form-control" data-toggle="modal" data-dismiss="modal" data-target="#sendQA">1:1 문의 하기</button>
 					<table class="table text-center table-hover">
@@ -78,7 +78,7 @@
 					<textarea id="writeQAContent" class="form-control" rows="10" placeholder="문의 내용(1000자 이내)"></textarea>
 				</div>
 				<div class="modal-footer">
-					<span id="warn">(0/1000)글자</span><button type="button" id="insertQABtn" class="btn" data-toggle="modal" data-dismiss="modal" data-target="#sendMessage">문의하기</button>
+					<span id="qaWarn">(0/1000)글자</span><button type="button" id="insertQABtn" class="btn" data-toggle="modal" data-dismiss="modal">문의하기</button>
 				</div>
 				<div id="messageInfo"></div>
 			</div>

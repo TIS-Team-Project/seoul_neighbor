@@ -185,7 +185,7 @@ header.collapsing-parallax + .site-main{
 				</div>
 				<div class="panel panel-body">
 					<!-- 카테고리별 네비게이션  목록---------------------------------------------------------------------------------------------->
-					<ul class="nav nav-tabs" role="tablist">
+					<ul class="nav nav-tabs" role="tablist" id="mytab">
 						<li class="nav-item"><a class="nav-link active"
 							data-toggle="tab" href="#all">전체</a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="tab"
@@ -265,102 +265,42 @@ header.collapsing-parallax + .site-main{
 							</table>
 						</div>
 						<div id="menu2" class="navlinktab tab-pane fade">
-							<table width="100%"
-								class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
+							<table style="Width:100%"
+								class="table table-striped table-bordered table-hover" id="dataTables-example">
 								<thead>
 									<tr>
 										<th>글번호</th>
 										<th>지역</th>
 										<th>카테고리</th>
 										<th>제목</th>
+										<th>작성자</th>
 										<th>조회수</th>
 										<th>추천수</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
+
+									
 								</tbody>
 							</table>
 						</div>
 						<div id="menu3" class="navlinktab tab-pane fade">
-							<table width="100%"
-								class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
+							<table style="Width:100%"
+								class="table table-striped table-bordered table-hover" id="dataTables-example">
 								<thead>
 									<tr>
 										<th>글번호</th>
 										<th>지역</th>
 										<th>카테고리</th>
 										<th>제목</th>
+										<th>작성자</th>
 										<th>조회수</th>
 										<th>추천수</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
+
+									
 								</tbody>
 							</table>
 						</div>
@@ -388,6 +328,7 @@ header.collapsing-parallax + .site-main{
 					<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>'>
 					<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'>
 					<input type='hidden' name='gu' value='<c:out value="${criteria.gu}"/>'>
+
 				</form>
 				<!-- 페이징-->
 			</div>
@@ -412,6 +353,7 @@ header.collapsing-parallax + .site-main{
 					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
 					<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 					<input type='hidden' name='gu' value='<c:out value="${criteria.gu}"/>'>
+
 									
 					<button class='btn btn-default'>검색</button>
 				</form>
@@ -476,7 +418,7 @@ $(document).ready(function(){
     });
 
 
-$(".nav-link").on("click",function(e){
+$('a[data-toggle="tab"]').on('show.bs.tab',function(e){
 	var temp = $(this).html();
     var form = {
             category:temp,
@@ -488,7 +430,7 @@ $(".nav-link").on("click",function(e){
         type: "GET",
         data: form,
         success: function(data){
-            //$("#messageList").empty();
+            $("#menu1 tbody").empty();
             $(data).each(function(i,board){
                  $("#menu1 tbody").append(
 						"<tr>"+
@@ -506,9 +448,17 @@ $(".nav-link").on("click",function(e){
         error: function(){
             alert("simpleWithObject err");
         }
-    });
+    }); 
 	
 });
+
+$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+	localStorage.setItem('activeTab', $(e.target).attr('href'));
+});
+var activeTab = localStorage.getItem('activeTab');
+if(activeTab){
+	$('#mytab a[href="' + activeTab + '"]').tab('show');
+}
 
 });
 

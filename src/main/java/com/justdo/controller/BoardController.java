@@ -1,5 +1,6 @@
 package com.justdo.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.Criteria;
 import com.justdo.domain.PageDTO;
+import com.justdo.security.CustomUserDetailsService;
 import com.justdo.service.BoardService;
+import com.justdo.service.myPageService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -27,12 +30,27 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class BoardController {
 	private BoardService service;
+	private myPageService myPageService;
+	private CustomUserDetailsService loginService;
 	
 	@GetMapping("list")
-	public void list(Criteria cri,Model model) {
+	public void list(Criteria cri, Model model, Principal principal) {
+		
 		model.addAttribute("locationlist",service.getLocationList(cri));
 		model.addAttribute("list",service.getList(cri));
+		System.out.println("count Test......");
+		System.out.println(cri.getCategory());
 		model.addAttribute("pageMaker",new PageDTO(cri,service.getTotal(cri)));
+
+		// 로그인 확인 후 닉네임 넘기기
+		if (principal != null) {
+			String username = principal.getName();
+			log.warn("로그인 했음!" + username);
+			model.addAttribute("member", loginService.loadInfoByUsername(username));
+			
+		} else {
+			log.warn("로그인 하지 않았음!");
+		}
 	}
 	
 	@GetMapping("BoardTabListAjax")
@@ -46,7 +64,6 @@ public class BoardController {
 		System.out.println("test......");
 		return new ResponseEntity<List<BoardVO>>(service.getListWithPagingTabs(cri),HttpStatus.OK);
 	}
-	
 	
 	// 등록화면
 	@GetMapping("/register")

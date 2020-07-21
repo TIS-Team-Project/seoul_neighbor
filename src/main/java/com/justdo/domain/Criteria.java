@@ -14,7 +14,7 @@ public class Criteria {
 	private int amount;
 	private int startIndex;
 	
-	private String category;	
+	private String category;
 	private String gu;
 	
 	private String type;

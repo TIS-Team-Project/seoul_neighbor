@@ -23,16 +23,16 @@
 	<div class="container" style="margin-top:60px">
 		<div class="row">
 		<!-- 1.1 왼쪽 메뉴 ---------------------------->
-			<div id="leftNav" class="col-lg-3 d-flex justify-content-center">
+			<div id="leftNav" class="col-lg-3">
 				<!-- header include ------------>
 				<%@include file="leftNav.jsp"%>
 				<!-- header include -->
 			</div>
 		<!-- 1.1 왼쪽 메뉴 -->
 		<!-- 1.2 나의 게시글 레이아웃 ---------------------------------->
-			<div id="rightDiv" class="col-lg-9">
+			<div id="rightDiv" class="col-lg-9 p-5">
 				<h1>나의 게시글</h1>
-				<div id="rightDivContent" class="container">
+				<div id="rightDivContent" class="mt-5">
 					<table class="table text-center table-hover">
 						<thead class="thead">
 							<tr>
@@ -46,6 +46,7 @@
 						<tbody id="messageList">
 							<c:forEach items="${board}" var="board">
 							<tr>
+								<td style="display:none">${board.bno}</td>
 								<td>${board.location }</td>
 								<td>${board.category}</td>
 								<td><span class="boardTitle">${board.title}</span> [${board.reply_count}]</td>
