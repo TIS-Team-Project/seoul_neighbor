@@ -40,7 +40,7 @@
 			<tr>
 				<td><c:out value="${board.bno}" /></td>
 				<td width="300">
-					<a href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a>
+					<a href='/board/get/<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a>
 				</td>
 				<td><c:out value="${board.userid}" /></td>
 				<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regDate}" /></td>
@@ -54,8 +54,8 @@
 	
 	<!-- 1.2 글쓰기페이지로 이동 ------------->
 	<form role="form" action="/board/register" method="get">
-	<input type="hidden" name="userid" value="admin"><!-- 임시로그인처리 -->
-	<input type="hidden" name="location" value="영등포구_여의동">
+		<input type="hidden" name="userid" value="admin"><!-- 임시로그인처리 -->
+		<input type="hidden" name="location" value="영등포구_여의동">
 	<button>글쓰기</button>
 	</form>
 	<!-- 1.2 글쓰기페이지로 이동 -->

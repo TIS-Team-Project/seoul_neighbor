@@ -452,4 +452,15 @@ if(before_location == ""){
 function goBack(){
 	window.history.back();
 }
+
+//스마트에디터 summernote
+$(function() {
+  $('#content').summernote({
+	    placeholder: "내용을 입력하세요",
+        height: 400,
+        disableResizeEditor: true,
+        focus: true,
+        lang : "ko-KR"
+  });
+});
 </script>

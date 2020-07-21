@@ -3,6 +3,7 @@ package com.justdo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,13 +51,14 @@ public class BoardController {
 	};
 	
 	// 상세보기
-	@GetMapping("/get")
-	public void get(@RequestParam("bno") Long bno, Model model) {
+	@GetMapping("/get/{bno}")
+	public String get(@PathVariable("bno") Long bno, Model model) {
 		log.info("/get");
 		model.addAttribute("board", service.get(bno));
+		return "/board/get";
 	}
 	
-	// 수정화면
+	// 수정화면불러오기
 	@GetMapping("/modify")
 	public void modify(@RequestParam("bno") Long bno, Model model) {
 		log.info("/modify");

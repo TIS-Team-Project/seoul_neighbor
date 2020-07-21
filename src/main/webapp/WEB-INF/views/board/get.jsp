@@ -19,16 +19,16 @@
 <!-- header include -->
 <!-- 본문 ------------------------>
 <main class="container">
-	<div>
+	<div>		
+		<input type="text" name="title" value="<c:out value='${board.title}'/>" readonly><br>			
+		<input type="text" name="userid" value="<c:out value='${board.userid}'/>" readonly><br>			
+		<textarea name="content" id="content" cols="30" rows="10" readonly><c:out value='${board.content}' /></textarea><br>
+		<input type="hidden" name="category" value="<c:out value='${board.category}'/>">
+		<input type="hidden" name="location" value="<c:out value='${board.location}'/>">
+		
 		<!-- 1.1 조회 폼 ------------------>
 		<form role="form" action="/board/modify" method="get">		
-			<input type="hidden" id="bno" name="bno" value="<c:out value='${board.bno}'/>">			
-			<input type="text" name="title" value="<c:out value='${board.title}'/>" readonly><br>			
-			<input type="text" name="userid" value="<c:out value='${board.userid}'/>" readonly><br>			
-			<textarea name="content" id="content" cols="30" rows="10" readonly><c:out value='${board.content}' /></textarea><br>
-			<input type="hidden" name="category" value="<c:out value='${board.category}'/>">
-			<input type="hidden" name="location" value="<c:out value='${board.location}'/>">
-			
+			<input type="hidden" id="bno" name="bno" value="<c:out value='${board.bno}'/>">	
 			<button>수정하기</button>			
 			<button formmethod="POST" formaction="/board/remove">삭제</button>			
 			<button formaction="/board/list">목록으로</button>
