@@ -223,14 +223,18 @@
             <!-- 좋아요, 싫어요 부분 -->
             
             <!-- 댓글 창 부분 ----------------------------------->
-            <div id="commentDiv   " class="row">
-               
+            <div id="commentDiv" class="row">
+                <ul class="chat">
+		
+		        </ul>
+		        <!-- ./ end ul -->
             </div>
             <!-- 댓글 창 부분 -->
             
             <!-- 댓글 입력 창 ----------------------------------->
             <div id="commentInsertDiv" class="row">
-               <input type="text" class="form-control" placeholder="댓글을 입력하세요" style="width:80%"><input type="button" class="form-control" value="등록" style="width:20%">
+               <input id="replyContent" type="text" class="form-control" placeholder="댓글을 입력하세요" style="width:80%">
+               <input id="replyButton" type="button" class="form-control" value="등록" style="width:20%">
             </div>
             <!-- 댓글 입력 창 -->
             
@@ -329,8 +333,59 @@
 			    	  metaForm.attr("action", "/board/remove/" + bno);
 			    	  metaForm.submit();
    			  	 }) 
-		   })
-		   
+   			  	 
+   			  	 $("#replyButton").click(function(){
+   			  		 
+   			  		 let replyObject = {
+   			  				 "bno":bno,
+   			  				 "reply":$("#replyContent").val(),
+   			  				 "replyer":"testUser"
+   			  		 }
+   			  		
+   			  		 $.ajax({
+   			  			 url:"/replies/new",
+   			  			 type:"POST",
+   			  			 data: JSON.stringify(replyObject),
+   			  			 dataType:"text", //서버에서 오는 데이터형식, 클라이언트가 받는거
+   			  			 contentType:"application/json", //서버로 보내는 데이터 형식 = data의 형식을 표시, 클라이언트가 보내는거 
+   			  			 success:function(result, status, xhr){
+   			  				 console.log(result);
+
+   			  			 }
+   			  		 })
+   			  		 
+   			  	 })
+   			  	 
+   			  	 //getReplyList/////////////////////////////////////////////////
+   			  	  let str = "";
+				  var replyUL = $(".chat");
+			      $(window).on('load',function(){
+			    	  $.ajax({
+			    		  url:"/replies/replyList/"+bno,
+			    		  type:"GET",
+/* 			    		  dataType:"application/json; charset=utf-8", */			    		 
+								success:function(result){
+				    		 console.log(result);
+   			  				$(result).each(function(i, reply){
+   	   			  				str +="<li class='left clearfix' data-rno='"+reply.rno+"'>";
+   			   			  	    str +="  <div><div class='header'><strong class='primary-font'>["
+   			   			  	    	   +reply.rno+"] "+reply.replyer+"</strong>"; 
+   			   			  	       str +="    <small class='pull-right text-muted'>"
+   			   			  	           +reply.updatedate+"</small></div>";
+   			   			  	       str +="    <p>"+reply.reply+"</p></div></li>";
+   	   			  				})
+   	   			  				replyUL.html(str);
+			    		  }
+			 			
+
+			    	  })
+			      })
+
+   			  	 //getReplyList/////////////////////////////////////////////////
+   			  	 
+	
+
+		})
 		</script>	
 
 </body> 

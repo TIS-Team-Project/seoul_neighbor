@@ -100,5 +100,7 @@ public class CommonController {
 	}
 	
 	//해당 bno의 board 삭제/////////////////////////////////////////////
-
+	
+	
+	
 }
