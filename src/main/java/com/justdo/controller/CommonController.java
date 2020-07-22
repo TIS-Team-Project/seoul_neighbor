@@ -58,7 +58,6 @@ public class CommonController {
 		if(vo != null) {										//client가 주소창에 board/read/3해서 bno가 3짜리인 boardVO를 부르면 bno가 3짜리인 vo 데이터를 받는데 만약 삭제를해서 없다면 데이터가 null인 상세페이지 말고, list 페이지로 보낸다.
 		      System.out.println(vo);
 		      model.addAttribute("board",vo);
-		      System.out.println(vo);
 		      return "board/read";  
 		}else {
 			return "redirect:/board/list";

@@ -129,6 +129,7 @@
    </style>
    
    <title>상세 보기</title>
+   
        
 </head>
 
@@ -288,8 +289,41 @@
 			   
 			   let bno=${board.bno}
 			   let likeCount=${board.like_count}
-/* 			   $(".likeCount").html(likeCount); */
-			   
+		  	   let replyUL = $(".chat");
+		  	 
+/* 			   댓글 목록 불러오는 ajax 함수를 getReplyList라는 변수에 넣음.*/
+				let getReplyList=function(){  
+   					$.ajax({
+	    		    url:"/replies/replyList/"+bno,
+	    		  	type:"GET",
+	    		  	global: false,
+		  			  success:function(result, status, xhr){
+		  				let str = "";
+		  				$(result).each(function(i, repl){
+		  					
+   			  				str +="<li class='left clearfix' data-rno='"+repl.rno+"'>";
+		   			  	    str +="  <div><div class='header'><strong class='primary-font'>["
+		   			  	    	   +repl.rno+"] "+repl.replyer+"</strong>"; 
+	   			  	        str +="    <small class='pull-right text-muted'>"
+		   			  	           +repl.updatedate+"</small></div>";
+	   			  	        str +="    <p>"+repl.reply+"</p></div></li>";
+   			  				})
+			 			replyUL.empty();
+		  				replyUL.html(str);
+	    		  }
+	    	  })};
+/* 			   댓글 목록 불러오는 ajax 함수를 getReplyList라는 변수에 넣음.*/
+
+
+   			  	 //getReplyList/////////////////////////////////////////////////
+
+			      $(window).on('load',function(){
+			    	  getReplyList();
+			      })
+
+   			  	 //getReplyList/////////////////////////////////////////////////
+
+
 			      $("#likeButton").click(function(){
 			         $.ajax({
 			            url: "/read/plusLike/" + bno, 
@@ -335,54 +369,28 @@
    			  	 }) 
    			  	 
    			  	 $("#replyButton").click(function(){
-   			  		 
+
    			  		 let replyObject = {
    			  				 "bno":bno,
    			  				 "reply":$("#replyContent").val(),
    			  				 "replyer":"testUser"
    			  		 }
-   			  		
-   			  		 $.ajax({
+   			  		  $.ajax({
    			  			 url:"/replies/new",
    			  			 type:"POST",
    			  			 data: JSON.stringify(replyObject),
    			  			 dataType:"text", //서버에서 오는 데이터형식, 클라이언트가 받는거
    			  			 contentType:"application/json", //서버로 보내는 데이터 형식 = data의 형식을 표시, 클라이언트가 보내는거 
    			  			 success:function(result, status, xhr){
-   			  				 console.log(result);
+   				    	  getReplyList();
 
    			  			 }
-   			  		 })
-   			  		 
+   			  		 })  	
+   			 
+
    			  	 })
    			  	 
-   			  	 //getReplyList/////////////////////////////////////////////////
-   			  	  let str = "";
-				  var replyUL = $(".chat");
-			      $(window).on('load',function(){
-			    	  $.ajax({
-			    		  url:"/replies/replyList/"+bno,
-			    		  type:"GET",
-/* 			    		  dataType:"application/json; charset=utf-8", */			    		 
-								success:function(result){
-				    		 console.log(result);
-   			  				$(result).each(function(i, reply){
-   	   			  				str +="<li class='left clearfix' data-rno='"+reply.rno+"'>";
-   			   			  	    str +="  <div><div class='header'><strong class='primary-font'>["
-   			   			  	    	   +reply.rno+"] "+reply.replyer+"</strong>"; 
-   			   			  	       str +="    <small class='pull-right text-muted'>"
-   			   			  	           +reply.updatedate+"</small></div>";
-   			   			  	       str +="    <p>"+reply.reply+"</p></div></li>";
-   	   			  				})
-   	   			  				replyUL.html(str);
-			    		  }
-			 			
 
-			    	  })
-			      })
-
-   			  	 //getReplyList/////////////////////////////////////////////////
-   			  	 
 	
 
 		})

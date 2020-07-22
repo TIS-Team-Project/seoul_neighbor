@@ -31,7 +31,6 @@ public class ReplyController {
 				produces = { MediaType.TEXT_PLAIN_VALUE})
 		public ResponseEntity<String> create(@RequestBody ReplyVO vo){
 			int insertCount = service.insertReply(vo);
-			System.out.println("댓글 등록 함수 실행...");
 			return insertCount==1
 					? new ResponseEntity<>("successs",HttpStatus.OK)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -41,7 +40,8 @@ public class ReplyController {
 		
 		
 	//reply select//////////////////////////////////////////////////
-		@GetMapping(value="/replyList/{bno}",produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
+		@GetMapping(value="/replyList/{bno}",
+					produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
 		@ResponseBody
 			public ResponseEntity<List<ReplyVO>> getReplyList(@PathVariable("bno") int bno){
 			
