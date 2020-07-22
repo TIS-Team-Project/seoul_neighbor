@@ -12,60 +12,54 @@
 <html>
 <head>
 <title>비밀번호 변경</title>
-<!-- profile.css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/profile.css">
 <!-- myPassword.css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/myPassword.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-formpage.css">
 </head>
 <body>
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
-	<div style="position:fixed"><img src="/resources/img/mypage/left_background.png"></div>
+	
 	<!-- 1. 메인 ------------------------------------------------->
 	<div class="container pt-0">
 		<div class="row">
-			<!-- 1.1 왼쪽 메뉴 ---------------------------->
+		<!-- 1.1 왼쪽 메뉴 ---------------------------->
 			<div id="leftNav" class="col-lg-3">
+				<!-- header include ------------>
 				<%@include file="leftNav.jsp"%>
+				<!-- header include -->
 			</div>
-			<!-- 1.1 왼쪽 메뉴 -->
+		<!-- 1.1 왼쪽 메뉴 -->
 		<!-- 1.2 비밀번호 변경 레이아웃 ---------------------------------->
 			<div id="rightDiv" class="col-lg-9 p-5">
 				<h1>비밀번호 변경</h1>
-				<div id="rightDivContent" class="mt-5">
+				<div id="rightDivContent" class="container mt-5">
 					<form id="changePasswordForm" method="post" action="changePassword">
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<input type="hidden" name="userid" value="${member.userid }">
-						<div class="content-box">
-							<h3><span style="color:red"> * </span>현재 비밀번호</h3>
-							<div class="row">
-								<div class="col-md-6">
-								<input type="password" id="nowPassword" name="userpw" class="form-control" />
-								</div>
-								<div class="col-md-6" style="line-height:38px"><span id="showChangeResult"></span></div>
+						<h3><span style="color:red"> * </span>현재 비밀번호</h3>
+						<div class="row">
+							<div class="col-md-6">
+							<input type="password" id="nowPassword" name="userpw" class="form-control" />
 							</div>
-							</div>
-						<div class="content-box">
-							<h3><span style="color:red"> * </span>변경 할 비밀번호</h3>
-							<div class="row">
-								<div class="col-md-6">
-								<input type="password" id="changePassword" name="changePw" class="form-control" />
-								</div>
-								<div class="col-md-6"></div>
-							</div>
-							</div>
-						<div class="content-box">
-							<h3><span style="color:red"> * </span>변경 할 비밀번호 확인</h3>
-							<div class="row">
-								<div class="col-md-6">
-								<input type="password" id="changePasswordCheck" class="form-control" />
-								</div>
-								<div class="col-md-6" style="line-height:38px"><span id="showCompareResult"></span></div>
-							</div>
+							<div class="col-md-6" style="line-height:38px"><span id="showChangeResult"></span></div>
 						</div>
-
-						
+						<h3><span style="color:red"> * </span>변경 할 비밀번호</h3>
+						<div class="row">
+							<div class="col-md-6">
+							<input type="password" id="changePassword" name="changePw" class="form-control" />
+							</div>
+							<div class="col-md-6"><span id="showVerifyResult"></span></div>
+						</div>
+						<h3><span style="color:red"> * </span>변경 할 비밀번호 확인</h3>
+						<div class="row">
+							<div class="col-md-6">
+							<input type="password" id="changePasswordCheck" class="form-control" />
+							</div>
+							<div class="col-md-6" style="line-height:38px"><span id="showCompareResult"></span></div>
+						</div>
 						<div class="row">
 							<div class="col-md-12">
 								<button id="passwordChangeBtn" class="btn">비밀번호 변경</button>

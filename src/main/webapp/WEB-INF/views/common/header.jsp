@@ -38,7 +38,6 @@
 			<div class="mr-auto"></div>
 			<ul class="navbar-nav my-2 my-lg-0">
 				<li class="nav-item active">
-					<a class="nav-link" href="/">Home</a></li>
 				<!-- 로그인 하지 않은 상태에서 노출 ::: 상단바  -------------------------------------------------->
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item"><a class="nav-link" href="/subLogin">로그인</a></li>
@@ -47,14 +46,27 @@
 				
 				<!-- 로그인 한 상태에서 노출 :: 상단바  -------------------------------------------------->
 				<sec:authorize access="isAuthenticated()">
+			      	<!-- 메시지 알림 창 -------------------------------------------------------------->
+			      	<li class="weather-state-text"></li>
+			      	<li class="nav-item">
+			      	<div class="dropdown">
+			      		<a id="showMiniMessageBtn" class="nav-link" data-toggle="dropdown"><i class="far fa-comments" style="font-size:1.4rem; line-height:51px"></i><span id="noReadCount" class="badge badge-light"></span></a>
+						<div id="subMessageDiv" class="dropdown-menu">
+							<a class="dropdown-item" href="#">Link 1</a>
+							<a class="dropdown-item" href="#">Link 2</a>
+							<a class="dropdown-item" href="#">Link 3</a>
+						</div>
+			      	</div>
+			      	</li>
+			      	<!-- 메시지 알림 창 -->				
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="/profile"	id="nav-profile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<c:choose>
-								<c:when test="${user.member_filename eq null }">
+								<c:when test="${member.member_filename eq null }">
 									 <img src="../resources/img/mypage/profile_sample.png" width="35" height="35" class="rounded-circle" alt="프로필 사진">
 								</c:when>
-								<c:when test="${user.member_filename != null}">
-									<img src="/resources/img/mypage/<c:out value="${user.member_filename}"/>" width="35" height="35" class="rounded-circle" alt="프로필 사진">
+								<c:when test="${member.member_filename != null}">
+									<img src="/resources/img/mypage/<c:out value="${member.member_filename}"/>" width="35" height="35" class="rounded-circle" alt="프로필 사진">
 								</c:when>
 							</c:choose>
 						</a>
@@ -76,7 +88,58 @@
 		</div>
 	</nav>
 	<!-- nav -->
-</body>
-</html>
+	
+<!-- 2. 답장 모달창 -------------------------------------->
+<div class="modal" id="sendMessage">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+       <!-- Modal Header -->
+			<div class="modal-header">
+			<h4 id="messageReplyHeader" class="modal-title">님에게 답장</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+       
+       <!-- Modal body -->
+			<div class="modal-body">
+			<textarea class="form-control" rows="5" id="messageReplyContent" placeholder="내용을 입력하세요 (100자 미만)"></textarea>
+			</div>
+       <!-- Modal footer -->
+			<div class="modal-footer">
+			<span id="warn">(0/100)글자</span><button type="button" id="messageReplySendBtn" class="btn btn-info" data-dismiss="modal">답장</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 2. 답장 모달창 -->
+
+<!-- 3. 쪽지 내용 모달창 -------------------------------------->
+<div class="modal" id="readMessage">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+       <!-- Modal Header -->
+			<div class="modal-header">
+			<h4 id="messageShowHeader" class="modal-title">님의 쪽지</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+       <!-- Modal body -->
+			<div class="modal-body">
+				<p id="readMessageContent"></p>
+			</div>
+			<div class="modal-footer" style="display:initial">
+				<button type="button" id="deleteMessageBtn" class="btn btn-danger float-left" data-toggle="modal" data-dismiss="modal">삭제</button>
+				<button type="button" id="replyMessageBtn" class="btn btn-primary float-right" data-toggle="modal" data-dismiss="modal" data-target="#sendMessage">답장</button>
+			</div>
+			<div id="messageInfo"></div>
+		</div>
+	</div>
+</div>
+<!-- 3. 쪽지내용 모달창 -->
+
+
+
+<!-- 자바스크립트------------------------>
+<%@include file="/resources/js/messageAlert_js.jsp"%>
+<%@include file="/resources/js/getWeather_js.jsp"%>
+<!-- 자바스크립트 -->
 </body>
 </html>

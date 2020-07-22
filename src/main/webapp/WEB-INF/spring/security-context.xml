@@ -12,41 +12,23 @@
 	<bean id="customUserDetailsService" class="com.justdo.security.CustomUserDetailsService"></bean>
 	
 	<security:http>
-		<!-- 권한 처리 (순서대로 처리되기 때문에 특수한 경우를 위쪽으로) -->
-		<security:intercept-url pattern="/profile" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/myPassword" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/myQA" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/mylist" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/myMessage" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/board/register" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/board/modify" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/**" access="permitAll"/>
-		
-		<!-- 메인 페이지 로그인 처리  -->
+		<!-- 로그인 처리  -->
 		<security:form-login 
-			login-page="/"
-			default-target-url="/board/list"
+			login-page="/subLogin"
+			default-target-url="/login" 
 			authentication-success-handler-ref="loginSuccess"
 			authentication-failure-handler-ref="loginFailure"/>
-			
-		<!-- 서브 페이지 로그인 처리 -->
-		<security:form-login 
-			login-page="/login/subLogin"
-			authentication-success-handler-ref="loginSuccess"
-			authentication-failure-handler-ref="loginFailure"/>
-			
 		<!-- 자동로그인 유지기간 30일 -->
 		<security:remember-me data-source-ref="dataSource" token-validity-seconds="2419200"/>
-		
 		<!-- 로그아웃 처리  -->
 		<security:logout 
+			logout-url="/logout"
 			success-handler-ref="logoutSuccess" 
 			delete-cookies="remember-me, JSESSION_ID" 
 			invalidate-session="true"/>
-			
-		<!-- 403 에러시 보여줄 페이지  -->
-		<security:access-denied-handler error-page="/login/access_denied"/>
-		
+		<!-- 403 에러 페이지 -->
+		<security:access-denied-handler
+			error-page="/login/access_denied"/>
 	</security:http>
 	
 	<security:authentication-manager>

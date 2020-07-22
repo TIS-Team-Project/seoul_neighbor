@@ -1,9 +1,5 @@
 /* styles */
 
-a {
-  color: #3b5998;
-}
-
 .collapse {
   height: 50px;
 }
@@ -38,10 +34,37 @@ a {
 }
 
 .nav-link {
-  line-height: 51px;
+  line-height: 51px !important;
   height: 100%;
-
+}
 /* top nav logo */
 #logo{
 	margin:0 !important;
 }
+
+/* 상단 메시지 디자인 *********************************/
+#noReadCount{
+	position:relative;
+}
+
+.dropdown a{
+	cursor:pointer;
+}
+
+#subMessageDiv{
+	left:-3vw;
+	margin:0;
+	padding:0;
+	top:51px;
+}
+#subMessageDiv a{
+	color:black;
+	border-bottom:1px solid #e9ecef;
+	padding:9px;
+}
+
+.subMessageDivHover{
+	background:#ae3ec9 !important;
+	color:white !important;
+}
+/* 상단 메시지 디자인 */

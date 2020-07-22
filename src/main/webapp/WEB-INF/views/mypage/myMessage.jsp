@@ -17,27 +17,29 @@
 <html>
 <head>
 <title>쪽지함</title>
-<!-- profile.css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/profile.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/myMessage.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-tablepage.css">
 </head>
 <body>
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
-	<div style="position:fixed"><img src="/resources/img/mypage/left_background.png"></div>
+	
 	<!-- 1. 메인 ------------------------------------------------->
 	<div class="container pt-0">
 		<div class="row">
-			<!-- 1.1 왼쪽 메뉴 ---------------------------->
+		<!-- 1.1 왼쪽 메뉴 ---------------------------->
 			<div id="leftNav" class="col-lg-3">
+				<!-- header include ------------>
 				<%@include file="leftNav.jsp"%>
+				<!-- header include -->
 			</div>
-			<!-- 1.1 왼쪽 메뉴 -->
+		<!-- 1.1 왼쪽 메뉴 -->
 		<!-- 1.2 쪽지함 레이아웃 ---------------------------------->
 			<div id="rightDiv" class="col-lg-9 p-5">
 				<h1>쪽지함</h1>
-				<div id="rightDivContent" class="mt-5">
+				<div id="rightDivContent" class="container mt-5">
 				<!-- 1.3 쪽지 내용 출력 부분 ------------------------------->
 					<table class="table text-center table-hover">
 						<thead class="thead">
@@ -49,13 +51,26 @@
 						</thead>
 						<tbody id="messageList">
 							<c:forEach items="${message}" var="message">
-							<tr>
-								<td style="display:none"><input type="hidden" value="${message.mno }" /></td>
-								<td>${message.nickname}</td>
-								<td class="messageContent" data-toggle="modal" data-target="#readMessage">${message.message_content}</td>
-								<td>${message.writedate}</td>
-								<td style="display:none"><input type="hidden" value="${message.message_content}" /></td>
-							</tr>
+							<c:choose>
+								<c:when test="${message.read_check eq 'N'.charAt(0) }">
+									<tr>
+										<td style="display:none"><input type="hidden" value="${message.mno }" /></td>
+										<td>${message.nickname}</td>
+										<td class="messageContent" data-toggle="modal" data-target="#readMessage">[읽지 않음] ${message.message_content}</td>
+										<td>${message.writedate}</td>
+										<td style="display:none"><input type="hidden" value="${message.message_content}" /></td>
+									</tr>
+								</c:when>
+								<c:when test="${message.read_check eq 'Y'.charAt(0) }">
+									<tr>
+										<td style="display:none"><input type="hidden" value="${message.mno }" /></td>
+										<td>${message.nickname}</td>
+										<td class="messageContent" data-toggle="modal" data-target="#readMessage">${message.message_content}</td>
+										<td>${message.writedate}</td>
+										<td style="display:none"><input type="hidden" value="${message.message_content}" /></td>
+									</tr>
+								</c:when>
+							</c:choose>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -109,8 +124,9 @@
 				<div class="modal-body">
 					<p id="readMessageContent"></p>
 				</div>
-				<div class="modal-footer">
-					<button type="button" id="replyMessageBtn" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#sendMessage">답장</button>
+				<div class="modal-footer" style="display:initial">
+					<button type="button" id="deleteMessageBtn" class="btn btn-danger float-left" data-toggle="modal" data-dismiss="modal">삭제</button>
+					<button type="button" id="replyMessageBtn" class="btn btn-primary float-right" data-toggle="modal" data-dismiss="modal" data-target="#sendMessage">답장</button>
 				</div>
 				<div id="messageInfo"></div>
 			</div>

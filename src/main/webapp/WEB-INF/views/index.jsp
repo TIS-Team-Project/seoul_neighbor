@@ -18,7 +18,8 @@
 <head>
 <title>서울이웃 :: I SEOUL U</title>
 <!-- CSS style ------------------------------>
-<link rel="stylesheet" href="/resources/css/common/index.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/common/index-page.css">
 </head>
 
 <body>

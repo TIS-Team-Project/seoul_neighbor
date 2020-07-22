@@ -1,5 +1,8 @@
 package com.justdo.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,9 +31,18 @@ public class LoginController {
 	}
 	// 서브 로그인 페이지로 이동 //
 	
+	// 로그인 성공 - 목록 이동 //////////////////////////////////
+	@RequestMapping(value = "list", method = RequestMethod.POST)
+	public String loginSuccess(HttpSession session, HttpServletRequest request) {
+		log.warn("login controller - 로그인 > 목록 페이지로 접속");
+		return "board/list";
+	}
+	// 로그인 성공 - 목록 이동 //
+	
 	// 권한 없음 페이지로 이동  ///////////////////////////////////
     @RequestMapping(value = "access_denied", method = RequestMethod.GET)
     public String accessDeniedPage() throws Exception {
         return "/login/access_denied";
     }
+
 }

@@ -15,8 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- leftNav.css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/left_nav.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/right_div.css">
+<link rel="stylesheet" href="/resources/css/mypage/left_nav.css">
 </head>
 <body>
 <!-- 1.왼쪽 메뉴 ---------------------------------------------->
@@ -24,15 +23,15 @@
 	<!-- 1.1 프로필 이미지 --------------------------->
 		<div id="profileImg" class="card text-center">
 			<c:choose>
-				<c:when test = "${user.member_filename eq null }">
+				<c:when test = "${member.member_filename eq null }">
 		  		<img class="card-img-top" src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
 		  		</c:when>
-		  		<c:when test = "${user.member_filename != null}">
-		  		<img class="card-img-top leftnav-photo" src="/resources/img/mypage/<c:out value="${user.member_filename}"/>" alt="프로필 사진">
+		  		<c:when test = "${member.member_filename != null}">
+		  		<img class="card-img-top leftnav-photo" src="/resources/img/mypage/<c:out value="${member.member_filename}"/>" alt="프로필 사진">
 		  		</c:when>
 		  	</c:choose>
 		  <div class="card-body">
-				    <p id="hello" class="card-title"><c:out value="${user.nickname}"/>님 안녕하세요?</p>
+				    <p id="hello" class="card-title"><c:out value="${member.nickname}"/>님 안녕하세요?</p>
 		  </div>
 		</div>
 	<!-- 1.1 프로필 이미지 -->
@@ -45,7 +44,7 @@
 		    	<a class="nav-link" href="/profile">프로필</a>
 		    </li>
 		    <li class="nav-item">
-		    	<a class="nav-link" href="/mylist">나의 게시글 보기</a>
+		    	<a class="nav-link" href="/mylist">작성글 보기</a>
 		    </li>
 		    <li class="nav-item">
 		    	<a class="nav-link" href="/myMessage">쪽지함</a>

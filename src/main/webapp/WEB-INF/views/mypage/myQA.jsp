@@ -12,23 +12,25 @@
 <html>
 <head>
 <title>1:1 문의</title>
-<!-- profile.css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/profile.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/myQA.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-tablepage.css">
 </head>
 <body>
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
-	<div style="position:fixed"><img src="/resources/img/mypage/left_background.png"></div>
+	
 	<!-- 1. 메인 ------------------------------------------------->
 	<div class="container pt-0">
 		<div class="row">
-			<!-- 1.1 왼쪽 메뉴 ---------------------------->
+		<!-- 1.1 왼쪽 메뉴 ---------------------------->
 			<div id="leftNav" class="col-lg-3">
+				<!-- header include ------------>
 				<%@include file="leftNav.jsp"%>
+				<!-- header include -->
 			</div>
-			<!-- 1.1 왼쪽 메뉴 -->
+		<!-- 1.1 왼쪽 메뉴 -->
 		<!-- 1.2 1:1 문의 레이아웃 ---------------------------------->
 			<div id="rightDiv" class="col-lg-9 p-5">
 				<h1>1:1 문의</h1>
@@ -78,7 +80,7 @@
 					<textarea id="writeQAContent" class="form-control" rows="10" placeholder="문의 내용(1000자 이내)"></textarea>
 				</div>
 				<div class="modal-footer">
-					<span id="warn">(0/1000)글자</span><button type="button" id="insertQABtn" class="btn" data-toggle="modal" data-dismiss="modal" data-target="#sendMessage">문의하기</button>
+					<span id="qaWarn">(0/1000)글자</span><button type="button" id="insertQABtn" class="btn" data-toggle="modal" data-dismiss="modal">문의하기</button>
 				</div>
 				<div id="messageInfo"></div>
 			</div>

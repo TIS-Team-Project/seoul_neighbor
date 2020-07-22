@@ -16,9 +16,9 @@ sub login page
 
 <head>
 <title>서울이웃 :: I SEOUL U</title>
-<!-- 3. CSS ------------------------------>
-<link rel="stylesheet" href="/resources/css/common/index.css">
-<!-- 3. CSS -->
+<!-- CSS style ------------------------------>
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/common/index-page.css">
 <!-- Latest compiled and minified CSS ------------>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <!-- Latest compiled JavaScript ------------>
