@@ -11,4 +11,7 @@ public interface replyMapper {
 
 	//select
 	public List<ReplyVO> getReplyList(int bno);
+	
+	//댓글 갯수 UPDATE
+	public int plusCountOfReply(int bno);
 }
