@@ -106,7 +106,7 @@
 					</div>
 					<!-- 1.2.1 카테고리 선택 -->
 					<input type="hidden" id="bno" name="bno" value="<c:out value='${board.bno}'/>"><!-- 글번호 -->
-		            <input type="text" id="title" name="title" value="<c:out value='${board.title}'/>" placeholder="제목"><br><!-- 글제목 -->      
+		            <input type="text" id="title" name="title" value="<c:out value='${board.title}'/>"><br><!-- 글제목 -->      
 		            <input type="hidden" name="userid" value="<c:out value='${board.userid}'/>"><!-- 유저아이디 -->
 		            <textarea name="content" id="content" class="summernote" cols="80" rows="15"><c:out value='${board.content}'/></textarea><br><!-- 글내용 -->
 					<input type="hidden" id="location" name="location" value="<c:out value='${board.location}'/>"><!-- 지역 -->
