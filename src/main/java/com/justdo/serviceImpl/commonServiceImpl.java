@@ -26,6 +26,7 @@ public class commonServiceImpl implements commonService {
 	@Override
 	public BoardVO read(int bno) {
 		// TODO Auto-generated method stub
+		mapper.plusCount(bno);
 		return mapper.selectBoard(bno);
 	}
 
@@ -48,6 +49,10 @@ public class commonServiceImpl implements commonService {
 		
 		return boardMapper.delete(bno)==1;
 	}
+
+
+
+
 
 
 }
