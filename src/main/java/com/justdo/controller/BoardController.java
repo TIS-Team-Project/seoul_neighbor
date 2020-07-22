@@ -93,9 +93,8 @@ public class BoardController {
 		}
 		return "redirect:/board/list";
 	}
-	/*
+	
 	//summernote 이미지 업로드
-	@Override
 	public void profileUpload(String email, MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
@@ -120,29 +119,5 @@ public class BoardController {
 		file.transferTo(f);
 		out.println("profileUpload/"+email+"/"+str_filename);
 		out.close();
-	} {
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		// 업로드할 폴더 경로
-		String realFolder = request.getSession().getServletContext().getRealPath("profileUpload");
-		UUID uuid = UUID.randomUUID();
-
-		// 업로드할 파일 이름
-		String org_filename = file.getOriginalFilename();
-		String str_filename = uuid.toString() + org_filename;
-
-		System.out.println("원본 파일명 : " + org_filename);
-		System.out.println("저장할 파일명 : " + str_filename);
-
-		String filepath = realFolder + "\\" + email + "\\" + str_filename;
-		System.out.println("파일경로 : " + filepath);
-
-		File f = new File(filepath);
-		if (!f.exists()) {
-			f.mkdirs();
-		}
-		file.transferTo(f);
-		out.println("profileUpload/"+email+"/"+str_filename);
-		out.close();
-	}*/
+	}
 }
