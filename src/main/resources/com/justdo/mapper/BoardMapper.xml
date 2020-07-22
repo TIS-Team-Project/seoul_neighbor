@@ -12,8 +12,8 @@
 			<if test="type == 'N'.toString()">and userid LIKE CONCAT('%',#{keyword},'%')</if>
 			<if test="type == 'L'.toString()">and location LIKE CONCAT('%',#{keyword},'%')</if>
 		</if>
-		<if test="category = category">
-			<if test="category == null">and title LIKE CONCAT('%','','%')</if>
+		<if test="category == category">
+			<if test="category == null">and category LIKE CONCAT('%','','%')</if>
 			<if test="category != null">and category LIKE CONCAT('%',#{category},'%')</if>
 		</if>
 	</sql>
@@ -36,7 +36,6 @@
 	<select id="getListWithPaging" resultType="com.justdo.domain.BoardVO">
 		select * from tbl_board
 		where (location LIKE CONCAT('%',#{gu},'%'))
-		<include refid="criteria"></include>
 		order by bno desc
 		limit #{startIndex}, #{amount}
 	</select>
@@ -54,7 +53,7 @@
 	<!-- 페이징 시 필요한 글의갯수를 구하는 쿼리문 -->
 	<select id="getTotalCount" resultType="int">
 		select count(*) from tbl_board 
-		where (location LIKE CONCAT('%',#{gu},'%'))
+		where (location LIKE CONCAT('%',#{gu},'%')) 
 		<include refid="criteria"></include>
 	</select>
 	<!-- 페이징 시 필요한 글의갯수를 구하는 쿼리문 (end) -->

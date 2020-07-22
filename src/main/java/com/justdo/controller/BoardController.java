@@ -55,13 +55,14 @@ public class BoardController {
 	
 	@GetMapping("BoardTabListAjax")
 	@ResponseBody
-	public ResponseEntity<List<BoardVO>> BoardTabListAjax(Criteria cri) {
+	public ResponseEntity<List<BoardVO>> BoardTabListAjax(Criteria cri, Model model) {
 		System.out.println("test......");
 		System.out.println(cri.getCategory());
 		System.out.println(cri.getGu());
 		System.out.println(cri.getStartIndex());
 		System.out.println(cri.getAmount());
 		System.out.println("test......");
+		model.addAttribute("pageMaker",new PageDTO(cri,service.getTotal(cri)));
 		return new ResponseEntity<List<BoardVO>>(service.getListWithPagingTabs(cri),HttpStatus.OK);
 	}
 	

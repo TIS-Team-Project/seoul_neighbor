@@ -328,7 +328,6 @@ header.collapsing-parallax + .site-main{
 					<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>'>
 					<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'>
 					<input type='hidden' name='gu' value='<c:out value="${criteria.gu}"/>'>
-
 				</form>
 				<!-- 페이징-->
 			</div>
@@ -421,15 +420,18 @@ $(document).ready(function(){
 $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
 	var temp = $(this).html();
     var form = {
-            category:temp,
+            category :temp,
             gu:'${criteria.gu}'
     }
-    console.log(form);    
+    
+    console.log(form);
+    if(temp=='소통해요'){
     $.ajax({
         url: "/board/BoardTabListAjax",
         type: "GET",
         data: form,
         success: function(data){
+        	
             $("#menu1 tbody").empty();
             $(data).each(function(i,board){
                  $("#menu1 tbody").append(
@@ -442,13 +444,117 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
 						"<td>"+board.veiw_count+"</td>"+
 						"<td>"+board.like_count+"</td>"+
 						"</tr>"	 	
-                )
+                )    
             });
+            $(".pagination").empty();
+            $(".pagination").append(
+					"<c:if test='${pageMaker.prev}'>"+
+					"<li class='paginate_button previous'><a class='page-link' href='${pageMaker.startPage -1}'>Previous</a></li>"+
+				"</c:if>"+
+				"<c:forEach var='num' begin='${pageMaker.startPage}' end='${pageMaker.endPage}'>"+
+					"<li class='paginate_button' ${pageMaker.cri.pageNum==num? 'active':''}><a class='page-link' href='${num}'>${num}</a></li>"+
+				"</c:forEach>"+
+				"<c:if test='${pageMaker.next}'>"+
+					"<li class='paginate_button'><a class='page-link' href='${pageMaker.endPage +1}'>Next</a></li>"+
+				"</c:if>"	
+            );
+            $("#actionForm").empty();
+            $("#actionForm").append(
+					"<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>"+
+					"<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>"+
+					"<input type='hidden' name='type' value='<c:out value='${pageMaker.cri.type}'/>'>"+
+					"<input type='hidden' name='keyword' value='<c:out value='${pageMaker.cri.keyword}'/>'>"+
+					"<input type='hidden' name='gu' value='<c:out value='${criteria.gu}'/>'>"+
+					"<input type='hidden' name='category' value='<c:out value='${criteria.category}'/>'>"
+            );
+            
         },
         error: function(){
             alert("simpleWithObject err");
         }
-    }); 
+    });
+    }else if(temp=='불만있어요'){
+        $.ajax({
+            url: "/board/BoardTabListAjax",
+            type: "GET",
+            data: form,
+            success: function(data){
+            	
+                $("#menu2 tbody").empty();
+                $(data).each(function(i,board){
+                     $("#menu2 tbody").append(
+    						"<tr>"+
+    						"<td>"+board.bno+"</td>"+
+    						"<td>"+board.location+"</td>"+
+    						"<td>"+board.category+"</td>"+
+    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
+    						"<td>"+board.userid+"</td>"+
+    						"<td>"+board.veiw_count+"</td>"+
+    						"<td>"+board.like_count+"</td>"+
+    						"</tr>"	 	
+                    )    
+                });
+                
+            },
+            error: function(){
+                alert("simpleWithObject err");
+            }
+        });
+    }else if(temp=='모여요'){
+        $.ajax({
+            url: "/board/BoardTabListAjax",
+            type: "GET",
+            data: form,
+            success: function(data){
+            	
+                $("#menu3 tbody").empty();
+                $(data).each(function(i,board){
+                     $("#menu3 tbody").append(
+    						"<tr>"+
+    						"<td>"+board.bno+"</td>"+
+    						"<td>"+board.location+"</td>"+
+    						"<td>"+board.category+"</td>"+
+    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
+    						"<td>"+board.userid+"</td>"+
+    						"<td>"+board.veiw_count+"</td>"+
+    						"<td>"+board.like_count+"</td>"+
+    						"</tr>"	 	
+                    )    
+                });
+                
+            },
+            error: function(){
+                alert("simpleWithObject err");
+            }
+        });
+    }else if(temp=='all'){
+        $.ajax({
+            url: "/board/BoardTabListAjax",
+            type: "GET",
+            data: form,
+            success: function(data){
+            	
+                $("#all tbody").empty();
+                $(data).each(function(i,board){
+                     $("#all tbody").append(
+    						"<tr>"+
+    						"<td>"+board.bno+"</td>"+
+    						"<td>"+board.location+"</td>"+
+    						"<td>"+board.category+"</td>"+
+    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
+    						"<td>"+board.userid+"</td>"+
+    						"<td>"+board.veiw_count+"</td>"+
+    						"<td>"+board.like_count+"</td>"+
+    						"</tr>"	 	
+                    )    
+                });
+                
+            },
+            error: function(){
+                alert("simpleWithObject err");
+            }
+        });
+    }
 	
 });
 

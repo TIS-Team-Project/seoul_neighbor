@@ -107,6 +107,7 @@
 								</div>
 							</div>
 						</div>
+						<input type='hidden' name='category' value='<c:out value="${criteria.category}"/>'>
 					</form>
 				</div>
 				<!-- 1.2 비회원 입장 -->
