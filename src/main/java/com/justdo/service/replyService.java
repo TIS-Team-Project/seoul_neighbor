@@ -12,5 +12,5 @@ public interface replyService {
 	//댓글 select
 		public List<ReplyVO> getReplyList(int bno);
 
-	
+
 }

@@ -15,12 +15,12 @@ import lombok.AllArgsConstructor;
 public class replyServiceImple implements replyService {
 	
 	private replyMapper replyMapper;
-	
+
 	@Override
 	public int insertReply(ReplyVO vo) {
 		// TODO Auto-generated method stub
-		
-	
+		//BoardVO의 reply_count++도 해주기
+		replyMapper.plusCountOfReply(vo.getBno());
 		return replyMapper.insertReply(vo);
 	}
 
