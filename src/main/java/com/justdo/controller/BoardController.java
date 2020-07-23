@@ -2,7 +2,9 @@ package com.justdo.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,15 +72,14 @@ public class BoardController {
 	
 	@GetMapping("BoardTabListAjax")
 	@ResponseBody
-	public ResponseEntity<List<BoardVO>> BoardTabListAjax(Criteria cri,Model model) {
-		System.out.println("test......");
-		System.out.println(cri.getCategory());
-		System.out.println(cri.getGu());
-		System.out.println(cri.getStartIndex());
-		System.out.println(cri.getAmount());
-		System.out.println("test......");
-		model.addAttribute("pageMaker",new PageDTO(cri,service.getTotal(cri)));
-		return new ResponseEntity<List<BoardVO>>(service.getListWithPagingTabs(cri),HttpStatus.OK);
+	public ResponseEntity   <   Map<String, Object>   > BoardTabListAjax(Criteria cri,Model model) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("voList", service.getListWithPagingTabs(cri));
+		map.put("pageDto", new PageDTO(cri, service.getTotal(cri)));
+		
+		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 	
 	

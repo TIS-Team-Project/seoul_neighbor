@@ -310,7 +310,7 @@ header.collapsing-parallax + .site-main{
 				<!-- 페이징---------------------------------------------------------------------------------------------->
 				<div class='float-none'>
 				<button id="regBtn" type="button" class="btn btn-success btn-xs float-right">글쓰기</button>
-					<ul class="pagination">
+					<ul id="pagination" class="pagination">
 						<c:if test="${pageMaker.prev}">
 							<li class="paginate_button previous"><a class="page-link" href="${pageMaker.startPage -1}">Previous</a></li>
 						</c:if>
@@ -328,6 +328,7 @@ header.collapsing-parallax + .site-main{
 					<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>'>
 					<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'>
 					<input type='hidden' name='gu' value='<c:out value="${criteria.gu}"/>'>
+					<input type='hidden' name='category' value='<c:out value="${pageMaker.cri.category}"/>'>
 				</form>
 				<!-- 페이징-->
 			</div>
@@ -379,6 +380,33 @@ $(document).ready(function(){
   	  actionForm.submit();
     });
     
+    //minsung
+    $("#pagination").delegate(".paginate_button a", "click", function(e){
+    	e.preventDefault();
+    	  console.log('click');
+    	  actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+    	  
+    	  var temp = actionForm.find("input[name='category']").val();
+    	  var inputTbody;
+    	  var paginationInput = $("#pagination");
+    	  
+    	  console.log(temp);
+    	  if(temp == '소통해요'){
+    			inputTbody = $("#menu1 tbody");
+    		} else if(temp == '불만있어요'){
+    			inputTbody = $("#menu2 tbody");
+    		} else if(temp == '모여요') {
+    			inputTbody = $("#menu3 tbody");
+    		} else if(temp == '전체'){
+    			inputTbody = $("#all tbody");
+    		}
+    	  
+    	  var dataObj = actionForm.serialize();
+    	  console.log(dataObj);
+    	  getListWithTap(dataObj, inputTbody, paginationInput)
+    });
+    //
+    
     var searchForm = $("#searchForm");
     $("#searchForm button").on("click", function(e){
   	  if(!searchForm.find("option:selected").val()){
@@ -415,146 +443,87 @@ $(document).ready(function(){
   	  searchFormNum.submit();
   	  
     });
-$('a[data-toggle="tab"]').on('show.bs.tab',function(e){
-	var temp = $(this).html();
-    var form = {
-            category :temp,
-            gu:'${criteria.gu}'
+    
+    
+    function getListWithTap(form, inputTbody, paginationInput){
+    	var str = '';
+    	$.ajax({
+            url: "/board/BoardTabListAjax",
+            type: "GET",
+            data: form,
+            success: function(data){
+            	console.log("받은 데이터");
+            	console.log(data);
+            	
+            	inputTbody.empty();
+            	paginationInput.empty();
+            	
+            	$(data.voList).each(function(i,board){
+                	inputTbody.append(
+            				"<tr>"+
+            				"<td>"+board.bno+"</td>"+
+            				"<td>"+board.location+"</td>"+
+            				"<td>"+board.category+"</td>"+
+            				"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
+            				"<td>"+board.userid+"</td>"+
+            				"<td>"+board.veiw_count+"</td>"+
+            				"<td>"+board.like_count+"</td>"+
+            				"</tr>"	 	
+                    );
+                });
+            	
+            	if(data.pageDto.prev){
+                	str += '<li class="paginate_button previous"><a class="page-link" href="${data.pageDto.startPage -1}">Previous</a></li>';
+                }
+                
+                for(var i = data.pageDto.startPage; i<=data.pageDto.endPage; i++){
+                	str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+                	
+                }
+                
+                if(data.pageDto.next){
+                	str += '<li class="paginate_button"><a class="page-link" href="${data.pageDto.endPage +1}">Next</a></li>';
+                }
+                
+                console.log(str);
+                paginationInput.html(str);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        }); 
     }
     
-    console.log(form);
-    if(temp=='소통해요'){
-    $.ajax({
-        url: "/board/BoardTabListAjax",
-        type: "GET",
-        data: form,
-        success: function(data){
-        	
-            $("#menu1 tbody").empty();
-            $(data).each(function(i,board){
-                 $("#menu1 tbody").append(
-						"<tr>"+
-						"<td>"+board.bno+"</td>"+
-						"<td>"+board.location+"</td>"+
-						"<td>"+board.category+"</td>"+
-						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
-						"<td>"+board.userid+"</td>"+
-						"<td>"+board.veiw_count+"</td>"+
-						"<td>"+board.like_count+"</td>"+
-						"</tr>"	 	
-                )    
-            });
-            $(".pagination").empty();
-            $(".pagination").append(
-					"<c:if test='${pageMaker.prev}'>"+
-					"<li class='paginate_button previous'><a class='page-link' href='${pageMaker.startPage -1}'>Previous</a></li>"+
-				"</c:if>"+
-				"<c:forEach var='num' begin='${pageMaker.startPage}' end='${pageMaker.endPage}'>"+
-					"<li class='paginate_button' ${pageMaker.cri.pageNum==num? 'active':''}><a class='page-link' href='${num}'>${num}</a></li>"+
-				"</c:forEach>"+
-				"<c:if test='${pageMaker.next}'>"+
-					"<li class='paginate_button'><a class='page-link' href='${pageMaker.endPage +1}'>Next</a></li>"+
-				"</c:if>"	
-            );
-            $("#actionForm").empty();
-            $("#actionForm").append(
-					"<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>"+
-					"<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>"+
-					"<input type='hidden' name='type' value='<c:out value='${pageMaker.cri.type}'/>'>"+
-					"<input type='hidden' name='keyword' value='<c:out value='${pageMaker.cri.keyword}'/>'>"+
-					"<input type='hidden' name='gu' value='<c:out value='${criteria.gu}'/>'>"+
-					"<input type='hidden' name='category' value='<c:out value='${criteria.category}'/>'>"
-            );
-            
-        },
-        error: function(){
-            alert("simpleWithObject err");
+    //탭 눌렀을 시 관련 카테고리 글로 변환
+    $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
+    	var temp = $(this).html();
+    	var inputTbody;
+    	if(temp == '소통해요'){
+    		inputTbody = $("#menu1 tbody");
+    	} else if(temp == '불만있어요'){
+    		inputTbody = $("#menu2 tbody");
+    	} else if(temp == '모여요') {
+    		inputTbody = $("#menu3 tbody");
+    	} else if(temp == '전체'){
+    		inputTbody = $("#all tbody");
+    	}
+    	
+    	$("#actionForm").find("input[name='category']").val(temp);
+    	
+    	var paginationInput = $("#pagination");
+    	var str = '';
+    	
+        var form = {
+                category:temp,
+                gu:'${criteria.gu}'
         }
+        console.log("보내는 데이터");
+        console.log(form);    
+		
+        getListWithTap(form, inputTbody, paginationInput);
+        	
     });
-    }else if(temp=='불만있어요'){
-        $.ajax({
-            url: "/board/BoardTabListAjax",
-            type: "GET",
-            data: form,
-            success: function(data){
-            	
-                $("#menu2 tbody").empty();
-                $(data).each(function(i,board){
-                     $("#menu2 tbody").append(
-    						"<tr>"+
-    						"<td>"+board.bno+"</td>"+
-    						"<td>"+board.location+"</td>"+
-    						"<td>"+board.category+"</td>"+
-    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
-    						"<td>"+board.userid+"</td>"+
-    						"<td>"+board.veiw_count+"</td>"+
-    						"<td>"+board.like_count+"</td>"+
-    						"</tr>"	 	
-                    )    
-                });
-                
-            },
-            error: function(){
-                alert("simpleWithObject err");
-            }
-        });
-    }else if(temp=='모여요'){
-        $.ajax({
-            url: "/board/BoardTabListAjax",
-            type: "GET",
-            data: form,
-            success: function(data){
-            	
-                $("#menu3 tbody").empty();
-                $(data).each(function(i,board){
-                     $("#menu3 tbody").append(
-    						"<tr>"+
-    						"<td>"+board.bno+"</td>"+
-    						"<td>"+board.location+"</td>"+
-    						"<td>"+board.category+"</td>"+
-    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
-    						"<td>"+board.userid+"</td>"+
-    						"<td>"+board.veiw_count+"</td>"+
-    						"<td>"+board.like_count+"</td>"+
-    						"</tr>"	 	
-                    )    
-                });
-                
-            },
-            error: function(){
-                alert("simpleWithObject err");
-            }
-        });
-    }else if(temp=='all'){
-        $.ajax({
-            url: "/board/BoardTabListAjax",
-            type: "GET",
-            data: form,
-            success: function(data){
-            	
-                $("#all tbody").empty();
-                $(data).each(function(i,board){
-                     $("#all tbody").append(
-    						"<tr>"+
-    						"<td>"+board.bno+"</td>"+
-    						"<td>"+board.location+"</td>"+
-    						"<td>"+board.category+"</td>"+
-    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
-    						"<td>"+board.userid+"</td>"+
-    						"<td>"+board.veiw_count+"</td>"+
-    						"<td>"+board.like_count+"</td>"+
-    						"</tr>"	 	
-                    )    
-                });
-                
-            },
-            error: function(){
-                alert("simpleWithObject err");
-            }
-        });
-    }
-	
-});
+
 $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
 	localStorage.setItem('activeTab', $(e.target).attr('href'));
 });
