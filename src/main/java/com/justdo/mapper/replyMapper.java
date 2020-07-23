@@ -14,4 +14,15 @@ public interface replyMapper {
 	
 	//댓글 갯수 UPDATE
 	public int plusCountOfReply(int bno);
+	
+	//댓글  삭제
+
+	public int deleteReply(int bno);
+	
+	//댓글  수정
+
+	public int updateReply(ReplyVO reply);
+	
+	
+	
 }

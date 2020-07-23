@@ -32,6 +32,23 @@ public class replyServiceImple implements replyService {
 		return replyMapper.getReplyList(bno);
 	}
 	
+	@Override
+	public int modifyReply(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		 return replyMapper.updateReply(vo);
+	}
 
-
+	@Override
+	public int removeReply(int rno) {
+		// TODO Auto-generated method stub
+	    return replyMapper.deleteReply(rno);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

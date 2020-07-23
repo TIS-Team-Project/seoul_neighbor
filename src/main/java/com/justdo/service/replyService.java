@@ -13,4 +13,11 @@ public interface replyService {
 		public List<ReplyVO> getReplyList(int bno);
 
 
+		public int modifyReply(ReplyVO vo);
+
+		public int removeReply(int rno);		
+		
+		
+		
+		
 }
