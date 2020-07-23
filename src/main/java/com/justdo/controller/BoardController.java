@@ -1,17 +1,27 @@
 package com.justdo.controller;
 
+import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.Criteria;
 import com.justdo.domain.PageDTO;
+import com.justdo.security.CustomUserDetailsService;
 import com.justdo.service.BoardService;
+import com.justdo.service.commonService;
+import com.justdo.service.myPageService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -21,19 +31,76 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/board/*")
 @AllArgsConstructor
 public class BoardController {
+	private commonService commonService;
 	private BoardService service;
+	private CustomUserDetailsService loginService;
+	private myPageService myPageService;
 	
 	@GetMapping("list")
-	public void list(Criteria cri,Model model) {
+	public void list(Criteria cri, Model model, Principal principal) {
+		
 		model.addAttribute("locationlist",service.getLocationList(cri));
 		model.addAttribute("list",service.getList(cri));
+		System.out.println("count Test......");
+		System.out.println(cri.getCategory());
 		model.addAttribute("pageMaker",new PageDTO(cri,service.getTotal(cri)));
+
+		// 로그인 확인 후 닉네임 넘기기
+		if (principal != null) {
+			String username = principal.getName();
+			log.warn("로그인 했음!" + username);
+			model.addAttribute("member", loginService.loadInfoByUsername(username));
+			
+			//날씨 정보 불러오는 구문 /////////////////////
+			String weatherData[]=null;
+			try {
+				weatherData = commonService.getWeather(commonService.selectGuForWeather(principal.getName()));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			model.addAttribute("weather",weatherData[0]);
+			model.addAttribute("temperature",weatherData[1]);
+			model.addAttribute("weatherGu",weatherData[2]);
+			
+		} else {
+			log.warn("로그인 하지 않았음!");
+		}
 	}
+	
+	@GetMapping("BoardTabListAjax")
+	@ResponseBody
+	public ResponseEntity<List<BoardVO>> BoardTabListAjax(Criteria cri,Model model) {
+		System.out.println("test......");
+		System.out.println(cri.getCategory());
+		System.out.println(cri.getGu());
+		System.out.println(cri.getStartIndex());
+		System.out.println(cri.getAmount());
+		System.out.println("test......");
+		model.addAttribute("pageMaker",new PageDTO(cri,service.getTotal(cri)));
+		return new ResponseEntity<List<BoardVO>>(service.getListWithPagingTabs(cri),HttpStatus.OK);
+	}
+	
+	
+	//ajax 토탈 개수 구하기
+	@GetMapping("getTotalNumAjax")
+	@ResponseBody
+	public int getTotalNumAjax(Criteria cri) {
+		return service.getTotal(cri);
+	}
+	
 	// 등록화면
 	@GetMapping("/register")
-	public void register(@RequestParam("userid") String userid,Model model) {
+	public String register(@RequestParam("userid") String userid, Model model, Principal principal) {
 		log.info("/register");
-		model.addAttribute("userid", userid.toString());
+		if (principal != null) {
+			String username = principal.getName();
+			model.addAttribute("userid", userid.toString());
+			model.addAttribute("member", myPageService.selectUser(username));
+			return "/board/register";
+		} else {
+			return "/board/list";
+		}
 	}
 	
 	// 등록처리

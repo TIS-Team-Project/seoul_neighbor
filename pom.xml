@@ -231,11 +231,6 @@
 		</dependency>
 		<!-- mail -->
 		
-		
-		
-
-		
-		
 	</dependencies>
     <build>
         <plugins>

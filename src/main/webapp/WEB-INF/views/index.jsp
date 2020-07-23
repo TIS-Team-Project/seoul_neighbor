@@ -40,11 +40,6 @@
 					<div class="wrap-input validate-input mb-3" data-validate="비밀번호를 입력해주세요">
 						<input class="input-text" type="password" name="password" placeholder="비밀번호"> <span class="focus-on-input"></span>
 					</div>
-					<c:if test="${param.error}">
-						<div class="error-message pb-3">
-							<c:out value="${message}">가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.</c:out>
-						</div>
-					</c:if>
 					<div class="container-login-button pb-3">
 						<button type="submit" class="button-colored login-button">로그인</button>
 					</div>
@@ -61,7 +56,7 @@
 					<!-- 자동로그인/비밀번호 찾기  -->
 				</div>
 				<!-- 회원가입  ---------------------------------->
-				<div class="add-border-top text-center pt-4 pb-1">
+				<div class="add-border-top text-center pt-4">
 					<p>아직 서울이웃의 회원이 아니신가요?</p>
 					<a href="/join" class="text-colored">회원가입 하기</a>
 				</div>
@@ -72,10 +67,10 @@
 			<!-- 1.2 비회원 입장 ------------------------------>
 				<div class="text-center pr-3 pl-3 pb-3">
 					<p class="mb-1">비회원으로 입장하시겠어요?</p>
-					<form action="/list">
-						<div class="row">
-							<div class="col-xl-8 pr-0">
-								<div class="form-row">
+					<form action="board/list">
+						<div class="row pr-3 pl-3">
+							<div class="col-xl-8">
+								<div class="form-row mr-0 ml-0">
 									<select id="selectGu" name="gu" class="form-control selectBox">
 										<option selected>지역을 선택하세요</option>
 										<option>강남구</option>

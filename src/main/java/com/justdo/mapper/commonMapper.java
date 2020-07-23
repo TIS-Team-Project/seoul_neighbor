@@ -18,12 +18,17 @@ public interface commonMapper {
 	public void insertUserAuth(String userid);
 	
 	//중복된 아이디가 있는지 체크
-	public int checkID(String userid);
+	public int checkID(String userId);
 	
 	//중복된 닉네임이 있는지 체크
-	public int checkNickName(String nickname);
+	public int checkNickName(String nickName);
 	
 	//중복된 이메일이 있는지 체크
 	public int checkEmail(String email);
 	
+	//안읽은 메시지 개수 가져오기
+	public int selectMessageReadCount(String userid);
+	
+	//날씨 정보 위한 구 가져오기
+	public String selectGuForWeather(String userid);
 }

@@ -1,9 +1,15 @@
 package com.justdo.controller;
 
+
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.Principal;
 import java.util.HashMap;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
+import com.justdo.security.CustomUserDetailsService;
 import com.justdo.service.commonService;
 import com.justdo.service.myPageService;
 import com.justdo.util.JoinValidator;
@@ -38,43 +45,90 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CommonController {
 	
-	 private commonService service;
+	 private CustomUserDetailsService loginService;
 	 private myPageService myPageService;
+	 private commonService service;
 	 private BCryptPasswordEncoder pwdEncoder;
-	 
 	 private JavaMailSender mailSender;
 	 
 	// test //
 	// 메인 이동 //////////////////////////////////
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home() {
+	public String home(Model model,Principal principal) throws IOException {
+		
+		// 로그인 한 상태일 때는 principal 정보 담아서 board/list로 전송
+		if (principal != null) {
+			String username = principal.getName();
+			String gu = loginService.loadLocationByUsername(username);
+			String encodedGu = URLEncoder.encode(gu, "UTF-8");
+			model.addAttribute("member", myPageService.selectUser(username));
+			
+			//날씨 정보 불러오는 구문
+			String weatherData[]=null;
+			try {
+				weatherData = service.getWeather(service.selectGuForWeather(principal.getName()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("weather",weatherData[0]);
+			model.addAttribute("temperature",weatherData[1]);
+			model.addAttribute("weatherGu",weatherData[2]);
+			//
+			
+			return "redirect:/board/list?gu="+encodedGu;
+		}
+
+		
 		return "index";
 	}
 	// 메인 이동 //
 	
-	// 목록 페이지 이동 //////////////////////////
-	@GetMapping("list")
-	public String list() {
-		return "board/list";
-	};
-	// 목록 페이지 이동 //
 	
 	// 프로필 페이지 이동 ////////////////////////
 	@GetMapping("profile")
-	public String profile(Model model, MemberVO vo) {
-		model.addAttribute("member", myPageService.selectUser("test")); //test -> 동적으로 바꿔야함
-		return "mypage/profile";
+	public String profile(Model model, Principal principal) {
+		//날씨 정보 불러오는 구문 /////////////////////
+		if(principal != null) {
+			String username = principal.getName();
+			model.addAttribute("member", myPageService.selectUser(username));
+			String weatherData[]=null;
+			try {
+				weatherData = service.getWeather(service.selectGuForWeather(principal.getName()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("weather",weatherData[0]);
+			model.addAttribute("temperature",weatherData[1]);
+			model.addAttribute("weatherGu",weatherData[2]);
+			
+			return "mypage/profile";
+		}else {
+			return "/index";
+		}
+		//날씨 정보 굴러오는 구문 //
+		
+		
 	}
 	// 프로필 페이지 이동 //
 	
-	//bno로 상세페이지 부르기/////////////////////
-	@GetMapping("read")
-	public String read(@RequestParam("bno") int bno, Model model) {
+	//bno로 상세페이지 부르기   ---이 주석의 오른쪽 설명란은 볼 필요 없음.         board/read/*란 주소 board/read슬래쉬 뒤에 붙는 애들은 이녀석 적용이란 의미 -> httpServletRequest request는 clinet가 주소창에 입력한 요청을 담은 객체로 request.getRequestURI는 클라이언트가 친 주소창이고, 그걸 잘라서 http://localhost:8181/board/read/1의 bno인 1만 따로 bno라는 변수에 저장하고, vo에 bno=1담아서 jsp에 어트리뷰트 속성으로 보내서 jsp는 그 데이터로 클라이언트에게 보여줌/////////////////////
+	@GetMapping("board/read/*")
+	public String read(Model model, HttpServletRequest request) {
+		
+		int bno =  Integer.parseInt(request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/")+1));
 		BoardVO vo=service.read(bno);
-		model.addAttribute("board",vo);
-		return "board/read";
+		
+		if(vo != null) {										//client가 주소창에 board/read/3해서 bno가 3짜리인 boardVO를 부르면 bno가 3짜리인 vo 데이터를 받는데 만약 삭제를해서 없다면 데이터가 null인 상세페이지 말고, list 페이지로 보낸다.
+		      System.out.println(vo);
+		      model.addAttribute("board",vo);
+		      System.out.println(vo);
+		      return "board/read";  
+		}else {
+			return "redirect:/board/list";
+		}
+		      
 	}
-	//bno로 상세페이지 부르기  
+	//bno로 상세페이지 부르기 
 	
 	//좋아요+1 ////////////////////////////////
 	@GetMapping(value="/read/plusLike/{bno}", produces= {MediaType.TEXT_PLAIN_VALUE})
@@ -87,7 +141,7 @@ public class CommonController {
 	
 	//좋아요+1 ////////////////////////////////
 
-	//싫어요+1 ////////////////////////////////
+	//싫어요+1 ////////////////////////////////board/read에서 싫어요 버튼 누르면 ajax로  url: "/read/plusUnlike/" + bno, 경로에 get 타입으로 요청하면 밑 GetMapping이 적용되서 service.unlikeBoard(bno)가 실행되어 해당 bno의  싫어요 1증가 후 싫어요 개수를 int로 result에 반환(컨트롤러는 할거다한거고) read.jsp가 그 result를 받아서 비동기적으로 싫어요 갯수를 리로딩.
 	@GetMapping(value="/read/plusUnlike/{bno}", produces= {MediaType.TEXT_PLAIN_VALUE})
 	   @ResponseBody
 	   public ResponseEntity<String> plusUnlike(@PathVariable("bno") int bno) {
@@ -97,11 +151,22 @@ public class CommonController {
 	   }
 	//싫어요+1 ////////////////////////////////
 	
+	//해당 bno의 board 삭제/////////////////////////////////////////////
+	@PostMapping("/board/remove/{bno}")
+	public String remove(@PathVariable("bno") int bno, RedirectAttributes rttr) {  
+		if(service.remove(bno)) {
+			rttr.addFlashAttribute("result","success");
+		}
+		return "redirect:/board/list";
+	}
+	
+	//해당 bno의 board 삭제/////////////////////////////////////////////
+	
 	//회원가입 페이지 호출
-	@GetMapping("/join")
+	@GetMapping("join")
 	public String joinForm() {
 		System.out.println("회원가입페이지로 이동합니다.");
-		return "joinpage/newjoin";
+		return "joinpage/join";
 	}
 	
 	//회원가입 진행
@@ -222,5 +287,12 @@ public class CommonController {
 		}
 	}
 	
+	// 안읽은 메시지 개수 가져오기 /////////////
+	@GetMapping("getMessageCountAjax")
+	@ResponseBody
+	public int getMessageCountAjax(String userid) {
+		return service.selectMessageReadCount(userid);
+	}
+	// 안읽은 메시지 개수 가져오기
 	
 }

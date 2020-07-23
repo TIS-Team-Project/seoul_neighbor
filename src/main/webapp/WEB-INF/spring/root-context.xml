@@ -35,8 +35,9 @@
     
     <!-- 게시판 mapper -->
     <mybatis-spring:scan base-package="com.justdo.mapper"></mybatis-spring:scan>
-
-	<!-- 메일 보내기 빈 등록 -->
+    <context:component-scan base-package="com.justdo.serviceImpl" />
+    
+    <!-- 메일 보내기 빈 등록 -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
 		<property name="host" value="smtp.gmail.com" /> 
 		<property name="port" value="587" /> 
@@ -49,8 +50,5 @@
 			</props> 
 		</property> 
 	</bean>
-
-
-    
     
 </beans>

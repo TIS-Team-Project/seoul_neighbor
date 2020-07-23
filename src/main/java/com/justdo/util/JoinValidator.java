@@ -39,25 +39,25 @@ public class JoinValidator implements Validator {
 		
 		System.out.println("검증할 대상 : " + vo.toString());
 		
-		String userid = vo.getUserid();
-		String userpw = vo.getUserpw();
-		String nickname = vo.getNickname();
+		String userId = vo.getUserid();
+		String userPw = vo.getUserpw();
+		String nickName = vo.getNickname();
 		String email = vo.getEmail();
-		String member_location = vo.getMember_location();
+		String memberLocation = vo.getMember_location();
 		
-		if(userid == null || userid.trim().isEmpty() || !pattern.matches(userIdRegExp, userid)) {
+		if(userId == null || userId.trim().isEmpty() || !pattern.matches(userIdRegExp, userId)) {
 			System.out.println("아이디가 비었거나 적절하지 않습니다.");
-			errors.rejectValue("userid", "trouble");
+			errors.rejectValue("userId", "trouble");
 		}
 		
-		if(userpw == null || userpw.trim().isEmpty() || !pattern.matches(userPwRegExp, userpw)) {
+		if(userPw == null || userPw.trim().isEmpty() || !pattern.matches(userPwRegExp, userPw)) {
 			System.out.println("비밀번호가 비었거나 적절하지 않습니다.");
-			errors.rejectValue("userpw", "trouble");
+			errors.rejectValue("userPw", "trouble");
 		}
 		
-		if(nickname == null || nickname.trim().isEmpty() || !pattern.matches(nickNameRegExp, nickname)) {
+		if(nickName == null || nickName.trim().isEmpty() || !pattern.matches(nickNameRegExp, nickName)) {
 			System.out.println("닉네임이 비었거나 적절하지 않습니다.");
-			errors.rejectValue("nickname", "trouble");
+			errors.rejectValue("nickName", "trouble");
 		}
 		
 		if(email == null || email.trim().isEmpty() || !pattern.matches(emailRegExp, email)) {
@@ -65,9 +65,9 @@ public class JoinValidator implements Validator {
 			errors.rejectValue("email", "trouble");
 		}
 		
-		if(member_location == null || member_location.trim().isEmpty()) {
+		if(memberLocation == null || memberLocation.trim().isEmpty()) {
 			System.out.println("지역선택이 비었거나 적절하지 않습니다.");
-			errors.rejectValue("member_location", "trouble");
+			errors.rejectValue("memberLocation", "trouble");
 		}
 		
 	}
