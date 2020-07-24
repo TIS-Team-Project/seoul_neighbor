@@ -49,7 +49,7 @@
 					    <button class="btn btn-primary dropdown-toggle" type="button" id="selectGu" data-toggle="dropdown">구
 					    <span class="caret"></span></button>
 				    	<div id="gu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					    	<a class="dropdown-item" href="#">강남구</a>
+							<a class="dropdown-item" href="#">강남구</a>
 							<a class="dropdown-item" href="#">강동구</a>
 							<a class="dropdown-item" href="#">강북구</a>
 							<a class="dropdown-item" href="#">강서구</a>
@@ -92,6 +92,7 @@
 			<div class="col-md-8">
 				<!-- 1.2 작성 폼 ------------------>
 		        <form name="frm" role="form" action="/board/register" method="Post">
+       				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		        	<p id="writer">글쓰기</p>
 		        	<!-- 1.2.1 카테고리 선택 -------->
 		        	<div class="dropdown" id="category_wrap">
@@ -107,9 +108,9 @@
 					</div>
 					<!-- 1.2.1 카테고리 선택 -->
 		            <input type="text" id="title" name="title" placeholder="제목"><br><!-- 글제목 -->      
-		            <input type="hidden" name="userid" value="<c:out value='${userid}'/>"><!-- 유저아이디 -->
+		            <input type="hidden" name="userid" value="<c:out value='${member.nickname}'/>"><!-- 유저아이디 -->
 					<textarea name="content" id="content" class="summernote" cols="80" rows="15"></textarea><br><!-- 글내용 -->
-					<input type="hidden" id="location" name="location" value="<c:out value='${board.location}'/>"><!-- 지역 -->
+					<input type="hidden" id="location" name="location" value="<c:out value='${member.member_location}'/>"><!-- 지역 -->
 					<button type="submit" class="btn btn-primary bottomButton" onclick="return boardCheck()">작성</button><!-- 작성버튼 -->
 		        </form>
 		        <!-- 1.2 수정 폼 -->

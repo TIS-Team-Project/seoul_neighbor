@@ -91,6 +91,7 @@
 			<div class="col-md-8">
 				<!-- 1.2 수정 폼 ------------------>
 		        <form name="frm" role="form" action="/board/modify" method="Post">
+            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		        	<p id="writer">글쓰기</p>
 		        	<!-- 1.2.1 카테고리 선택 -------->
 		        	<div class="dropdown" id="category_wrap">
