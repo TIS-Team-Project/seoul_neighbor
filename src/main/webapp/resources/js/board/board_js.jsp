@@ -456,8 +456,29 @@ $(function() {
         height: 400,
         disableResizeEditor: true,
         focus: true,
-        lang : "ko-KR"
-		});
+        lang : "ko-KR",
+        callbacks: {	//이미지 첨부하는 부분
+            onImageUpload : function(files) {
+                 uploadSummernoteImageFile(files[0],this);
+             }
+         }
+	});
+  
+  function uploadSummernoteImageFile(file, editor) {
+      data = new FormData();
+      data.append("file", file);
+      $.ajax({
+          data : data,
+          type : "POST",
+          url : "/uploadSummernoteImageFile",
+          contentType : false,
+          processData : false,
+          success : function(data) {
+              //항상 업로드된 파일의 url이 있어야 한다.
+              $(editor).summernote('insertImage', data.url);
+          }
+      });
+  }
   
   //서머노트 쓰기 비활성화
   $('.summernote_readonly').summernote('disable');
