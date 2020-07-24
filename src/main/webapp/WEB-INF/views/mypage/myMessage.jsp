@@ -17,15 +17,16 @@
 <html>
 <head>
 <title>쪽지함</title>
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/myMessage.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-tablepage.css">
 </head>
 <body>
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
-	<div style="position:fixed"><img src="/resources/img/mypage/left_background.png"></div>
 	<!-- 1. 메인 ------------------------------------------------->
-	<div class="container" style="margin-top:60px">
+	<div class="container pt-0">
 		<div class="row">
 		<!-- 1.1 왼쪽 메뉴 ---------------------------->
 			<div id="leftNav" class="col-lg-3">
@@ -38,13 +39,14 @@
 			<div id="rightDiv" class="col-lg-9 p-5">
 				<h1>쪽지함</h1>
 				<div id="rightDivContent" class="container mt-5">
+				<div class="content-box">
 				<!-- 1.3 쪽지 내용 출력 부분 ------------------------------->
 					<table class="table text-center table-hover">
 						<thead class="thead">
 							<tr>
-								<th style="width:25%">보낸사람</th>
+								<th style="width:20%">보낸사람</th>
 								<th style="width:55%">쪽지 내용</th>
-								<th style="width:10%">수신 날짜</th>
+								<th style="width:15%">수신 날짜</th>
 							</tr>
 						</thead>
 						<tbody id="messageList">
@@ -79,6 +81,7 @@
 						<ul id="pageNumBtnList" class="pagination justify-content-center"></ul>
 					</nav>
 				<!-- 1.4 페이지 버튼 출력 부분 -->
+				</div>
 				</div>
 			</div>
 		<!-- 1.2 쪽지함 레이아웃 -->

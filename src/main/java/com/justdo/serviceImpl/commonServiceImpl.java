@@ -6,9 +6,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
 import com.justdo.mapper.BoardMapper;
@@ -97,37 +102,167 @@ public class commonServiceImpl implements commonService {
 	}
 
 	@Override
-	public String getWeather() throws IOException {
-		String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst";
+	public String[] getWeather(String gu) throws IOException {
+		Date date = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyMMdd");
+		SimpleDateFormat hourFormat = new SimpleDateFormat("HH");
+		String today = dateFormat.format(date);
+		String todayHour = hourFormat.format(date);
+		String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst";
 		// 홈페이지에서 받은 키
 		String serviceKey = "0a%2BsATcqfSi69BN%2Fz4gXhd%2BVbPgLPenFhWceGZGW5KImNgeyJ%2Bv27NhAOEqNXRHEvmBPLXzDaZ0sBTDHNplZIQ%3D%3D";
 		String nx = "60";	//위도
 		String ny = "125";	//경도
-		String baseDate = "20200720";	//조회하고싶은 날짜
-		String baseTime = "1100";	//조회하고싶은 시간
+
+		String baseDate = today;	//조회하고싶은 날짜
+		String baseTime = "0500";	//조회하고싶은 시간
 		String type = "json";	//타입 xml, json 등등 ..
 		
+		if(Integer.parseInt(todayHour) >=2 && Integer.parseInt(todayHour) <5) {
+			baseTime = "0200";
+		}
+		else if(Integer.parseInt(todayHour) >=5 && Integer.parseInt(todayHour) <8) {
+			baseTime = "0500";
+		}
+		else if(Integer.parseInt(todayHour) >=8 && Integer.parseInt(todayHour) <11) {
+			baseTime = "0800";
+		}
+		else if(Integer.parseInt(todayHour) >=11 && Integer.parseInt(todayHour) <14) {
+			baseTime = "1100";
+		}
+		else if(Integer.parseInt(todayHour) >=14 && Integer.parseInt(todayHour) <17) {
+			baseTime = "1400";
+		}
+		else if(Integer.parseInt(todayHour) >=17 && Integer.parseInt(todayHour) <20) {
+			baseTime = "1700";
+		}
+		else if(Integer.parseInt(todayHour) >=20 && Integer.parseInt(todayHour) <23) {
+			baseTime = "2000";
+		}
+		else if(Integer.parseInt(todayHour) >=23 && Integer.parseInt(todayHour) <2) {
+			baseTime = "2300";
+		}
+		else {
+			baseTime ="0500";
+		}
+		if(gu == null) {
+			nx = "60"; //중구
+			ny = "127";
+		}
+		else if(gu.equals("양천구")) {
+			nx = "58";
+			ny = "126";
+		}
+		else if(gu.equals("종로구")) {
+			nx = "50";
+			ny = "127";
+		}
+		else if(gu.equals("용산구")) {
+			nx = "60";
+			ny = "126";
+		}
+		else if(gu.equals("성동구")) {
+			nx = "61";
+			ny = "127";
+		}
+		else if(gu.equals("광진구")) {
+			nx = "52";
+			ny = "126";
+		}
+		else if(gu.equals("동대문구")) {
+			nx = "61";
+			ny = "127";
+		}
+		else if(gu.equals("중랑구")) {
+			nx = "62";
+			ny = "128";
+		}
+		else if(gu.equals("성북구")) {
+			nx = "61";
+			ny = "127";
+		}
+		else if(gu.equals("강북구")) {
+			nx = "61";
+			ny = "128";
+		}
+		else if(gu.equals("도봉구")) {
+			nx = "61";
+			ny = "129";
+		}
+		else if(gu.equals("노원구")) {
+			nx = "61";
+			ny = "129";
+		}
+		else if(gu.equals("은평구")) {
+			nx = "59";
+			ny = "127";
+		}
+		else if(gu.equals("서대문구")) {
+			nx = "59";
+			ny = "127";
+		}
+		else if(gu.equals("마포구")) {
+			nx = "59";
+			ny = "127";
+		}
+		else if(gu.equals("강서구")) {
+			nx = "58";
+			ny = "126";
+		}
+		else if(gu.equals("구로구")) {
+			nx = "58";
+			ny = "125";
+		}
+		else if(gu.equals("금천구")) {
+			nx = "59";
+			ny = "124";
+		}
+		else if(gu.equals("영등포구")) {
+			nx = "58";
+			ny = "126";
+		}
+		else if(gu.equals("동작구")) {
+			nx = "59";
+			ny = "125";
+		}
+		else if(gu.equals("관악구")) {
+			nx = "59";
+			ny = "125";
+		}
+		else if(gu.equals("서초구")) {
+			nx = "61";
+			ny = "125";
+		}
+		else if(gu.equals("강남구")) {
+			nx = "61";
+			ny = "126";
+		}
+		else if(gu.equals("송파구")) {
+			nx = "62";
+			ny = "126";
+		}
+		else if(gu.equals("강동구")) {
+			nx = "62";
+			ny = "126";
+		}
 		
         StringBuilder urlBuilder = new StringBuilder(apiUrl);
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+serviceKey);
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); //위도
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); //위도
         urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode(nx, "UTF-8")); //경도
         urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode(ny, "UTF-8")); //위도
         urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(baseDate, "UTF-8")); /* 조회하고싶은 날짜*/
         urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(baseTime, "UTF-8")); /* 조회하고싶은 시간 AM 02시부터 3시간 단위 */
-        urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode(type, "UTF-8"));	/* 타입 */
+        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode(type, "UTF-8"));	/* 타입 */
         
         /*
          * GET방식으로 전송해서 파라미터 받아오기
          */
         URL url = new URL(urlBuilder.toString());
         //어떻게 넘어가는지 확인하고 싶으면 아래 출력분 주석 해제
-        System.out.println(url);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
-        System.out.println("Response code: " + conn.getResponseCode());
+        //System.out.println("Response code: " + conn.getResponseCode());
         BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -142,14 +277,75 @@ public class commonServiceImpl implements commonService {
         rd.close();
         conn.disconnect();
         String result= sb.toString();
-        System.out.println(result);
         
-        return result;
+
+        
+        //jsonparser로 문자열 객체화
+        JsonParser parser = new JsonParser();
+        JsonObject obj = (JsonObject) parser.parse(result);
+        
+        JsonObject parseResponse = (JsonObject) obj.get("response");
+        JsonObject parseBody = (JsonObject) parseResponse.get("body");
+        JsonObject parseItems = (JsonObject) parseBody.get("items");
+        
+        //items에서 item 배열로 받아옴
+        JsonArray parseItem = (JsonArray) parseItems.get("item");
+        
+        
+        JsonObject weather = (JsonObject) parseItem.get(5);
+        JsonObject temperature = (JsonObject) parseItem.get(6);
+        JsonObject isRain = (JsonObject) parseItem.get(1);
+        
+		String nowWeather=""; 
+		String nowTemperature=temperature.get("fcstValue").getAsString();
+		
+		
+		if(isRain.get("fcstValue").getAsInt()==0) {
+			if(weather.get("fcstValue").getAsInt()==1) {
+				nowWeather = "맑음";
+			}
+			else if(weather.get("fcstValue").getAsInt()==3) {
+				nowWeather = "구름많음";
+			}
+			else if(weather.get("fcstValue").getAsInt()==4) {
+				nowWeather = "흐림";
+			}
+		}
+		else if(isRain.get("fcstValue").getAsInt()==1){
+			if(isRain.get("fcstValue").getAsInt()==1) {
+				nowWeather = "비";
+			}
+			else if(isRain.get("fcstValue").getAsInt()==2) {
+				nowWeather = "비/눈";
+			}
+			else if(isRain.get("fcstValue").getAsInt()==3) {
+				nowWeather = "눈";
+			}
+			else if(isRain.get("fcstValue").getAsInt()==4) {
+				nowWeather = "소나기";
+			}
+			else if(isRain.get("fcstValue").getAsInt()==6) {
+				nowWeather = "진눈개비";
+			}
+			else{
+				nowWeather = "눈날림";
+			}
+		}
+
+
+		String[] weatherData = {nowWeather,nowTemperature,gu};
+        
+        return weatherData;
 	}
 	
 	@Override
 	public boolean remove(int bno) {
 		return boardMapper.delete(bno)==1;
+	}
+
+	@Override
+	public String selectGuForWeather(String userid) {
+		return mapper.selectGuForWeather(userid);
 	}
 
 }

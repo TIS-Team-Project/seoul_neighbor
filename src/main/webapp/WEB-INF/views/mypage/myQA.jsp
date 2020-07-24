@@ -12,15 +12,16 @@
 <html>
 <head>
 <title>1:1 문의</title>
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/myQA.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-tablepage.css">
 </head>
 <body>
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
-	<div style="position:fixed"><img src="/resources/img/mypage/left_background.png"></div>
 	<!-- 1. 메인 ------------------------------------------------->
-	<div class="container" style="margin-top:60px">
+	<div class="container pt-0">
 		<div class="row">
 		<!-- 1.1 왼쪽 메뉴 ---------------------------->
 			<div id="leftNav" class="col-lg-3">
@@ -33,6 +34,7 @@
 			<div id="rightDiv" class="col-lg-9 p-5">
 				<h1>1:1 문의</h1>
 				<div id="rightDivContent" class="mt-5">
+				<div class="content-box">
 					<h5>도움이 필요하신가요?</h5>
 					<button type="button" id="QABtn" class="btn form-control" data-toggle="modal" data-dismiss="modal" data-target="#sendQA">1:1 문의 하기</button>
 					<table class="table text-center table-hover">
@@ -57,6 +59,7 @@
 					<nav>
 						<ul id="pageNumBtnList" class="pagination justify-content-center"></ul>
 					</nav>
+				</div>
 				</div>
 			</div>
 		<!-- 1.2 1:1 문의 레이아웃 -->
@@ -84,8 +87,9 @@
 			</div>
 		</div>
 	</div>
+	<!-- 2. 문의하기 모달창 -------------------------------------->
 	<!-- 3. 문의내용 모달창 -->
-		<!-- 2. 문의하기 모달창 -------------------------------------->
+		
 	<div class="modal" id="readQA">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">

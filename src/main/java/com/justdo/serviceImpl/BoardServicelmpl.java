@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.Criteria;
+import com.justdo.domain.PageDTO;
 import com.justdo.mapper.BoardMapper;
 import com.justdo.service.BoardService;
 

@@ -16,14 +16,16 @@
 <head>
 <meta charset="UTF-8">
 <!-- profile.css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/profile.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-formpage.css">
 <title>프로필</title>
 </head>
 <body>
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
-	<div style="position:fixed"><img src="/resources/img/mypage/left_background.png"></div>
+	
 	<!-- 1. 메인 ------------------------------------------------->
 	<div class="container pt-0" >
 		<div class="row">
@@ -36,17 +38,18 @@
 		<!-- 1.1 왼쪽 메뉴 -->
 		<!-- 1.2 프로필 레이아웃 ---------------------------------->
 			<div id="rightDiv" class="col-lg-9 p-5">
-				<form class="form-group" method="post" action="updateUser" enctype="multipart/form-data">
+				<form id="profileForm" class="form-group" method="post" action="updateUser" enctype="multipart/form-data">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<h1>프로필</h1>
 					<div id="rightDivContent" class="mt-5">
 					<!-- 1.3 프로필 이미지 업로드 부분 --------------------------------------------->
-	<div class="content-box">
+				<div class="content-box">
 							<h3>프로필 이미지</h3>
 							<div id="profileChangeImgBox" class="card">
 								<c:choose>
 									<c:when test="${member.member_filename eq null }">
-										<img class="card-img-top"
+										<img id="profileChangeImg"
+											class="card-img-top"
 											src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
 									</c:when>
 									<c:when test="${member.member_filename != null }">
@@ -78,6 +81,9 @@
 									<div class="col-md-5">
 										<input id="nickName" name="nickname" type="text"
 											value="${member.nickname }" class="form-control">
+									</div>
+									<div class="col-md-5">
+										<p id="nickName-duplicated-text">*중복된 닉네임입니다. 다른 닉네임을 입력하세요</p>
 									</div>
 								</div>
 							</div>

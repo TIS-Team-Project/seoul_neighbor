@@ -224,7 +224,7 @@ header.collapsing-parallax + .site-main{
 										<th>추천수</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tbodyName">
 									<c:forEach items="${list}" var="board">
 										<tr>
 											<td><c:out value="${board.bno}"/></td>
@@ -258,7 +258,7 @@ header.collapsing-parallax + .site-main{
 										<th>추천수</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tbodyName">
 
 									
 								</tbody>
@@ -278,7 +278,7 @@ header.collapsing-parallax + .site-main{
 										<th>추천수</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tbodyName">
 
 									
 								</tbody>
@@ -298,7 +298,7 @@ header.collapsing-parallax + .site-main{
 										<th>추천수</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tbodyName">
 
 									
 								</tbody>
@@ -373,11 +373,10 @@ $(document).ready(function(){
     $(".paginate_button a").on("click", function(e){
   	  e.preventDefault();
   	  
-  	  console.log('click');
-  	  
   	  actionForm.find("input[name='pageNum']").val($(this).attr("href"));
   	  actionForm.submit();
     });
+    
     
     var searchForm = $("#searchForm");
     $("#searchForm button").on("click", function(e){
@@ -400,12 +399,13 @@ $(document).ready(function(){
         self.location = "/board/register?userid=test";
      });
     
-    $(".move").on("click",function(e) {
-   	 e.preventDefault();
-   	 actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
-   	 actionForm.attr("action","/board/get");
-   	 actionForm.submit();
-     });
+    $("tbody").on('click', '.move',function(e){
+	   	 e.preventDefault();
+	   	 actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+	   	 actionForm.attr("action","/board/get");
+	   	 actionForm.submit();
+	    
+    });
     
     var searchFormNum = $("#searchFormNum");
     
@@ -415,9 +415,8 @@ $(document).ready(function(){
   	  searchFormNum.submit();
   	  
     });
-
-
 $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
+	var str="";
 	var temp = $(this).html();
     var form = {
             category :temp,
@@ -433,46 +432,45 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
         success: function(data){
         	
             $("#menu1 tbody").empty();
-            $(data).each(function(i,board){
-                 $("#menu1 tbody").append(
-						"<tr>"+
-						"<td>"+board.bno+"</td>"+
-						"<td>"+board.location+"</td>"+
-						"<td>"+board.category+"</td>"+
-						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
-						"<td>"+board.userid+"</td>"+
-						"<td>"+board.veiw_count+"</td>"+
-						"<td>"+board.like_count+"</td>"+
-						"</tr>"	 	
-                )    
-            });
-            $(".pagination").empty();
-            $(".pagination").append(
-					"<c:if test='${pageMaker.prev}'>"+
-					"<li class='paginate_button previous'><a class='page-link' href='${pageMaker.startPage -1}'>Previous</a></li>"+
-				"</c:if>"+
-				"<c:forEach var='num' begin='${pageMaker.startPage}' end='${pageMaker.endPage}'>"+
-					"<li class='paginate_button' ${pageMaker.cri.pageNum==num? 'active':''}><a class='page-link' href='${num}'>${num}</a></li>"+
-				"</c:forEach>"+
-				"<c:if test='${pageMaker.next}'>"+
-					"<li class='paginate_button'><a class='page-link' href='${pageMaker.endPage +1}'>Next</a></li>"+
-				"</c:if>"	
-            );
-            $("#actionForm").empty();
-            $("#actionForm").append(
-					"<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>"+
-					"<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>"+
-					"<input type='hidden' name='type' value='<c:out value='${pageMaker.cri.type}'/>'>"+
-					"<input type='hidden' name='keyword' value='<c:out value='${pageMaker.cri.keyword}'/>'>"+
-					"<input type='hidden' name='gu' value='<c:out value='${criteria.gu}'/>'>"+
-					"<input type='hidden' name='category' value='<c:out value='${criteria.category}'/>'>"
-            );
             
+            console.log(data);
+            $(data.voList).each(function(i,board){
+                 $("#menu1 tbody").append( 
+                			"<tr>"+
+							"<td>"+board.bno+"</td>"+
+							"<td>"+board.location+"</td>"+
+							"<td>"+board.category+"</td>"+
+							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+							"<b>["+board.reply_count+"]</b>"+
+							"</td>"+
+							"<td>"+board.userid+"</td>"+
+							"<td>"+board.view_count+"</td>"+
+							"<td>"+board.like_count+"</td>"+
+							"</tr>" 
+                )                                                                        
+            });
+            if(data.pagedto.prev){
+                str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+             }
+             
+             for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+                str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+                
+             }
+             
+             if(data.pagedto.next){
+                str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+             }
+             
+             console.log(str);
+            $(".pagination").html(str);
         },
         error: function(){
             alert("simpleWithObject err");
         }
     });
+    
+    
     }else if(temp=='불만있어요'){
         $.ajax({
             url: "/board/BoardTabListAjax",
@@ -481,19 +479,36 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
             success: function(data){
             	
                 $("#menu2 tbody").empty();
-                $(data).each(function(i,board){
+                $(data.voList).each(function(i,board){
                      $("#menu2 tbody").append(
-    						"<tr>"+
-    						"<td>"+board.bno+"</td>"+
-    						"<td>"+board.location+"</td>"+
-    						"<td>"+board.category+"</td>"+
-    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
-    						"<td>"+board.userid+"</td>"+
-    						"<td>"+board.veiw_count+"</td>"+
-    						"<td>"+board.like_count+"</td>"+
-    						"</tr>"	 	
+                 			"<tr>"+
+							"<td>"+board.bno+"</td>"+
+							"<td>"+board.location+"</td>"+
+							"<td>"+board.category+"</td>"+
+							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+							"<b>["+board.reply_count+"]</b>"+
+							"</td>"+
+							"<td>"+board.userid+"</td>"+
+							"<td>"+board.view_count+"</td>"+
+							"<td>"+board.like_count+"</td>"+
+							"</tr>" 	
                     )    
                 });
+                if(data.pagedto.prev){
+                    str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+                 }
+                 
+                 for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+                    str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+                    
+                 }
+                 
+                 if(data.pagedto.next){
+                    str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+                 }
+                 
+                 console.log(str);
+                $(".pagination").html(str);
                 
             },
             error: function(){
@@ -508,26 +523,43 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
             success: function(data){
             	
                 $("#menu3 tbody").empty();
-                $(data).each(function(i,board){
+                $(data.voList).each(function(i,board){
                      $("#menu3 tbody").append(
-    						"<tr>"+
-    						"<td>"+board.bno+"</td>"+
-    						"<td>"+board.location+"</td>"+
-    						"<td>"+board.category+"</td>"+
-    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
-    						"<td>"+board.userid+"</td>"+
-    						"<td>"+board.veiw_count+"</td>"+
-    						"<td>"+board.like_count+"</td>"+
-    						"</tr>"	 	
+                 			"<tr>"+
+							"<td>"+board.bno+"</td>"+
+							"<td>"+board.location+"</td>"+
+							"<td>"+board.category+"</td>"+
+							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+							"<b>["+board.reply_count+"]</b>"+
+							"</td>"+
+							"<td>"+board.userid+"</td>"+
+							"<td>"+board.view_count+"</td>"+
+							"<td>"+board.like_count+"</td>"+
+							"</tr>" 	
                     )    
                 });
+                if(data.pagedto.prev){
+                    str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+                 }
+                 
+                 for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+                    str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+                    
+                 }
+                 
+                 if(data.pagedto.next){
+                    str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+                 }
+                 
+                 console.log(str);
+                $(".pagination").html(str);
                 
             },
             error: function(){
                 alert("simpleWithObject err");
             }
         });
-    }else if(temp=='all'){
+    }else if(temp=='전체'){
         $.ajax({
             url: "/board/BoardTabListAjax",
             type: "GET",
@@ -535,26 +567,43 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
             success: function(data){
             	
                 $("#all tbody").empty();
-                $(data).each(function(i,board){
+                $(data.voList).each(function(i,board){
                      $("#all tbody").append(
-    						"<tr>"+
-    						"<td>"+board.bno+"</td>"+
-    						"<td>"+board.location+"</td>"+
-    						"<td>"+board.category+"</td>"+
-    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
-    						"<td>"+board.userid+"</td>"+
-    						"<td>"+board.veiw_count+"</td>"+
-    						"<td>"+board.like_count+"</td>"+
-    						"</tr>"	 	
+                 			"<tr>"+
+							"<td>"+board.bno+"</td>"+
+							"<td>"+board.location+"</td>"+
+							"<td>"+board.category+"</td>"+
+							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+							"<b>["+board.reply_count+"]</b>"+
+							"</td>"+
+							"<td>"+board.userid+"</td>"+
+							"<td>"+board.view_count+"</td>"+
+							"<td>"+board.like_count+"</td>"+
+							"</tr>" 
                     )    
                 });
-                
+                if(data.pagedto.prev){
+                    str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+                 }
+                 
+                 for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+                    str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+                    
+                 }
+                 
+                 if(data.pagedto.next){
+                    str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+                 }
+                 
+                 console.log(str);
+                $(".pagination").html(str);
             },
             error: function(){
                 alert("simpleWithObject err");
             }
         });
     }
+    
 	
 });
 
@@ -567,8 +616,6 @@ if(activeTab){
 }
 
 });
-
-
 (function($) {
 	var $pMain = $("#parallax_main"),
 		$pToolbar = $pMain.find("#toolbar_main"),
