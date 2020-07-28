@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.Criteria;
-import com.justdo.domain.PageDTO;
 
 public interface BoardMapper {
 	

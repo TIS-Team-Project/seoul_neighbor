@@ -13,19 +13,17 @@
 	font-size: 70%;
 	white-space: nowrap;
 }
+
 .collapsing-parallax {
-	position: fixed;
 	height: 350px;
 	width: 100%;
-	background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/565097/background.png")
+	background: url("/resources/img/common/list_background.png")
 		center center no-repeat;
 	background-color: rgb(33,14,61);
 	background-size: cover;
 	z-index: 99;
 }
-header.collapsing-parallax + .site-main{
-	padding-top: 350px;
-}
+
 .navbar-default{
  background-color: rgba(255,255,255,0) !important;
  transition: 1s;
@@ -34,6 +32,30 @@ header.collapsing-parallax + .site-main{
 	box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.18),
 		0px 4px 14px 0px rgba(0, 0, 0, 0.15);
 }
+
+/* 서울 소식 */
+#seoulNews{
+	height:50px;
+	overflow:hidden;
+	line-height:50px;
+}
+
+#seoulNews p{
+	margin:0;
+}
+
+#seoulNews div{
+	position:absolute;
+	width:100%;
+}
+
+.newsDiv{
+	overflow:hidden;
+}
+
+.newsDiv p{
+	cursor:pointer;
+}
 </STYLE>
 
 <title>Insert title here</title>
@@ -41,7 +63,7 @@ header.collapsing-parallax + .site-main{
 <body>
  <header id="parallax_main" class="collapsing-parallax">
 
-	<div id="includehe">
+<div id="includehe">
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
@@ -51,13 +73,12 @@ header.collapsing-parallax + .site-main{
 	<div id="page-wrapper" class="container" style="margin-top:60px">
 		<!-- 상단 영역(추천 및 인기글 목록 테이블) ---------------------------------------------------------------------------------------------->
 		<div class="row pb-3 pt-5">
-			<div class="col-lg-12">
+			<div class="col-lg-6">
 				<div class="page-header">
 					<!-- 상단 영역(추천 및 인기글 목록 테이블) ---------------------------------------------------------------------------------------------->
-					
 						<div class="form-row">
 						<span class="mr-4" style="text-align: center;"><b>지역선택 : </b></span>
-									<select id="selectGu" style="Width:20%" name="gu" class="form-control selectBox" 
+									<select id="selectGu" style="Width:150px" name="gu" class="form-control selectBox" 
 									onchange="document.location='list?amount=<c:out value="${pageMaker.cri.amount}"/>&gu='+this.value;">
 										<option selected><c:out value="${criteria.gu}"/></option>
 										<option value="강남구">강남구</option>
@@ -87,9 +108,30 @@ header.collapsing-parallax + .site-main{
 										<option value="중랑구">중랑구</option>
 									</select>
 								</div>
-					<!-- 지역선택 -->
+								<!-- 지역선택 -->
+								
+								<!-- 서울시 새소식 --------------------->
+								
+								<div id="seoulNews" class="text-center">
+								<h6>서울시 새소식</h6>
+								</div>
+								<!-- 서울시 새소식 -->
+					
       			</div>
      		 </div>
+     		 <!-- 서울 문화공연 ---------------------------->
+     		 <div class="col-lg-6">
+     		 	<div style="float:left; width:fit-content; margin:0">
+ 		 	    	<h5>서울의 문화공연 소식</h5>
+     		 		<h6><a href="${cultureLink }">${cultureTitle}</a></h6>
+     		 		<h6><i class="fas fa-map-marker-alt"></i> 장소: ${culturePlace }</h6>
+     		 		<h6><i class="far fa-calendar-alt"></i> 기간: ${cultureDate}</h6>
+     		 	</div>
+     		 	<div style="float:left; margin-left:30px">
+     		 	    <img src=${cultureImg } onerror="this.src='/resources/img/common/noimage.gif'" style="height:113px;">
+     		 	</div>
+     		 </div>
+     		 <!-- 서울 문화공연 -->
 		</div>
 		<div class="row">
 			<div class="col-xl-8">
@@ -110,8 +152,7 @@ header.collapsing-parallax + .site-main{
 									<c:forEach items="${locationlist}" var="board" begin="0" end="5" step="1" varStatus="i">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
-											<td><a class='move' href='<c:out value="${board.bno}"/>'>
-												<c:out value="${board.title}"/></a>
+											<td><a class='move smallList' href='<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
 											<td><c:out value="${board.like_count}"/></td>
@@ -133,8 +174,7 @@ header.collapsing-parallax + .site-main{
 									<c:forEach items="${locationlist}" var="board" begin="6" end="11" step="1" varStatus="i">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
-											<td><a class='move' href='<c:out value="${board.bno}" />'>
-												<c:out value="${board.title}"/></a>
+											<td><a class='move smallList' href='<c:out value="${board.bno}" />'><c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
 											<td><c:out value="${board.like_count}"/></td>
@@ -160,8 +200,7 @@ header.collapsing-parallax + .site-main{
 									<c:forEach items="${locationlist}" var="board" begin="12" end="18" step="1" varStatus="i">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
-											<td><a class='move' href='<c:out value="${board.bno}" />'>
-												<c:out value="${board.title}"/></a>
+											<td><a class='move smallList' href='<c:out value="${board.bno}" />'><c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
 											<td><c:out value="${board.like_count}"/></td>
@@ -230,8 +269,7 @@ header.collapsing-parallax + .site-main{
 											<td><c:out value="${board.bno}"/></td>
 											<td><c:out value="${board.location}"/></td>
 											<td><c:out value="${board.category}" /></td>
-											<td><a class='move' href='<c:out value="${board.bno}" />'>
-												<c:out value="${board.title}"/></a>
+											<td><a class='move bigList' href='<c:out value="${board.bno}" />'><c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
 											<td><c:out value="${board.userid}"/></td>
@@ -364,10 +402,108 @@ header.collapsing-parallax + .site-main{
 	</div>
 	<!--page-wrapper end  -->
 	</main>
+	<!-- 뉴스 상세보기 모달 -->
+	<div class="modal" id="newsModal">
+	  <div class="modal-dialog modal-dialog-centered modal-xl">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 id="newsHeader" class="modal-title">Modal Heading</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+	      <!-- Modal body -->
+	      <div id="newsContent" class="modal-body">
+	        Modal body..
+	      </div>
+	
+	      <!-- Modal footer -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+	      </div>
+	
+	    </div>
+	  </div>
+	</div>
+	<!--  자바 스크립트 ------------->
+	<%@include file="/resources/js/board/userClick_js.jsp"%>
+	<!-- 자바 스크립트 -->
 </body>
 
 <script type="text/javascript">
 $(document).ready(function(){
+	var temp;
+	//제목 길이 길면 자르는 함수 ////////////////////////////
+	var tempTitle = $(".smallList");
+	var tempLongTitle = $(".bigList");
+	var tempCutTitle;
+	
+ 	for(var i=0 ; i<tempTitle.length ; i++){
+		if($(tempTitle[i]).text().length > 15){
+			tempCutTitle = $(tempTitle[i]).text().substring(0,16) + "...";
+			$(tempTitle[i]).text(tempCutTitle);
+		}
+	}
+ 	
+ 	for(var i=0 ; i<tempLongTitle.length ; i++){
+		if($(tempLongTitle[i]).text().length > 25){
+			tempCutTitle = $(tempLongTitle[i]).text().substring(0,25) + "...";
+			$(tempLongTitle[i]).text(tempCutTitle);
+		}
+	}
+	//제목 길이 길면 자르는 함수 //
+	
+	//서울 새소식 json 파싱 //////////////////////////////////
+	var newsInfo = ${newsInfo};
+	var newsHeader;
+	var newsContent;
+	for(var i = 0; i < 5 ; i++){
+		newsHeader = newsInfo[i].POST_TITLE;
+		newsContent = newsInfo[i].POST_CONTENT;
+		$("#seoulNews").append("<div class='newsDiv'><p data-toggle='modal' data-target='#newsModal'>"+newsInfo[i].POST_TITLE+"</p><div style='display:none'>"+newsInfo[i].POST_CONTENT+"</div>")
+	}
+	
+	$(document).on("click",".newsDiv p",function(){
+		$("#newsHeader").text($(this).text());
+		$("#newsContent").html($(this).next().html());
+	})
+	// 서울 새소식 json 파싱 //
+	
+	//서울 새소식 애니메이션/////////////////////////////
+	$(".newsDiv").hide();
+	$(".newsDiv:nth-child(2)").show();
+	function newsAnimation(){
+		setTimeout(function(){
+			$(".newsDiv:nth-child(2)").slideUp();
+			$(".newsDiv:nth-child(3)").slideDown(1000);
+			setTimeout(function(){
+				$(".newsDiv:nth-child(3)").slideUp();
+				$(".newsDiv:nth-child(4)").slideDown(1000);
+				setTimeout(function(){
+					$(".newsDiv:nth-child(4)").slideUp();
+					$(".newsDiv:nth-child(5)").slideDown(1000);
+					setTimeout(function(){
+						$(".newsDiv:nth-child(5)").slideUp();
+						$(".newsDiv:nth-child(6)").slideDown(1000);
+						setTimeout(function(){
+							$(".newsDiv:nth-child(6)").slideUp();
+							$(".newsDiv:nth-child(2)").slideDown(1000);
+							setTimeout(5000);
+						},5000)
+					},5000)
+				},5000)
+			},5000)
+		},5000)
+	}
+	
+	function startNewsAnimation(){
+		newsAnimation();
+		setInterval(newsAnimation,29000);
+	}
+	startNewsAnimation();
+	//서울 새소식 애니메이션//
+	
     var actionForm = $("#actionForm");
     
     $(".paginate_button a").on("click", function(e){
@@ -375,8 +511,214 @@ $(document).ready(function(){
   	  
   	  actionForm.find("input[name='pageNum']").val($(this).attr("href"));
   	  actionForm.submit();
-    });
+    });	
     
+    
+    $(".pagination").on("click",".page-link", function(e){
+  	  e.preventDefault();
+  	  	var pageNumber = $(this).html();
+  	  	var lastNumber;
+  	  	if(pageNumber == "Next"){
+  	  		console.log($($(this).parents().prev()[0]).text());
+  	  		lastNumber = $($(this).parents().prev()[0]).text();
+  	  		lastNumber = Number(lastNumber) + 1;
+  	  		pageNumber = lastNumber;
+  	  	} 
+  	  	if(pageNumber == "Previous"){
+  	  		console.log($($(this).parents().next()[0]).text());
+  	  		lastNumber = $($(this).parents().next()[0]).text();
+  	  		lastNumber = Number(lastNumber) - 1;
+  	  		pageNumber = lastNumber;
+  	  	}
+  	  	
+  		var str="";
+  	    var form = {
+  	            category:temp,
+  	            gu:'${criteria.gu}',
+  	            pageNum:pageNumber
+  	    }
+  	    console.log(form);
+  	  
+  	    if(temp=='소통해요'){
+  	        $.ajax({
+  	            url: "/board/BoardTabListAjax",
+  	            type: "GET",
+  	            data: form,
+  	            success: function(data){
+  	            	
+  	                $("#menu1 tbody").empty();
+  	                
+
+  	                $(data.voList).each(function(i,board){
+  	                     $("#menu1 tbody").append( 
+  	                    			"<tr>"+
+  	    							"<td>"+board.bno+"</td>"+
+  	    							"<td>"+board.location+"</td>"+
+  	    							"<td>"+board.category+"</td>"+
+  	    							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+  	    							"<b>["+board.reply_count+"]</b>"+
+  	    							"</td>"+
+  	    							"<td>"+board.userid+"</td>"+
+  	    							"<td>"+board.view_count+"</td>"+
+  	    							"<td>"+board.like_count+"</td>"+
+  	    							"</tr>" 
+  	                    )                                                                        
+  	                });
+  	                if(data.pagedto.prev){
+  	                    str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+  	                 }
+  	                 
+  	                 for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+  	                    str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+  	                    
+  	                 }
+  	                 
+  	                 if(data.pagedto.next){
+  	                    str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+  	                 }
+  	                 
+  	                 
+  	                $(".pagination").html(str);
+  	            },
+  	            error: function(){
+  	                alert("simpleWithObject err");
+  	            }
+  	        });
+  	        
+  	        
+  	        }else if(temp=='불만있어요'){
+  	            $.ajax({
+  	                url: "/board/BoardTabListAjax",
+  	                type: "GET",
+  	                data: form,
+  	                success: function(data){
+  	                	
+  	                    $("#menu2 tbody").empty();
+  	                    $(data.voList).each(function(i,board){
+  	                         $("#menu2 tbody").append(
+  	                     			"<tr>"+
+  	    							"<td>"+board.bno+"</td>"+
+  	    							"<td>"+board.location+"</td>"+
+  	    							"<td>"+board.category+"</td>"+
+  	    							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+  	    							"<b>["+board.reply_count+"]</b>"+
+  	    							"</td>"+
+  	    							"<td>"+board.userid+"</td>"+
+  	    							"<td>"+board.view_count+"</td>"+
+  	    							"<td>"+board.like_count+"</td>"+
+  	    							"</tr>" 	
+  	                        )    
+  	                    });
+  	                    if(data.pagedto.prev){
+  	                        str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+  	                     }
+  	                     
+  	                     for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+  	                        str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+  	                        
+  	                     }
+  	                     
+  	                     if(data.pagedto.next){
+  	                        str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+  	                     }
+  	                     
+  	                     
+  	                    $(".pagination").html(str);
+  	                    
+  	                },
+  	                error: function(){
+  	                    alert("simpleWithObject err");
+  	                }
+  	            });
+  	        }else if(temp=='모여요'){
+  	            $.ajax({
+  	                url: "/board/BoardTabListAjax",
+  	                type: "GET",
+  	                data: form,
+  	                success: function(data){
+  	                	
+  	                    $("#menu3 tbody").empty();
+  	                    $(data.voList).each(function(i,board){
+  	                         $("#menu3 tbody").append(
+  	                     			"<tr>"+
+  	    							"<td>"+board.bno+"</td>"+
+  	    							"<td>"+board.location+"</td>"+
+  	    							"<td>"+board.category+"</td>"+
+  	    							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+  	    							"<b>["+board.reply_count+"]</b>"+
+  	    							"</td>"+
+  	    							"<td>"+board.userid+"</td>"+
+  	    							"<td>"+board.view_count+"</td>"+
+  	    							"<td>"+board.like_count+"</td>"+
+  	    							"</tr>" 	
+  	                        )    
+  	                    });
+  	                    if(data.pagedto.prev){
+  	                        str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+  	                     }
+  	                     
+  	                     for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+  	                        str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+  	                        
+  	                     }
+  	                     
+  	                     if(data.pagedto.next){
+  	                        str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+  	                     }
+  	                     
+  	                    
+  	                    $(".pagination").html(str);
+  	                    
+  	                },
+  	                error: function(){
+  	                    alert("simpleWithObject err");
+  	                }
+  	            });
+  	        }else if(temp=='전체'){
+  	            $.ajax({
+  	                url: "/board/BoardTabListAjax",
+  	                type: "GET",
+  	                data: form,
+  	                success: function(data){
+  	                	
+  	                    $("#all tbody").empty();
+  	                    $(data.voList).each(function(i,board){
+  	                         $("#all tbody").append(
+  	                     			"<tr>"+
+  	    							"<td>"+board.bno+"</td>"+
+  	    							"<td>"+board.location+"</td>"+
+  	    							"<td>"+board.category+"</td>"+
+  	    							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+  	    							"<b>["+board.reply_count+"]</b>"+
+  	    							"</td>"+
+  	    							"<td>"+board.userid+"</td>"+
+  	    							"<td>"+board.view_count+"</td>"+
+  	    							"<td>"+board.like_count+"</td>"+
+  	    							"</tr>" 
+  	                        )    
+  	                    });
+  	                    if(data.pagedto.prev){
+  	                        str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+  	                     }
+  	                     
+  	                     for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+  	                        str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+  	                        
+  	                     }
+  	                     
+  	                     if(data.pagedto.next){
+  	                        str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+  	                     }
+  	                     
+  	                     
+  	                    $(".pagination").html(str);
+  	                },
+  	                error: function(){
+  	                    alert("simpleWithObject err");
+  	                }
+  	            });
+  	        }
+    });
     
     var searchForm = $("#searchForm");
     $("#searchForm button").on("click", function(e){
@@ -405,7 +747,7 @@ $(document).ready(function(){
 	   	 actionForm.attr("action","/board/get");
 	   	 actionForm.submit();
 	    
-    });
+   });
     
     var searchFormNum = $("#searchFormNum");
     
@@ -415,62 +757,59 @@ $(document).ready(function(){
   	  searchFormNum.submit();
   	  
     });
-$('a[data-toggle="tab"]').on('show.bs.tab',function(e){
-	var str="";
-	var temp = $(this).html();
-    var form = {
-            category :temp,
-            gu:'${criteria.gu}'
-    }
-    
-    console.log(form);
-    if(temp=='소통해요'){
-    $.ajax({
-        url: "/board/BoardTabListAjax",
-        type: "GET",
-        data: form,
-        success: function(data){
-        	
-            $("#menu1 tbody").empty();
-            
-            console.log(data);
-            $(data.voList).each(function(i,board){
-                 $("#menu1 tbody").append( 
-                			"<tr>"+
-							"<td>"+board.bno+"</td>"+
-							"<td>"+board.location+"</td>"+
-							"<td>"+board.category+"</td>"+
-							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
-							"<b>["+board.reply_count+"]</b>"+
-							"</td>"+
-							"<td>"+board.userid+"</td>"+
-							"<td>"+board.view_count+"</td>"+
-							"<td>"+board.like_count+"</td>"+
-							"</tr>" 
-                )                                                                        
-            });
-            if(data.pagedto.prev){
-                str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
-             }
-             
-             for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
-                str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
-                
-             }
-             
-             if(data.pagedto.next){
-                str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
-             }
-             
-             console.log(str);
-            $(".pagination").html(str);
-        },
-        error: function(){
-            alert("simpleWithObject err");
+    $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
+    	var str="";
+    	temp = $(this).html();
+        var form = {
+                category :temp,
+                gu:'${criteria.gu}'
         }
-    });
     
-    
+    if(temp=='소통해요'){
+        $.ajax({
+            url: "/board/BoardTabListAjax",
+            type: "GET",
+            data: form,
+            success: function(data){
+            	
+                $("#menu1 tbody").empty();
+                
+                console.log(data);
+                $(data.voList).each(function(i,board){
+                     $("#menu1 tbody").append( 
+                    			"<tr>"+
+    							"<td>"+board.bno+"</td>"+
+    							"<td>"+board.location+"</td>"+
+    							"<td>"+board.category+"</td>"+
+    							"<td><a class='move smallList' href='"+board.bno+"'>"+board.title+"</a>"+
+    							"<b>["+board.reply_count+"]</b>"+
+    							"</td>"+
+    							"<td>"+board.userid+"</td>"+
+    							"<td>"+board.view_count+"</td>"+
+    							"<td>"+board.like_count+"</td>"+
+    							"</tr>" 
+                    )                                                                        
+                });
+                if(data.pagedto.prev){
+                    str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+                 }
+                 
+                 for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+                    str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+                    
+                 }
+                 
+                 if(data.pagedto.next){
+                    str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+                 }
+                 
+                 console.log(str);
+                $(".pagination").html(str);
+            },
+            error: function(){
+                alert("simpleWithObject err");
+            }
+        });
     }else if(temp=='불만있어요'){
         $.ajax({
             url: "/board/BoardTabListAjax",
@@ -485,7 +824,7 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
 							"<td>"+board.bno+"</td>"+
 							"<td>"+board.location+"</td>"+
 							"<td>"+board.category+"</td>"+
-							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+							"<td><a class='move smallList' href='"+board.bno+"'>"+board.title+"</a>"+
 							"<b>["+board.reply_count+"]</b>"+
 							"</td>"+
 							"<td>"+board.userid+"</td>"+
@@ -529,7 +868,7 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
 							"<td>"+board.bno+"</td>"+
 							"<td>"+board.location+"</td>"+
 							"<td>"+board.category+"</td>"+
-							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+							"<td><a class='move smallList' href='"+board.bno+"'>"+board.title+"</a>"+
 							"<b>["+board.reply_count+"]</b>"+
 							"</td>"+
 							"<td>"+board.userid+"</td>"+
@@ -567,13 +906,14 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
             success: function(data){
             	
                 $("#all tbody").empty();
+                console.log(data);
                 $(data.voList).each(function(i,board){
                      $("#all tbody").append(
                  			"<tr>"+
 							"<td>"+board.bno+"</td>"+
 							"<td>"+board.location+"</td>"+
 							"<td>"+board.category+"</td>"+
-							"<td><a class='move' href='"+board.bno+"'>"+board.title+"</a>"+
+							"<td><a class='move bigList' href='"+board.bno+"'>"+board.title+"</a>"+
 							"<b>["+board.reply_count+"]</b>"+
 							"</td>"+
 							"<td>"+board.userid+"</td>"+
@@ -582,31 +922,15 @@ $('a[data-toggle="tab"]').on('show.bs.tab',function(e){
 							"</tr>" 
                     )    
                 });
-                if(data.pagedto.prev){
-                    str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
-                 }
-                 
-                 for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
-                    str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
-                    
-                 }
-                 
-                 if(data.pagedto.next){
-                    str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
-                 }
-                 
-                 console.log(str);
-                $(".pagination").html(str);
+                
             },
             error: function(){
                 alert("simpleWithObject err");
             }
         });
     }
-    
 	
 });
-
 $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
 	localStorage.setItem('activeTab', $(e.target).attr('href'));
 });
@@ -614,35 +938,7 @@ var activeTab = localStorage.getItem('activeTab');
 if(activeTab){
 	$('#mytab a[href="' + activeTab + '"]').tab('show');
 }
+});
 
-});
-(function($) {
-	var $pMain = $("#parallax_main"),
-		$pToolbar = $pMain.find("#toolbar_main"),
-		$pTitle = $pToolbar.find("#title_main"),
-		 alpha=0,
-		 scale=1;
-	$(window).scroll(function() {
-    var st = $(window).scrollTop();
-    if (st <= 0) {
-        maxHeight = 350;
-    } else if (st > 350) {
-		  alpha = 1;
-        maxHeight = 70;
-    } else {
-		 	alpha =
-			0.0 + 1.2 * st / 350;
-	 scale =
-			1 - 0.20 * st / 350;
-        maxHeight =350 - 280 * ((st - 0)) / 350;
-        console.log(maxHeight);
-    }
-	 $pToolbar.css("background", "rgba(33,14,61," + alpha + ")");
-    $pMain.css({
-        'max-height': maxHeight + "px"
-    });
-	$pTitle.css('transform','scale('+scale+')');
-});
-})(jQuery);
 </script>
 </html>
