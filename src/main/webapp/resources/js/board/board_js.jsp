@@ -451,36 +451,53 @@ if(before_location == ""){
 
 //스마트에디터 summernote
 $(function() {
-  $('#content').summernote({
+  $("#content").summernote({
 	    placeholder: "내용을 입력하세요",
         height: 400,
         disableResizeEditor: true,
         focus: true,
         lang : "ko-KR",
-        callbacks: {	//이미지 첨부하는 부분
-            onImageUpload : function(files) {
-                 uploadSummernoteImageFile(files[0],this);
-             }
-         }
+        toolbar: [
+        	// [groupName, [list of button]]
+        	["fontname", ["fontname"]],
+        	["fontsize", ["fontsize"]],
+        	["style", ["bold", "italic", "underline", "strikethrough", "clear"]],
+        	["color", ["forecolor", "color"]],
+        	["table", ["table"]],
+        	["para", ["ul", "ol", "paragraph"]],
+        	["height", ["height"]],
+        	["insert", ["picture", "link", "video"]],
+        	["view", ["fullscreen", "help"]]
+        ],
+        fontNames: ["Arial", "Arial Black", "Comic Sans MS", "Courier New", "맑은고딕", "궁서", "굴림체", "굴림", "돋움체", "바탕체"],
+        fontSizes: ["8", "9", "10", "11", "12", "13", "14", "15", "16", "18", "20", "22", "24", "28", "30", "36", "50", "72"],
+        	callbacks: {	//여기 부분이 이미지를 첨부하는 부분
+				onImageUpload : function(files) {
+					uploadSummernoteImageFile(files[0],this);
+				}
+			}
 	});
-  
-  function uploadSummernoteImageFile(file, editor) {
-      data = new FormData();
-      data.append("file", file);
-      $.ajax({
-          data : data,
-          type : "POST",
-          url : "/uploadSummernoteImageFile",
-          contentType : false,
-          processData : false,
-          success : function(data) {
-              //항상 업로드된 파일의 url이 있어야 한다.
-              $(editor).summernote('insertImage', data.url);
-          }
-      });
-  }
+
+/**
+* 이미지 파일 업로드
+*/
+function uploadSummernoteImageFile(file, editor) {
+	data = new FormData();
+	data.append("file", file);
+	$.ajax({
+		data : data,
+		type : "POST",
+		url : "/board/uploadSummernoteImageFile",
+		contentType : false,
+		processData : false,
+		success : function(data) {
+        	//항상 업로드된 파일의 url이 있어야 한다.
+			$(editor).summernote("insertImage", data.url);
+		}
+	});
+}
   
   //서머노트 쓰기 비활성화
-  $('.summernote_readonly').summernote('disable');
+  $(".summernote_readonly").summernote("disable");
 });
 </script>

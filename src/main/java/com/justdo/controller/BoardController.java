@@ -3,15 +3,13 @@ package com.justdo.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,12 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.JsonObject;
 import com.justdo.domain.BoardVO;
-import com.justdo.domain.Criteria;
-import com.justdo.domain.PageDTO;
-import com.justdo.security.CustomUserDetailsService;
 import com.justdo.service.BoardService;
-import com.justdo.service.commonService;
-import com.justdo.service.myPageService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -36,76 +29,21 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/board/*")
 @AllArgsConstructor
 public class BoardController {
-	private commonService commonService;
+	
 	private BoardService service;
-	private CustomUserDetailsService loginService;
-	private myPageService myPageService;
-	
-	@GetMapping("list")
-	public void list(Criteria cri, Model model, Principal principal) {
-		
-		model.addAttribute("locationlist",service.getLocationList(cri));
-		model.addAttribute("list",service.getList(cri));
-		System.out.println("count Test......");
-		System.out.println(cri.getCategory());
-		model.addAttribute("pageMaker",new PageDTO(cri,service.getTotal(cri)));
 
-		// 로그인 확인 후 닉네임 넘기기
-		if (principal != null) {
-			String username = principal.getName();
-			log.warn("로그인 했음!" + username);
-			model.addAttribute("member", loginService.loadInfoByUsername(username));
-			
-			//날씨 정보 불러오는 구문 /////////////////////
-			String weatherData[]=null;
-			try {
-				weatherData = commonService.getWeather(commonService.selectGuForWeather(principal.getName()));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			model.addAttribute("weather",weatherData[0]);
-			model.addAttribute("temperature",weatherData[1]);
-			model.addAttribute("weatherGu",weatherData[2]);
-			
-		} else {
-			log.warn("로그인 하지 않았음!");
-		}
-	}
-	
-	@GetMapping("BoardTabListAjax")
-	@ResponseBody
-	public ResponseEntity<List<BoardVO>> BoardTabListAjax(Criteria cri,Model model) {
-		System.out.println("test......");
-		System.out.println(cri.getCategory());
-		System.out.println(cri.getGu());
-		System.out.println(cri.getStartIndex());
-		System.out.println(cri.getAmount());
-		System.out.println("test......");
-		model.addAttribute("pageMaker",new PageDTO(cri,service.getTotal(cri)));
-		return new ResponseEntity<List<BoardVO>>(service.getListWithPagingTabs(cri),HttpStatus.OK);
-	}
-	
-	
-	//ajax 토탈 개수 구하기
-	@GetMapping("getTotalNumAjax")
-	@ResponseBody
-	public int getTotalNumAjax(Criteria cri) {
-		return service.getTotal(cri);
+	//목록
+	@GetMapping("/list")
+	public void view(Model model) {
+		log.info("list");
+		model.addAttribute("list", service.getList());
 	}
 	
 	// 등록화면
 	@GetMapping("/register")
-	public String register(@RequestParam("userid") String userid, Model model, Principal principal) {
+	public void register(@RequestParam("userid") String userid,Model model) {
 		log.info("/register");
-		if (principal != null) {
-			String username = principal.getName();
-			model.addAttribute("userid", userid.toString());
-			model.addAttribute("member", myPageService.selectUser(username));
-			return "/board/register";
-		} else {
-			return "/board/list";
-		}
+		model.addAttribute("userid", userid.toString());
 	}
 	
 	// 등록처리
@@ -121,13 +59,14 @@ public class BoardController {
 	};
 	
 	// 상세보기
-	@GetMapping("/get")
-	public void get(@RequestParam("bno") Long bno, Model model) {
+	@GetMapping("/get/{bno}")
+	public String get(@PathVariable("bno") Long bno, Model model) {
 		log.info("/get");
 		model.addAttribute("board", service.get(bno));
+		return "/board/get";
 	}
 	
-	// 수정화면
+	// 수정화면불러오기
 	@GetMapping("/modify")
 	public void modify(@RequestParam("bno") Long bno, Model model) {
 		log.info("/modify");
@@ -154,40 +93,33 @@ public class BoardController {
 		}
 		return "redirect:/board/list";
 	}
-	
-	//이미지
-	@Controller
-	public class FileManageController {
-
-	    @PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
-	    @ResponseBody
-	    public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
-
-	        JsonObject jsonObject = new JsonObject();
-
-	        String fileRoot = "C:\\summernote_image\\";	//저장될 파일 경로
-	        String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
-	        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-
-	        // 랜덤 UUID+확장자로 저장될 savedFileName
-	        String savedFileName = UUID.randomUUID() + extension;	
-	        
-	        File targetFile = new File(fileRoot + savedFileName);
-
-	        try {
-	            InputStream fileStream = multipartFile.getInputStream();
-	            FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
-	            jsonObject.addProperty("url", "/summernoteImage/"+savedFileName);
-	            jsonObject.addProperty("responseCode", "success");
-
-	        } catch (IOException e) {
-	            FileUtils.deleteQuietly(targetFile);	// 실패시 저장된 파일 삭제
-	            jsonObject.addProperty("responseCode", "error");
-	            e.printStackTrace();
-	        }
-
-	        return jsonObject;
-	    }
-
+	//이미지업로드
+	@PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
+	@ResponseBody
+	public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
+		
+		JsonObject jsonObject = new JsonObject();
+		
+		String fileRoot = "C:\\summernote_image\\";	//저장될 외부 파일 경로
+		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
+		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+				
+		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+		
+		File targetFile = new File(fileRoot + savedFileName);	
+		
+		try {
+			InputStream fileStream = multipartFile.getInputStream();
+			FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
+			jsonObject.addProperty("url", "/upload/image/"+savedFileName);
+			jsonObject.addProperty("responseCode", "success");
+				
+		} catch (IOException e) {
+			FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
+			jsonObject.addProperty("responseCode", "error");
+			e.printStackTrace();
+		}
+		
+		return jsonObject;
 	}
 }

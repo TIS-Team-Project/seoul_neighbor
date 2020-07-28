@@ -23,7 +23,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/map/style.css">
 <link rel="stylesheet" type="text/css" href="/resources/css/board/style.css">
 <!-- include summernote css -->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.css" rel="stylesheet">
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.css">
 
 </head>
 <body>
