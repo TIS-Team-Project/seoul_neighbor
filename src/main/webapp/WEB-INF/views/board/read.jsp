@@ -3,336 +3,243 @@
     
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-   <meta charset="UTF-8">
-   
-   <style>
-   body {
-     font-family: "Lato", sans-serif;
-   }
-   
-   .sidenav {
-   margin-left : 30px;
-     width: 300px;
-     position: fixed;
-     top: 200px;
-     left: 20px;
-     overflow-x: hidden;
-     padding-top: 20px;
-   }
-   
-   .sidenav a {
-     padding: 6px 6px 6px 32px;
-     text-decoration: none;
-     font-size: 25px;
-     color: #818181;
-     display: block;
-   }
-   
-   .sidenav a:hover {
-     color: #f1f1f1;
-   }
-   
-   .main {
-     margin-right: 300px;
-     margin-left: 300px; /* Same as the width of the sidenav */
-   }
-   
-   @media screen and (max-height: 450px) {
-     .sidenav {padding-top: 15px;}
-     .sidenav a {font-size: 18px;}
-   }
-   .grid-container {
-     display: grid;
-     grid-template-columns: auto auto auto auto;
-     grid-gap: 10px;
-     padding: 10px;
-   }
-   
-   .grid-container > div {
-     text-align: center;
-     padding: 20px 0;
-     font-size: 30px;
-   }
-   
-   .item1 {
-     grid-column-end: span 3;
-   }
-   .padding20{
-      padding: 20px;
-   }
-   .buttons{
-      text-align: right;
-      margin:20px;
-   }
-   
-   /* temp */
-   #selectGu{
-      display:initial;
-      width:auto;
-   }
-   
-   #selectCategory{
-      display:initial;
-      width:auto;
-   }
-   
-   #sideMenu{
-      height:90vh;
-      border-right:1px solid black;
-      padding:2rem;
-   }
-   
-   /* 게시글 상세 제목,아이디 부분  */
-   #rightTop{
-      border-top:1.5px solid black;
-      border-bottom:1.5px solid black;
-   }
-   
-   #rightContent{
-      padding:5rem;
-   }
-   
-   #boardTitle{
-      padding:1rem;
-   }
-   
-   #userDiv{
-      width:3rem;
-      display:inline-block;
-      border:none;
-   }
-   
-   /* 게시글 상세 내용 부분 */
-   #boardContent{
-      padding:1rem;
-   }
-   
-   .likeCount{
-      float:right;
-      padding:1rem;
-      cursor:pointer;
-   }
-   
-   .unlikeCount{
-      float:left;
-      padding:1rem;
-      cursor:pointer;
-   }
-   
-   #commentInsertDiv{
-      margin:10px;
-   }
-   
-   </style>
-   
-   <title>상세 보기</title>
-       
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울이웃</title>
+
+<!-- CSS style ------------------------------>
+<link rel="stylesheet" href="/resources/css/board/read.css">
+
 </head>
 
 <body>
-   <!-- header include ------------>
-   <%@include file="../common/header.jsp"%>
-   <!-- header include -->
+	<!-- header include ------------>
+	<%@include file="../common/header.jsp"%>
+	<!-- header include -->
 
-	
-	<!-------	side menu-------------------------->
-   
-   <div class="container" style="margin-top:60px">
-      <div class="row">
-         <div id="sideMenu" class="col-lg-3">
-               <!-------   side menu-------------------------->
-               <div>
-                  <h5>빠른 게시판 이동</h5>
-                     <div>지역 >
-                     <select id="selectGu" name="gu" class="form-control">
-                        <option>강남구</option>
-                        <option>강동구</option>
-                        <option>강북구</option>
-                        <option>강서구</option>
-                        <option>관악구</option>
-                        <option>광진구</option>
-                        <option>구로구</option>
-                        <option>금천구</option>
-                        <option>노원구</option>
-                        <option>도봉구</option>
-                        <option>동대문구</option>
-                        <option>동작구</option>
-                        <option>마포구</option>
-                        <option>서대문구</option>
-                        <option>서초구</option>
-                        <option>성동구</option>
-                        <option>성북구</option>
-                        <option>송파구</option>
-                        <option>양천구</option>
-                        <option>영등포구</option>
-                        <option>용산구</option>
-                        <option>은평구</option>
-                        <option>종로구</option>
-                        <option>중구</option>
-                        <option>중랑구</option>
-                     </select>
-                     </div>
-                     <div>카테고리 >
-                     <select id="selectCategory" name="category" class="form-control">
-                        <option>놀아요</option>
-                        <option>운동해요</option>
-                        <option>메롱</option>
-                     </select>
-                     </div>
-               </div>
-               <div>
-                  <h5>우리 동네 인기글</h5>
-               </div>
 
-               <!-- side menu -->
-         </div>
-         <div id="rightContent" class="col-lg-9">
-            <!-- 게시글 상세 제목,아이디 부분 -------------------->
-            <div id="rightTop" class="row">
-               <div id="boardTitle" class="col-lg-9">
-                  <h4>[${board.category}] ${board.title}</h4>
-                  <span>${board.updatedate} | 조회 ${board.view_count} | 추천 ${board.like_count} | 댓글 ${board.reply_count} </span>
-               </div>
-               <div class="col-lg-3" style="padding:1rem">
-                  <div id="userDiv" class="card text-center">
-                     <img class="card-img-top" src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
-                  </div>
-                  <span id="userId">${board.userid}</span>
-               </div>
-            </div>
-            <!-- 게시글 상세 제목, 아이디 부분 -->
-            
-            <!-- 게시글 내용 부분 ------------------------------->
-            <div id="boardContent" class="row">
-               <p>${board.content}</p>
-            </div>
-            <!-- 게시글 내용 부분 -->
-            
-            <!-- 좋아요, 싫어요 부분 ------------------------------>
-            <div id="boardLikeUnlike" class="row text-center">
-               <div style="width:50%">
-                  <span class="likeCount">${board.like_count} <i id="likeButton" class="fas fa-thumbs-up"></i> 좋아요</span>
-               </div>
-               <div style="width:50%">
-                  <span class="unlikeCount">${board.unlike_count} <i id="unlikeButton" class="fas fa-thumbs-down"></i> 별로에요</span>
-               </div>
-            </div>
-            <!-- 좋아요, 싫어요 부분 -->
-            
-            <!-- 댓글 창 부분 ----------------------------------->
-            <div id="commentDiv   " class="row">
-               
-            </div>
-            <!-- 댓글 창 부분 -->
-            
-            <!-- 댓글 입력 창 ----------------------------------->
-            <div id="commentInsertDiv" class="row">
-               <input type="text" class="form-control" placeholder="댓글을 입력하세요" style="width:80%"><input type="button" class="form-control" value="등록" style="width:20%">
-            </div>
-            <!-- 댓글 입력 창 -->
-            
-            <!-- 다른 페이지 이동 버튼 --------------------------->
-            <div id="crudDiv" class="row" style="display:block">
-                  <button type="button" class="btn btn-primary">목록</button>
-                  <button type="button" class="btn btn-primary float-right">글쓰기</button>
-                  <button type="submit" data-oper='remove' class="btn btn-danger float-right">
-		    		 삭제
-		   		 </button> 	
-                  <button type="button" class="btn btn-primary float-right">수정</button>
- 	  
-		 	    <form id="metaForm" method="POST" action="">
-		 	    	<input id="boardBno" name="bno" type="hidden" value="<c:out value='${board.bno}' />">
-			    </form> 
-      
-            </div>
-            <!-- 다른 페이지 이동 버튼 -->
-         </div>
+    <div class="container" style="margin-top:30px">
+        <div class="row">
+        
+        	<!-- 왼쪽 사이드메뉴 ---------------------------------------->
+            <div class="col-sm-2 left-menu">
+                <div id="speedMove">
+                    <h5><b>빠른 게시판 이동</b></h5>
+                    <div class="input-group mb-3">
+                        <select id="selectGu" name="gu" class="form-control custom-select">
+                            <option>지역선택</option>
+                            <option>강남구</option>
+                            <option>강동구</option>
+                            <option>강북구</option>
+                            <option>강서구</option>
+                            <option>관악구</option>
+                            <option>광진구</option>
+                            <option>구로구</option>
+                            <option>금천구</option>
+                            <option>노원구</option>
+                            <option>도봉구</option>
+                            <option>동대문구</option>
+                            <option>동작구</option>
+                            <option>마포구</option>
+                            <option>서대문구</option>
+                            <option>서초구</option>
+                            <option>성동구</option>
+                            <option>성북구</option>
+                            <option>송파구</option>
+                            <option>양천구</option>
+                            <option>영등포구</option>
+                            <option>용산구</option>
+                            <option>은평구</option>
+                            <option>종로구</option>
+                            <option>중구</option>
+                            <option>중랑구</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <select id="selectCategory" name="category" class="form-control custom-select">
+                            <option>카테고리</option>
+                            <option>놀아요</option>
+                            <option>운동해요</option>
+                            <option>메롱</option>
+                        </select>
+                    </div>
+                </div>
 
-      </div>
-      
-       <!-- The Modal -->
-	  <div class="modal" id="deleteModal">
-	    <div class="modal-dialog">
-	      <div class="modal-content">
-	      
-	        <!-- Modal Header -->
+                <h5><b>우리동네 인기글</b></h5>
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">[소통해요]우리집 개가 사라졌어요</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">[소통해요]트레이너 참교육 썰.ssul</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">[소통해요]추천좀</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">[소통해요]추천댓글필수</a>
+                    </li>
+                </ul>
+                <hr class="d-sm-none">
+            </div>
+            <!-- 왼쪽 사이드메뉴 -->
 
-	        
-	        <!-- Modal body -->
-	        <div class="modal-body">
-				삭제하시겠습니까
-	        </div>
-	        
-	        <!-- Modal footer -->
-	        <div class="modal-footer">
-      	      <button id="delete" type="button" class="btn btn-danger" data-dismiss="modal">삭제</button>
-	          <button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
-	        </div>
-	        
-	      </div>
-	    </div>
-	  </div>
-      
-   </div>
-   
-   
-	 <script>
-		   $(document).ready(function(){
-			   
-			   let bno=${board.bno}
-			   let likeCount=${board.like_count}
-/* 			   $(".likeCount").html(likeCount); */
-			   
-			      $("#likeButton").click(function(){
-			         $.ajax({
-			            url: "/read/plusLike/" + bno, 
-			            type: "GET",
-			            dataType: "text",
-			            success: function(result, status, xhr){
-			               console.log(result);
-			               
-			               $(".likeCount").html(result+" <i id='likeButton' class='fas fa-thumbs-up'></i> 좋아요</span>");
-			            }
-			         });
-			      });
-			      
-			      $("#unlikeButton").click(function(){
-			    	  
-			         $.ajax({
-			            url: "/read/plusUnlike/" + bno, 
-			            type: "GET",
-			            dataType: "text",
-			            success: function(result, status, xhr){
-			               console.log(result);
-			               
-			               $(".unlikeCount").html(result+" <i id='unlikeButton' class='fas fa-thumbs-down'></i> 별로에요</span>");
-			            }
-			         });
-			      });
-			      
-			      
- 			      let metaForm = $("#metaForm");
-			      
-			      $("button[data-oper='remove']").click(function(e){
-			    	  e.preventDefault();
-			    	  
-			    	  let modal= $("#deleteModal");
-			    	  $("#deleteModal").modal("show");
-			    
-			      }) 	 
-			      
-   			   	  $("#delete").click(function(e){
-			    	  e.preventDefault();
-			    	  metaForm.attr("action", "/board/remove/" + bno);
-			    	  metaForm.submit();
-   			  	 }) 
-		   })
-		   
-		</script>	
+			<!-- 상세보기 본문 ------------------------------------------------------->
+            <div class="col-sm-10">
+                <div id="contentTitle">
+                    <div id="writer" class="d-flex justify-content-between">
+                        <div id="contentInfo">
+                            <div id>
+                                <h2><c:out value="${board.title}"/></h2>
+                            </div>
+                            <div>
+                                <span><c:out value="${board.regdate}"/></span>
+                                <span>조회 <c:out value="${board.view_count}"/></span>
+                                <span>추천 <c:out value="${board.like_count}"/></span>
+                                <span>댓글 <c:out value="${board.reply_count}"/></span>
+                                <span>신고하기</span>
+                            </div>
 
-</body> 
+                        </div>
 
+                        <div id="writerProfile">
+                            <span> 
+                            	<c:choose>
+									<c:when test="${member.member_filename eq null }">
+										<img id="profileChangeImg"
+											class="card-img-top"
+											src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
+									</c:when>
+									<c:when test="${member.member_filename != null }">
+										<img id="profileChangeImg" class="card-img-top"
+											src="/resources/img/mypage/<c:out value="${member.member_filename}"/>"
+											alt="프로필 이미지">
+									</c:when>
+								</c:choose>
+							</span>
+                            <span>${board.userid }</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="contentBody">
+               		${board.content}
+                </div>
+
+
+                <div class="recomend_box d-flex justify-content-between">
+                    <div>
+                        <span class="likeCount"><c:out value="${board.like_count}"/></span>
+                        <i class="likeIcon far fa-thumbs-up"></i>
+                    </div>
+                    <div>
+                        <span class="unlikeCount"><c:out value="${board.unlike_count}"/></span>
+                        <i class="likeIcon far fa-thumbs-down"></i>
+                    </div>
+                </div>
+
+                <!-- 댓글창 ----------------------------------------------------->
+                <div id="commentDiv">
+                     
+                    <!--댓글 목록--------------------------------------->
+                    <div id="commentList">
+
+                        <div class="reply-container container">
+                            <div class="d-flex row">
+                                <div class="col-md-12">
+                                    <div class="d-flex flex-column comment-section" id="myGroup">
+                                        <div class="bg-white p-2">
+                                            <div class="d-flex flex-row user-info">
+                                                <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40" height="40">
+                                                <div class="d-flex flex-column justify-content-start ml-2">
+                                                    <span class="d-block font-weight-bold name">Marry Andrews</span>
+                                                    <span class="date text-black-50">Shared publicly - Jan 2020</span>
+                                                </div>
+                                                <div class="reply-content mt-2">
+                                                    <p class="comment-text">
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                    </p>
+                                                </div>
+                                                <div class="re-reply ml-auto mt-2">
+                                                    <span>댓글달기</span>
+                                                    <span>신고하기</span>
+                                                </div>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                       <div class="reply-container container">
+                            <div class="d-flex row">
+                                <div class="col-md-12">
+                                    <div class="d-flex flex-column comment-section" id="myGroup">
+                                        <div class="bg-white p-2">
+                                            <div class="d-flex flex-row user-info">
+                                                <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40" height="40">
+                                                <div class="d-flex flex-column justify-content-start ml-2">
+                                                    <span class="d-block font-weight-bold name">Marry Andrews</span>
+                                                    <span class="date text-black-50">Shared publicly - Jan 2020</span>
+                                                </div>
+                                                <div class="reply-content mt-2">
+                                                    <p class="comment-text">
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                                    </p>
+                                                </div>
+                                                <div class="re-reply ml-auto mt-2">
+                                                    <span>댓글달기</span>
+                                                    <span>신고하기</span>
+                                                </div>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--댓글목록-->
+
+                    <!--댓글페이징------------------------>
+                    <div id="replyPaging">
+
+                    </div>
+                    <!--댓글페이징-->
+
+                    <!--댓글 입력---------------------------------------->
+                    <div id="commentWrite">
+                        <div class="input-group mb-3">
+                            <textarea class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-secondary" type="submit">댓글등록하기</button>
+                            </div>
+                          </div>
+                    </div>
+                    <!--댓글입력-->
+
+                </div>
+                <!-- 댓글창 -->
+
+                <!-- 버튼 모음 -------------------------------->
+                <div class="btn-box d-flex">
+                    <button class="btn btn-primary mr-auto m-1">목록으로</button>
+                    <button class="btn btn-warning m-1">수정하기</button>
+                    <button class="btn btn-warning m-1">삭제하기</button>
+                    <button class="btn btn-primary m-1">글쓰기</button>
+                </div>
+                <!-- 버튼모음 -->
+
+            </div>
+            <!-- 상세보기 본문 -->
+        </div>
+    </div>
+
+
+</body>
 
 </html>

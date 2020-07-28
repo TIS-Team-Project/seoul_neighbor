@@ -117,9 +117,9 @@ public class BoardController {
 	};
 	
 	// 상세보기
-	@GetMapping("/get")
+	@GetMapping("/read")
 	public void get(@RequestParam("bno") Long bno, Model model) {
-		log.info("/get");
+		log.info("/read");
 		model.addAttribute("board", service.get(bno));
 	}
 	

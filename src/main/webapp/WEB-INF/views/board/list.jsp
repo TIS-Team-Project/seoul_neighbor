@@ -386,8 +386,8 @@ $(document).ready(function(){
     	  console.log('click');
     	  actionForm.find("input[name='pageNum']").val($(this).attr("href"));
     	  
-    	  var temp = actionForm.find("input[name='category']").val();
-    	  var inputTbody;
+    	  var temp = actionForm.find("input[name='category']").val(); //제가 선택한 카테고리를 input 히든에 넣는거고
+    	  var inputTbody; // 얘는 결과값을 보여줄 탭의 위치?
     	  var paginationInput = $("#pagination");
     	  
     	  console.log(temp);
@@ -402,6 +402,8 @@ $(document).ready(function(){
     		}
     	  
     	  var dataObj = actionForm.serialize();
+    	  
+    	  
     	  console.log(dataObj);
     	  getListWithTap(dataObj, inputTbody, paginationInput)
     });
@@ -431,7 +433,7 @@ $(document).ready(function(){
     $(".move").on("click",function(e) {
    	 e.preventDefault();
    	 actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
-   	 actionForm.attr("action","/board/get");
+   	 actionForm.attr("action","/board/read");
    	 actionForm.submit();
      });
     
