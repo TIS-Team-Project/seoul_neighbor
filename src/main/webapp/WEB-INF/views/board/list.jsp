@@ -922,7 +922,21 @@ $(document).ready(function(){
 							"</tr>" 
                     )    
                 });
-                
+                if(data.pagedto.prev){
+                    str += '<li class="paginate_button previous"><a class="page-link" href="${data.pagedto.startPage -1}">Previous</a></li>';
+                 }
+                 
+                 for(var i = data.pagedto.startPage; i<=data.pagedto.endPage; i++){
+                    str += '<li class="paginate_button"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+                    
+                 }
+                 
+                 if(data.pagedto.next){
+                    str += '<li class="paginate_button"><a class="page-link" href="${data.pagedto.endPage +1}">Next</a></li>';
+                 }
+                 
+                 console.log(str);
+                $(".pagination").html(str);
             },
             error: function(){
                 alert("simpleWithObject err");
