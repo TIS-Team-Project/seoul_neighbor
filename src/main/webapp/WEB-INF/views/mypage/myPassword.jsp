@@ -37,7 +37,7 @@
 				<h1>비밀번호 변경</h1>
 				<div id="rightDivContent" class="container mt-5">
 					<form id="changePasswordForm" method="post" action="changePassword">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<input type="hidden" name="userid" value="${member.userid }">
 						<h3><span style="color:red"> * </span>현재 비밀번호</h3>
 						<div class="row">

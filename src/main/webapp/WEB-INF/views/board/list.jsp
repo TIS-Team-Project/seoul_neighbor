@@ -94,7 +94,7 @@ header.collapsing-parallax + .site-main{
 		<div class="row">
 			<div class="col-xl-8">
 				<div class="panel panel-default ">
-					<div class="panel-heading pb-3"><c:out value="${member.nickname }" />님, <c:out value="${criteria.gu}"/>의 이야기를 들어보세요!</div>
+					<div class="panel-heading pb-3">김서울님, <c:out value="${criteria.gu}"/>의 이야기를 들어보세요!</div>
 				</div>
 				<div class="panel panel-body">
 					<div class="row">
@@ -110,7 +110,7 @@ header.collapsing-parallax + .site-main{
 									<c:forEach items="${locationlist}" var="board" begin="0" end="5" step="1" varStatus="i">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
-											<td><a class='move' href='read/<c:out value="${board.bno}"/>'>
+											<td><a class='move' href='<c:out value="${board.bno}"/>'>
 												<c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
@@ -133,7 +133,7 @@ header.collapsing-parallax + .site-main{
 									<c:forEach items="${locationlist}" var="board" begin="6" end="11" step="1" varStatus="i">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
-											<td><a class='move' href='read/<c:out value="${board.bno}" />'>
+											<td><a class='move' href='<c:out value="${board.bno}" />'>
 												<c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
@@ -160,7 +160,7 @@ header.collapsing-parallax + .site-main{
 									<c:forEach items="${locationlist}" var="board" begin="12" end="18" step="1" varStatus="i">
 										<tr>
 											<td>[<c:out value="${board.location}"/>]</td>
-											<td><a class='move' href='read/<c:out value="${board.bno}" />'>
+											<td><a class='move' href='<c:out value="${board.bno}" />'>
 												<c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
@@ -185,7 +185,7 @@ header.collapsing-parallax + .site-main{
 				</div>
 				<div class="panel panel-body">
 					<!-- 카테고리별 네비게이션  목록---------------------------------------------------------------------------------------------->
-					<ul class="nav nav-tabs" role="tablist">
+					<ul class="nav nav-tabs" role="tablist" id="mytab">
 						<li class="nav-item"><a class="nav-link active"
 							data-toggle="tab" href="#all">전체</a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="tab"
@@ -230,7 +230,7 @@ header.collapsing-parallax + .site-main{
 											<td><c:out value="${board.bno}"/></td>
 											<td><c:out value="${board.location}"/></td>
 											<td><c:out value="${board.category}" /></td>
-											<td><a class='move' href='read/<c:out value="${board.bno}" />'>
+											<td><a class='move' href='<c:out value="${board.bno}" />'>
 												<c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
@@ -265,102 +265,42 @@ header.collapsing-parallax + .site-main{
 							</table>
 						</div>
 						<div id="menu2" class="navlinktab tab-pane fade">
-							<table width="100%"
-								class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
+							<table style="Width:100%"
+								class="table table-striped table-bordered table-hover" id="dataTables-example">
 								<thead>
 									<tr>
 										<th>글번호</th>
 										<th>지역</th>
 										<th>카테고리</th>
 										<th>제목</th>
+										<th>작성자</th>
 										<th>조회수</th>
 										<th>추천수</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
+
+									
 								</tbody>
 							</table>
 						</div>
 						<div id="menu3" class="navlinktab tab-pane fade">
-							<table width="100%"
-								class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
+							<table style="Width:100%"
+								class="table table-striped table-bordered table-hover" id="dataTables-example">
 								<thead>
 									<tr>
 										<th>글번호</th>
 										<th>지역</th>
 										<th>카테고리</th>
 										<th>제목</th>
+										<th>작성자</th>
 										<th>조회수</th>
 										<th>추천수</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
-									<tr>
-										<td>12</td>
-										<td>신정동</td>
-										<td>불만있어요</td>
-										<td>신정4동OO노래방뒤쪽에쓰레기를버리는분들이많은것같아요[7]</td>
-										<td>64</td>
-										<td>13</td>
-									</tr>
+
+									
 								</tbody>
 							</table>
 						</div>
@@ -412,6 +352,7 @@ header.collapsing-parallax + .site-main{
 					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
 					<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 					<input type='hidden' name='gu' value='<c:out value="${criteria.gu}"/>'>
+
 									
 					<button class='btn btn-default'>검색</button>
 				</form>
@@ -456,15 +397,15 @@ $(document).ready(function(){
     });
     
     $("#regBtn").on("click", function(){
-        self.location = "/board/register";
+        self.location = "/board/register?userid=test";
      });
     
-/*     $(".move").on("click",function(e) {
+    $(".move").on("click",function(e) {
    	 e.preventDefault();
    	 actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
-   	 actionForm.attr("action","/board/read");
+   	 actionForm.attr("action","/board/get");
    	 actionForm.submit();
-     }); */
+     });
     
     var searchFormNum = $("#searchFormNum");
     
@@ -474,19 +415,22 @@ $(document).ready(function(){
   	  searchFormNum.submit();
   	  
     });
-$(".nav-link").on("click",function(e){
+$('a[data-toggle="tab"]').on('show.bs.tab',function(e){
 	var temp = $(this).html();
     var form = {
-            category:temp,
+            category :temp,
             gu:'${criteria.gu}'
     }
-    console.log(form);    
+    
+    console.log(form);
+    if(temp=='소통해요'){
     $.ajax({
         url: "/board/BoardTabListAjax",
         type: "GET",
         data: form,
         success: function(data){
-            //$("#messageList").empty();
+        	
+            $("#menu1 tbody").empty();
             $(data).each(function(i,board){
                  $("#menu1 tbody").append(
 						"<tr>"+
@@ -498,15 +442,126 @@ $(".nav-link").on("click",function(e){
 						"<td>"+board.veiw_count+"</td>"+
 						"<td>"+board.like_count+"</td>"+
 						"</tr>"	 	
-                )
+                )    
             });
+            $(".pagination").empty();
+            $(".pagination").append(
+					"<c:if test='${pageMaker.prev}'>"+
+					"<li class='paginate_button previous'><a class='page-link' href='${pageMaker.startPage -1}'>Previous</a></li>"+
+				"</c:if>"+
+				"<c:forEach var='num' begin='${pageMaker.startPage}' end='${pageMaker.endPage}'>"+
+					"<li class='paginate_button' ${pageMaker.cri.pageNum==num? 'active':''}><a class='page-link' href='${num}'>${num}</a></li>"+
+				"</c:forEach>"+
+				"<c:if test='${pageMaker.next}'>"+
+					"<li class='paginate_button'><a class='page-link' href='${pageMaker.endPage +1}'>Next</a></li>"+
+				"</c:if>"	
+            );
+            $("#actionForm").empty();
+            $("#actionForm").append(
+					"<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>"+
+					"<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>"+
+					"<input type='hidden' name='type' value='<c:out value='${pageMaker.cri.type}'/>'>"+
+					"<input type='hidden' name='keyword' value='<c:out value='${pageMaker.cri.keyword}'/>'>"+
+					"<input type='hidden' name='gu' value='<c:out value='${criteria.gu}'/>'>"+
+					"<input type='hidden' name='category' value='<c:out value='${criteria.category}'/>'>"
+            );
+            
         },
         error: function(){
             alert("simpleWithObject err");
         }
     });
+    }else if(temp=='불만있어요'){
+        $.ajax({
+            url: "/board/BoardTabListAjax",
+            type: "GET",
+            data: form,
+            success: function(data){
+            	
+                $("#menu2 tbody").empty();
+                $(data).each(function(i,board){
+                     $("#menu2 tbody").append(
+    						"<tr>"+
+    						"<td>"+board.bno+"</td>"+
+    						"<td>"+board.location+"</td>"+
+    						"<td>"+board.category+"</td>"+
+    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
+    						"<td>"+board.userid+"</td>"+
+    						"<td>"+board.veiw_count+"</td>"+
+    						"<td>"+board.like_count+"</td>"+
+    						"</tr>"	 	
+                    )    
+                });
+                
+            },
+            error: function(){
+                alert("simpleWithObject err");
+            }
+        });
+    }else if(temp=='모여요'){
+        $.ajax({
+            url: "/board/BoardTabListAjax",
+            type: "GET",
+            data: form,
+            success: function(data){
+            	
+                $("#menu3 tbody").empty();
+                $(data).each(function(i,board){
+                     $("#menu3 tbody").append(
+    						"<tr>"+
+    						"<td>"+board.bno+"</td>"+
+    						"<td>"+board.location+"</td>"+
+    						"<td>"+board.category+"</td>"+
+    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
+    						"<td>"+board.userid+"</td>"+
+    						"<td>"+board.veiw_count+"</td>"+
+    						"<td>"+board.like_count+"</td>"+
+    						"</tr>"	 	
+                    )    
+                });
+                
+            },
+            error: function(){
+                alert("simpleWithObject err");
+            }
+        });
+    }else if(temp=='all'){
+        $.ajax({
+            url: "/board/BoardTabListAjax",
+            type: "GET",
+            data: form,
+            success: function(data){
+            	
+                $("#all tbody").empty();
+                $(data).each(function(i,board){
+                     $("#all tbody").append(
+    						"<tr>"+
+    						"<td>"+board.bno+"</td>"+
+    						"<td>"+board.location+"</td>"+
+    						"<td>"+board.category+"</td>"+
+    						"<td>"+"<span class='boardTitle'>"+board.title+"</span> ["+board.reply_count+"]</td>"+
+    						"<td>"+board.userid+"</td>"+
+    						"<td>"+board.veiw_count+"</td>"+
+    						"<td>"+board.like_count+"</td>"+
+    						"</tr>"	 	
+                    )    
+                });
+                
+            },
+            error: function(){
+                alert("simpleWithObject err");
+            }
+        });
+    }
 	
 });
+$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+	localStorage.setItem('activeTab', $(e.target).attr('href'));
+});
+var activeTab = localStorage.getItem('activeTab');
+if(activeTab){
+	$('#mytab a[href="' + activeTab + '"]').tab('show');
+}
 });
 (function($) {
 	var $pMain = $("#parallax_main"),

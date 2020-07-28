@@ -1,13 +1,13 @@
 package com.justdo.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,14 +40,27 @@ public class MyPageController {
 	@GetMapping("mylist")
 	public String myList(Model model,MemberVO vo,Principal principal) {
 		if (principal != null) {
-			String username = principal.getName();
-			vo = myPageService.selectUser(username);
-			model.addAttribute("member", myPageService.selectUser(vo.getUserid())); 
-			model.addAttribute("board",myPageService.selectMyBoardList(vo.getUserid(),0));
-			model.addAttribute("pageTotalNum",myPageService.selectCountMyBoardList(vo.getUserid()));
-			model.addAttribute("nowPageNum",1);
-			return "mypage/mylist";
-		} else {
+		String username = principal.getName();
+		vo = myPageService.selectUser(username);
+		model.addAttribute("member", myPageService.selectUser(vo.getUserid())); 
+		model.addAttribute("board",myPageService.selectMyBoardList(vo.getUserid(),0));
+		model.addAttribute("pageTotalNum",myPageService.selectCountMyBoardList(vo.getUserid()));
+		model.addAttribute("nowPageNum",1);
+		
+		//날씨 정보 불러오는 구문
+		String weatherData[]=null;
+		try {
+			weatherData = service.getWeather(service.selectGuForWeather(principal.getName()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("weather",weatherData[0]);
+		model.addAttribute("temperature",weatherData[1]);
+		model.addAttribute("weatherGu",weatherData[2]);
+		//
+		
+		return "mypage/mylist";
+		}else {
 			return "/index";
 		}
 	}
@@ -72,11 +85,23 @@ public class MyPageController {
 			model.addAttribute("message",myPageService.selectMessageList(vo.getUserid(),0));
 			model.addAttribute("pageTotalNum",myPageService.selectCountMessage(vo.getUserid()));
 			model.addAttribute("nowPageNum",1);
+			
+			//날씨 정보 불러오는 구문
+			String weatherData[]=null;
+			try {
+				weatherData = service.getWeather(service.selectGuForWeather(principal.getName()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("weather",weatherData[0]);
+			model.addAttribute("temperature",weatherData[1]);
+			model.addAttribute("weatherGu",weatherData[2]);
+			//
+			
 			return "mypage/myMessage";
 		} else {
 			return "/index";
 		}
-		
 	}
 	// 쪽지함 페이지 이동 //
 	
@@ -85,6 +110,7 @@ public class MyPageController {
 	@ResponseBody
 	public ResponseEntity<List<MessageVO>> myMessageAjax(Principal principal, int pageNum) {
 		String username = principal.getName();
+		System.out.println(username);
 		return new ResponseEntity<List<MessageVO>>(myPageService.selectMessageList(username, pageNum),HttpStatus.OK);
 	}
 	//쪽지 Ajax로 불러오기 //
@@ -130,11 +156,23 @@ public class MyPageController {
 			model.addAttribute("QA",myPageService.selectQAList(vo.getUserid(),0));
 			model.addAttribute("pageTotalNum",myPageService.selectCountQAList(vo.getUserid()));
 			model.addAttribute("nowPageNum",1);
+			
+			//날씨 정보 불러오는 구문
+			String weatherData[]=null;
+			try {
+				weatherData = service.getWeather(service.selectGuForWeather(principal.getName()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("weather",weatherData[0]);
+			model.addAttribute("temperature",weatherData[1]);
+			model.addAttribute("weatherGu",weatherData[2]);
+			//
 			return "mypage/myQA";
+			
 		} else {
 			return "/index";
 		}
-		
 	}
 	// 1:1 문의 이동 //
 	
@@ -161,6 +199,18 @@ public class MyPageController {
 		if (principal != null) {
 			String username = principal.getName();	
 			model.addAttribute("member", myPageService.selectUser(username));
+			
+			//날씨 정보 불러오는 구문
+			String weatherData[]=null;
+			try {
+				weatherData = service.getWeather(service.selectGuForWeather(principal.getName()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			model.addAttribute("weather",weatherData[0]);
+			model.addAttribute("temperature",weatherData[1]);
+			model.addAttribute("weatherGu",weatherData[2]);
+			//
 			return "mypage/myPassword";
 		}
 		return "/index";
@@ -172,35 +222,40 @@ public class MyPageController {
 	
 	//유저 정보 수정 //////////////////////////////////////
 	@PostMapping("updateUser")
-	public String profile(MemberVO vo, MultipartFile[] uploadFile, String isFileChanged) {
+	public String profile(MemberVO vo, MultipartFile[] uploadFile, String isFileChanged, Principal principal) {
 		File file;
 		
-		String uploadFolder = "D://Project_Seoul/workspace/seoul_neighbor/src/main/webapp/resources/img/mypage";
+		String uploadFolder = "c://Project/seoulneighbor/seoulNeighbor/src/main/webapp/resources/img/mypage";
+		
+
 		
 		UUID uuid = UUID.randomUUID();
+		
+		
 		String uploadFileName = vo.getMember_filename();
 		
 		String fileChanged = isFileChanged;
 		
-		System.out.println(fileChanged);
 	
-		
-		
-		
 		for(MultipartFile multipartFile : uploadFile) {
 			File saveFile = new File(uploadFolder,uuid.toString()+"_"+multipartFile.getOriginalFilename());
 			
 			try {
 				if(fileChanged.equals("true")) { //프로필 이미지가 바뀌었을떼만
-					uploadFileName = uuid.toString()+"_"+uploadFileName;
-					file = new File(uploadFolder,myPageService.getOriginalFileName(vo.getUserid())); //기존에 있던 파일 이름을 가져와서
-					file.delete(); //삭제
+					uploadFileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
+					try {
+						file = new File(uploadFolder,myPageService.getOriginalFileName(vo.getUserid())); //기존에 있던 파일 이름을 가져와서
+						file.delete(); //삭제
+					}catch(NullPointerException e) {
+						e.printStackTrace();
+					}
 					multipartFile.transferTo(saveFile); //새로운 파일 등록
 					vo.setMember_filename(uploadFileName);
 				}
 				if(vo.getMember_filename().equals("")) {
 					vo.setMember_filename(null);
 				}
+				
 				myPageService.updateUser(vo); //데이터베이스 업데이트
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -213,20 +268,19 @@ public class MyPageController {
 	//비밀번호 변경 //////////////////////////////////////////////////
 	@PostMapping("changePassword")
 	public String changePassword(RedirectAttributes rttr, MemberVO vo, String changePw) {
-		try { 
-			String encodedPassword = pwdEncoder.encode(vo.getUserpw());
-			vo.setUserpw(encodedPassword);
-			System.out.println(vo);
-			service.login(vo).getUserid();
-		}catch(Exception e) {
-			e.printStackTrace();
-			rttr.addFlashAttribute("result","fail");
-			return"redirect:/myPassword"; 
-		}
-		vo.setUserpw(pwdEncoder.encode(changePw));
-		myPageService.updatePassword(vo);
-		rttr.addFlashAttribute("result","success");
-		return "redirect:/myPassword";
+
+			if(pwdEncoder.matches(vo.getUserpw(), myPageService.selectUserPw(vo.getUserid()))) {
+				vo.setUserpw(pwdEncoder.encode(changePw));
+				myPageService.updatePassword(vo);
+				rttr.addFlashAttribute("result","success");
+				return "redirect:/myPassword";
+			}
+			else {
+				rttr.addFlashAttribute("result","fail");
+				return"redirect:/myPassword"; 
+			}
+
+
 	}
 	//비밀번호 변경//
 

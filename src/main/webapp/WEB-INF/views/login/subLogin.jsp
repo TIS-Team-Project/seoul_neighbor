@@ -16,9 +16,9 @@ sub login page
 
 <head>
 <title>서울이웃 :: I SEOUL U</title>
-<!-- CSS style ------------------------------>
-<link rel="stylesheet" href="/resources/css/common/basic.css">
-<link rel="stylesheet" href="/resources/css/common/index-page.css">
+<!-- 3. CSS ------------------------------>
+<link rel="stylesheet" href="/resources/css/common/index.css">
+<!-- 3. CSS -->
 <!-- Latest compiled and minified CSS ------------>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <!-- Latest compiled JavaScript ------------>
@@ -59,7 +59,7 @@ sub login page
 							<label class="label-checkbox" for="remember-me-checkbox">로그인 상태 유지</label>
 						</div>
 						<div class="col-md-6 text-right">
-							<a href="#" class="text-colored"> 비밀번호 찾기 </a>
+							<a href="/find_id_pw" class="text-colored"> 비밀번호 찾기 </a>
 						</div>
 					</div>
 				</div>

@@ -42,6 +42,10 @@
 	margin:0 !important;
 }
 
+.logo {
+	cursor:pointer;
+}
+
 /* 상단 메시지 디자인 *********************************/
 #noReadCount{
 	position:relative;
@@ -68,3 +72,18 @@
 	color:white !important;
 }
 /* 상단 메시지 디자인 */
+
+/* 날씨 디자인 */
+.weatherContent{
+	    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin:0 auto;
+}
+
+@media screen and (max-width:968px){
+	#guWeatherText{
+		display:none;
+	}
+}

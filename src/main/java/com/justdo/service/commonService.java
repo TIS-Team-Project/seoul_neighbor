@@ -35,8 +35,17 @@ public interface commonService {
 	public int selectMessageReadCount(String userid);
 
 	//날씨 불러오기
-	public String getWeather() throws IOException;
+	public String[] getWeather(String Gu) throws IOException;
 	
     //해당 bno의 board 삭제.
 	public boolean remove(int bno);
+	
+	//날씨 정보 위한 구 가져오기
+	public String selectGuForWeather(String userid);
+
+	//이메일로 회원 아이디 찾기
+	public String findIdByEmail(String email);
+	
+	//이메일과 아이디가 모두 맞는 회원의 비밀번호 변경하기
+	public String changePassword(String userid, String email, String userpw);
 }

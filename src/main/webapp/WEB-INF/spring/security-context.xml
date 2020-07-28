@@ -26,9 +26,6 @@
 			success-handler-ref="logoutSuccess" 
 			delete-cookies="remember-me, JSESSION_ID" 
 			invalidate-session="true"/>
-		<!-- 403 에러 페이지 -->
-		<security:access-denied-handler
-			error-page="/login/access_denied"/>
 	</security:http>
 	
 	<security:authentication-manager>

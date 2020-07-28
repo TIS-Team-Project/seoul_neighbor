@@ -15,7 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- leftNav.css -->
-<link rel="stylesheet" href="/resources/css/mypage/left_nav.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/mypage/left_nav.css">
 </head>
 <body>
 <!-- 1.왼쪽 메뉴 ---------------------------------------------->
@@ -44,7 +44,7 @@
 		    	<a class="nav-link" href="/profile">프로필</a>
 		    </li>
 		    <li class="nav-item">
-		    	<a class="nav-link" href="/mylist">작성글 보기</a>
+		    	<a class="nav-link" href="/mylist">나의 게시글 보기</a>
 		    </li>
 		    <li class="nav-item">
 		    	<a class="nav-link" href="/myMessage">쪽지함</a>
