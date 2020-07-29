@@ -47,6 +47,8 @@
 #contentBody {
 	margin: 15px;
 	margin-bottom: 100px;
+	overflow:hidden;
+	word-wrap:break-word;
 }
 
 .recomend_box {
@@ -137,6 +139,10 @@
 
 .reply-container {
 	border-bottom: 1px solid #b6b3b3 !important;
+}
+
+#replyPaging {
+	margin-top : 20px;
 }
 
 /* 버튼 뭉치들 */

@@ -13,6 +13,7 @@
 <!-- CSS style ------------------------------>
 <link rel="stylesheet" href="/resources/css/board/read.css">
 
+
 </head>
 
 <body>
@@ -166,7 +167,13 @@
                                                 </div>
                                                 <div class="re-reply ml-auto mt-2">
                                                     <span>댓글달기</span>
-                                                    <span>신고하기</span>
+                                                    <sec:authorize access="isAuthenticated()">
+                                                    	<span>수정</span>
+                                                    	<span>삭제</span>
+                                                    </sec:authorize>
+                                                    <sec:authorize access="isAnonymous()">
+														<span>신고하기</span>
+													</sec:authorize>
                                                 </div>
                                             </div>    
                                         </div>
@@ -208,17 +215,17 @@
                     <!--댓글페이징------------------------>
                     <div id="replyPaging">
 
-                    </div>
+					</div>
                     <!--댓글페이징-->
 
                     <!--댓글 입력---------------------------------------->
                     <div id="commentWrite">
                         <div class="input-group mb-3">
-                            <textarea class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>
+                            <textarea id="replyInput" class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>
                             <div class="input-group-append">
-                              <button class="btn btn-outline-secondary" type="submit">댓글등록하기</button>
+                              <button id="replyBtn" class="btn btn-outline-secondary">댓글등록하기</button>
                             </div>
-                          </div>
+                        </div>
                     </div>
                     <!--댓글입력-->
 
@@ -239,6 +246,241 @@
         </div>
     </div>
 
+
+<!-- reply 모듈 -->
+<!-- <script src="/resources/js/board/reply.js"></script> -->
+
+<!-- read javascript -->
+<%-- <%@include file="/resources/js/board/read_js.jsp"%> --%>
+
+<script>
+var replyService = (function(){
+	
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}";
+	
+	//댓글 추가
+	function add(reply, callback, error) {
+		console.log("add함수 실행")
+		$.ajax({
+			type: "POST",
+			url: '/reply/new',
+			data: JSON.stringify(reply),
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+			},
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if(callback){
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er){
+				if(error){
+					error(er);
+				}
+			}
+		});
+	}
+	
+	//댓글 목록가져오기
+	function getList(param, callback, error) {
+		var bno = param.bno;
+		var page = param.page || 1;
+		
+		$.getJSON("/reply/pages/" + bno + "/" + page + ".json",
+			function(data) {
+				if(callback) {
+				callback(data.replyCount, data.list);
+			}
+		}).fail(function(xhr, status, err){
+			if (error) {
+				error();
+			}
+		});
+	}
+	
+	function remove(rno, callback, error) {
+		$.ajax({
+			type : 'delete',
+			url : '/reply/remove/' + rno,
+			success : function(deleteResult, status, xhr) {
+				if(callback) {
+					callback(deleteResult);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error){
+					error(er);
+				}
+			}
+		});
+	}
+	
+	function update(reply, callback, error) {
+		$.ajax({
+			type : "put",
+			url : "/reply" + reply.rno,
+			beforeSend: function(xhr){
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+			},
+			data : JSON.stringify(reply),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if(callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error(er);
+				}
+			}
+		});
+	}
+		
+	return {
+		add : add,
+		getList : getList,
+		remove : remove,
+		update : update
+	};
+})();
+
+
+	$(document).ready(function(){
+	
+		var bnoValue = <c:out value="${board.bno}"/>;
+		var replyList = $("#commentList");
+		
+		showList(1);
+		
+		//댓글목록 불러오기 함수
+		function showList(page) {
+			
+			console.log("show list : " + page);
+			
+			
+			
+			replyService.getList({bno : bnoValue, page : page || 1}, 
+			function(replyCnt, list) {
+			
+				console.log("showList의 getList 호출");
+				console.log("replyCnt : " + replyCnt);
+				console.log("replyCnt : " + replyCnt);
+				console.log("replyCnt : " + replyCnt);
+				
+				
+				if(page==-1){
+					pageNum=Math.ceil(replyCnt/10.0);
+					showList(PageNum);
+					return;
+				}
+				
+				console.log("page가 -1이 아니므로 진행합니다.");
+				
+				var str = "";
+				console.log("받아온데이터");
+				console.log(list);
+				console.log(replyCnt);
+				
+				if(list == null || list.length == 0) {
+					replyList.html("");
+					return;
+				}
+				
+				for(var i = 0, len = list.length || 0; i<len; i++) {
+					str += '<div class="reply-container container">';
+					str += '	<div class="d-flex row">';
+					str += '		<div class="col-md-12">';
+					str += '			<div class="d-flex flex-column comment-section" id="reply'+list[i].rno+'">';
+					str += '				<div class="bg-white p-2">';
+					str += '					<div class="d-flex flex-row user-info">';
+					str += '						<img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40" height="40">';
+					str += '						<div class="d-flex flex-column justify-content-start ml-2">';
+					str += '							<span class="d-block font-weight-bold name">'+list[i].replyer+'</span>';
+					str += '							<span class="date text-black-50">'+list[i].replyDate+'</span>';
+					str += '						</div>';
+					str += '						<div class="reply-content mt-2">';
+					str += '							<p class="comment-text">'+list[i].reply+'</p>';
+					str += '						</div>';
+					str += '						<div class="re-reply ml-auto mt-2">';
+					str += '							<span>댓글달기</span>';
+					str += '							<span>신고하기</span>';
+					str += '						</div>';
+					str += '</div></div></div></div></div></div>';
+				}
+				replyList.html(str);
+				showReplyPage(replyCnt);
+			});
+		}
+		
+		var pageNum = 1;
+		var replyPaging = $("#replyPaging");
+		
+		//페이징 부분 만드는 함수
+		function showReplyPage(replyCnt) {
+			var endNum = Math.ceil(pageNum / 10.0) * 10;
+			var startNum = endNum - 9;
+			
+			var prev = startNum != 1;
+			var next = false;
+			
+			if(endNum * 10 >= replyCnt) {
+				endNum = Math.ceil(replyCnt/10.0);
+			}
+			
+			if(endNum * 10 < replyCnt) {
+				next = true;
+			}
+			
+			var str = '<ul class="pagination justify-content-center mb-3">';
+			
+			if(prev) {
+				str += '<li class="page-item"><a class="page-link" href="'+(startNum - 1)+'">Previous</a></li>';
+			}
+			
+			for(var i = startNum; i<=endNum; i++) {
+				var active = pageNum == i? "active" : "";
+				str += '<li class="page-item '+active+'"><a class="page-link" href="'+i+'">'+i+'</a></li>';
+			}
+			
+			if(next) {
+				str += '<li class="page-item"><a class="page-link" href="'+(endNum + 1)+'">Next</a></li>';
+			}
+			
+			str += '</ul>';
+			
+			replyPaging.html(str);
+		}
+		
+		//댓글등록 버튼을 클릭했을 때 이벤트 (댓글등록)
+		$("#replyBtn").on("click", function(e){
+			var reply = {
+					reply : $("#replyInput").val(),
+					replyer : '${userid}',
+					bno : bnoValue
+			};
+			
+			replyService.add(reply, function(result){
+				console.log(result);
+				showList(1);
+			});
+		});
+		
+		//댓글 페이징 링크를 눌렀을 때
+		replyPaging.on("click", "ul li a", function(e){
+			e.preventDefault();
+			var targetPageNum = $(this).attr("href");
+			
+			pageNum = targetPageNum;
+			
+			showList(pageNum);
+		});
+		
+		
+	});
+</script>
 
 </body>
 

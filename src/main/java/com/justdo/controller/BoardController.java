@@ -121,6 +121,7 @@ public class BoardController {
 	public void get(@RequestParam("bno") Long bno, Model model) {
 		log.info("/read");
 		model.addAttribute("board", service.get(bno));
+
 	}
 	
 	// 수정화면
