@@ -108,7 +108,7 @@
 					</div>
 					<!-- 1.2.1 카테고리 선택 -->
 		            <input type="text" id="title" name="title" placeholder="제목"><br><!-- 글제목 -->      
-		            <input type="hidden" name="userid" value="<c:out value='${member.nickname}'/>"><!-- 유저아이디 -->
+		            <input type="hidden" name="userid" value="<c:out value='${member.userid}'/>"><!-- 유저아이디 -->
 					<textarea name="content" id="content" class="summernote" cols="80" rows="15"></textarea><br><!-- 글내용 -->
 					<input type="hidden" id="location" name="location" value="<c:out value='${member.member_location}'/>"><!-- 지역 -->
 					<button type="submit" class="btn btn-primary bottomButton" onclick="return boardCheck()">작성</button><!-- 작성버튼 -->
