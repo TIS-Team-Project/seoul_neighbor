@@ -438,5 +438,17 @@ public class commonServiceImpl implements commonService {
 		return parseItems;
 	}
 	//새소식 받아오기//
+	
+	//이메일로 회원 아이디 찾기
+	@Override
+	public String findIdByEmail(String email) {
+		return mapper.findID(email);
+	}
+
+	@Override
+	public String changePassword(String userid, String email, String userpw) {
+		mapper.updateNewPassword(userid, email, userpw);
+		return "true";
+	}
 
 }

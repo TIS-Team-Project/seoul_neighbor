@@ -110,15 +110,14 @@ public class BoardController {
 	
 	// 등록화면
 	@GetMapping("/register")
-	public String register(@RequestParam("userid") String userid, Model model, Principal principal) {
+	public String register(Model model, Principal principal) {
 		log.info("/register");
 		if (principal != null) {
 			String username = principal.getName();
-			model.addAttribute("userid", userid.toString());
 			model.addAttribute("member", myPageService.selectUser(username));
 			return "/board/register";
 		} else {
-			return "/board/list";
+			return "/login/subLogin";
 		}
 	}
 	

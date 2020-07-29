@@ -20,8 +20,11 @@
 <meta charset="UTF-8">
 <title>게시글 작성</title>
 <!-- customStyle ------------>
-<link rel="stylesheet" type="text/css" href="/resources/css/map/style.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/board/style.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-formpage.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/map/style.css">
+<link rel="stylesheet" href="/resources/css/board/register.css">
 <!-- include summernote css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/summernote/summernote-lite.css">
 
@@ -107,8 +110,9 @@
 						</div>
 					</div>
 					<!-- 1.2.1 카테고리 선택 -->
-		            <input type="text" id="title" name="title" placeholder="제목"><br><!-- 글제목 -->      
-		            <input type="hidden" name="userid" value="<c:out value='${member.nickname}'/>"><!-- 유저아이디 -->
+		            <input type="text" id="title" name="title" placeholder="제목"><br><!-- 글제목 -->  
+		            <input type="hidden" name="userid" value="<c:out value='${member.userid}'/>"><!-- 유저아이디 -->
+		            <input type="hidden" name="nickname" value="<c:out value='${member.nickname}'/>"><!-- 유저아이디 -->
 					<textarea name="content" id="content" class="summernote" cols="80" rows="15"></textarea><br><!-- 글내용 -->
 					<input type="hidden" id="location" name="location" value="<c:out value='${member.member_location}'/>"><!-- 지역 -->
 					<button type="submit" class="btn btn-primary bottomButton" onclick="return boardCheck()">작성</button><!-- 작성버튼 -->

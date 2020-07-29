@@ -49,4 +49,10 @@ public interface commonService {
 	
 	//서울 새소식 불러오기
 	public JsonArray getNews() throws IOException;
+	
+	//이메일로 회원 아이디 찾기
+	public String findIdByEmail(String email);
+	
+	//이메일과 아이디가 모두 맞는 회원의 비밀번호 변경하기
+	public String changePassword(String userid, String email, String userpw);
 }

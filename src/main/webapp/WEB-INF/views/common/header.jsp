@@ -83,8 +83,7 @@
 			      	<li class="nav-item">
 			      	<div class="dropdown">
 			      		<a id="showMiniMessageBtn" class="nav-link" data-toggle="dropdown"><i class="far fa-comments" style="font-size:1.4rem; line-height:51px"></i><span id="noReadCount" class="badge badge-light"></span></a>
-						<div id="subMessageDiv" class="dropdown-menu">
-						</div>
+						<div id="subMessageDiv" class="dropdown-menu"></div>
 			      	</div>
 			      	</li>
 			      	<!-- 메시지 알림 창 -->				
