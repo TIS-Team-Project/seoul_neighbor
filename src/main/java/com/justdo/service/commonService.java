@@ -2,6 +2,7 @@ package com.justdo.service;
 
 import java.io.IOException;
 
+import com.google.gson.JsonArray;
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.MemberVO;
 
@@ -34,15 +35,21 @@ public interface commonService {
 	//안읽은 메시지 개수 가져오기
 	public int selectMessageReadCount(String userid);
 
-	//날씨 불러오기
-	public String[] getWeather(String Gu) throws IOException;
-	
     //해당 bno의 board 삭제.
 	public boolean remove(int bno);
 	
 	//날씨 정보 위한 구 가져오기
 	public String selectGuForWeather(String userid);
-
+	
+	//날씨 불러오기
+	public String[] getWeather(String Gu) throws IOException;
+	
+	//문화 정보 불러오기
+	public String[] getCulture() throws IOException;
+	
+	//서울 새소식 불러오기
+	public JsonArray getNews() throws IOException;
+	
 	//이메일로 회원 아이디 찾기
 	public String findIdByEmail(String email);
 	

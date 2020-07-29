@@ -56,9 +56,9 @@
 		</div>
 	</div>
 </body>
-<script>
+
 	<!-- javaScript ------------------------------>
-	<%@include file="/resources/js/find_id_pw.js"%>
+	<%@include file="/resources/js/find_id_pw_js.jsp"%>
 	<!-- javaScirpt -->
-</script>
+
 </html>

@@ -32,6 +32,7 @@
 			<!-- 1.1 로그인 폼 ------------------------------>
 			<form class="container-form validate-form p-3" action="/login" method="post" role="form">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<input type="hidden" name="loginRedirect" value="{loginRedirect}"/>
 				<span class="login-form-title pt-3 pb-4">Login</span>
 				<div class="login-body pb-3">
 					<div class="wrap-input validate-input mb-3" data-validate="아이디를 입력해주세요">

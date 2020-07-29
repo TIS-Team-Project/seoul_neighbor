@@ -102,7 +102,7 @@
 				<div class="modal-body">
 					<h5 id="QAStatus">처리상태: </h5>
 					<h4>문의 내용</h4>
-					<p id="QAContent"></p>
+					<p id="QAContent" style="word-break: break-all;"></p>
 				</div>
 			</div>
 		</div>

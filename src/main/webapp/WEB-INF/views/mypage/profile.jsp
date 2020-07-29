@@ -83,7 +83,8 @@
 											value="${member.nickname }" class="form-control">
 									</div>
 									<div class="col-md-5">
-										<p id="nickName-duplicated-text">*중복된 닉네임입니다. 다른 닉네임을 입력하세요</p>
+										<p id="nickName-duplicated-text" style="color:#e03131">*중복된 닉네임입니다. 다른 닉네임을 입력하세요</p>
+										<p id="nickName-wrong-text" style="color:#e03131">*닉네임을 정확히 입력하세요.(2~10글자)</p>
 									</div>
 								</div>
 							</div>

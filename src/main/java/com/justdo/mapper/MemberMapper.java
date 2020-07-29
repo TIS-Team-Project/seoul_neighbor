@@ -8,5 +8,4 @@ public interface MemberMapper {
 	
 	// 비밀번호 찾기용 정보
 	public MemberVO read_userinfo(String email);
-	
 }

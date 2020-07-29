@@ -59,8 +59,6 @@ public class LoginController {
     public String accessDeniedPage() throws Exception {
         return "/login/access_denied";
     }
-    // 권한 없음 페이지로 이동  //
-    
     // 아이디/비밀번호 찾기 페이지로 이동 //////////////////////////////
     @RequestMapping(value = "find_id_pw", method = RequestMethod.GET)
     public String find_id_pw() throws Exception {

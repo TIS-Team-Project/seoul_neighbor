@@ -1,7 +1,6 @@
 <!-- subLogin.jsp ---------------->
 <!-- 
 sub login page 
-
 수정해야할 것
 1) 로그인 실패시 main으로 돌아감
 2) 주석 정리 X
@@ -16,6 +15,8 @@ sub login page
 
 <head>
 <title>서울이웃 :: I SEOUL U</title>
+<!-- jQuery library ------------>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- 3. CSS ------------------------------>
 <link rel="stylesheet" href="/resources/css/common/index.css">
 <!-- 3. CSS -->
