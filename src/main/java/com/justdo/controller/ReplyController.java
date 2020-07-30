@@ -78,6 +78,11 @@ public class ReplyController {
 		
 		Map<String, Object> map = new HashMap<>();
 		
+		if(page <0) {
+			map.put("replyCount", service.getReplyCount(bno));
+			return new ResponseEntity<>(map, HttpStatus.OK);
+		}
+		
 		Criteria cri = new Criteria();
 		cri.setAmount(10);
 		cri.setPageNum(page);
@@ -90,6 +95,14 @@ public class ReplyController {
 		
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	//댓글 총 개수 구하기
+	@GetMapping(value = "/getCount/{bno}")
+	public ResponseEntity<String> getCount(@PathVariable("bno") int bno) {
+		int replyCount = service.getReplyCount(bno);
+		
+		return new ResponseEntity<>(Integer.toString(replyCount), HttpStatus.OK);
 	}
 	
 	

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -102,6 +103,7 @@
                                 <span>추천 <c:out value="${board.like_count}"/></span>
                                 <span>댓글 <c:out value="${board.reply_count}"/></span>
                                 <span>신고하기</span>
+                                <sec:authentication property="principal" var="pinfo" />
                             </div>
 
                         </div>
@@ -149,38 +151,6 @@
                     <!--댓글 목록--------------------------------------->
                     <div id="commentList">
 
-                        <div class="reply-container container">
-                            <div class="d-flex row">
-                                <div class="col-md-12">
-                                    <div class="d-flex flex-column comment-section" id="myGroup">
-                                        <div class="bg-white p-2">
-                                            <div class="d-flex flex-row user-info">
-                                                <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40" height="40">
-                                                <div class="d-flex flex-column justify-content-start ml-2">
-                                                    <span class="d-block font-weight-bold name">Marry Andrews</span>
-                                                    <span class="date text-black-50">Shared publicly - Jan 2020</span>
-                                                </div>
-                                                <div class="reply-content mt-2">
-                                                    <p class="comment-text">
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                                    </p>
-                                                </div>
-                                                <div class="re-reply ml-auto mt-2">
-                                                    <span>댓글달기</span>
-                                                    <sec:authorize access="isAuthenticated()">
-                                                    	<span>수정</span>
-                                                    	<span>삭제</span>
-                                                    </sec:authorize>
-                                                    <sec:authorize access="isAnonymous()">
-														<span>신고하기</span>
-													</sec:authorize>
-                                                </div>
-                                            </div>    
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         
                        <div class="reply-container container">
                             <div class="d-flex row">
@@ -254,56 +224,62 @@
 <%-- <%@include file="/resources/js/board/read_js.jsp"%> --%>
 
 <script>
+
+var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue="${_csrf.token}";
+//ajax요청시 마다 csrf 토큰 자동 적용
+$(document).ajaxSend(function(e, xhr, options){
+	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+});
+
 var replyService = (function(){
 	
-	var csrfHeaderName = "${_csrf.headerName}";
-	var csrfTokenValue = "${_csrf.token}";
 	
-	//댓글 추가
+	//댓글 등록
 	function add(reply, callback, error) {
-		console.log("add함수 실행")
+		console.log("reply......");
+		
 		$.ajax({
-			type: "POST",
-			url: '/reply/new',
-			data: JSON.stringify(reply),
-			beforeSend: function(xhr){
-				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
-			},
+			type: "post",
+			url : "/reply/new",
+			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if(callback){
 					callback(result);
 				}
 			},
-			error : function(xhr, status, er){
-				if(error){
+			error : function(xhr, status, er) {
+				if(error) {
 					error(er);
 				}
 			}
 		});
 	}
 	
-	//댓글 목록가져오기
+	//댓글 목록 사져오기
 	function getList(param, callback, error) {
 		var bno = param.bno;
 		var page = param.page || 1;
 		
 		$.getJSON("/reply/pages/" + bno + "/" + page + ".json",
-			function(data) {
-				if(callback) {
-				callback(data.replyCount, data.list);
+				function(data) {
+			if(callback){
+				console.log(data);
+				callback(data);
 			}
-		}).fail(function(xhr, status, err){
-			if (error) {
+		}).fail(function(xhr, status, err) {
+			if(error){
 				error();
 			}
 		});
 	}
 	
+	//댓글 삭제
 	function remove(rno, callback, error) {
 		$.ajax({
-			type : 'delete',
-			url : '/reply/remove/' + rno,
+			type:"delete",
+			url:"/reply/" + rno,
 			success : function(deleteResult, status, xhr) {
 				if(callback) {
 					callback(deleteResult);
@@ -317,13 +293,11 @@ var replyService = (function(){
 		});
 	}
 	
+	//댓글 수정
 	function update(reply, callback, error) {
 		$.ajax({
-			type : "put",
-			url : "/reply" + reply.rno,
-			beforeSend: function(xhr){
-				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
-			},
+			type : 'put',
+			url : '/reply/' + reply.rno,
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
@@ -332,13 +306,13 @@ var replyService = (function(){
 				}
 			},
 			error : function(xhr, status, er) {
-				if(error) {
+				if(error){
 					error(er);
 				}
 			}
 		});
 	}
-		
+	
 	return {
 		add : add,
 		getList : getList,
@@ -353,65 +327,69 @@ var replyService = (function(){
 		var bnoValue = <c:out value="${board.bno}"/>;
 		var replyList = $("#commentList");
 		
-		showList(1);
+		var replyer = null;
+		<sec:authorize access="isAuthenticated()">
+			replyer = '<sec:authentication property = "principal.nickname"/>'
+		</sec:authorize>
 		
+		showList(1);
+
 		//댓글목록 불러오기 함수
 		function showList(page) {
 			
-			console.log("show list : " + page);
-			
+			console.log("show list " + page);
 			
 			
 			replyService.getList({bno : bnoValue, page : page || 1}, 
-			function(replyCnt, list) {
-			
-				console.log("showList의 getList 호출");
-				console.log("replyCnt : " + replyCnt);
-				console.log("replyCnt : " + replyCnt);
-				console.log("replyCnt : " + replyCnt);
+			function(result) {
 				
+				console.log("replyCnt " + result.replyCount);
+				console.log("list " + result.list);
 				
-				if(page==-1){
-					pageNum=Math.ceil(replyCnt/10.0);
-					showList(PageNum);
+				if(page == -1) {
+					pageNum = Math.ceil(result.replyCount/10.0);
+					showList(pageNum);
 					return;
 				}
 				
-				console.log("page가 -1이 아니므로 진행합니다.");
 				
-				var str = "";
-				console.log("받아온데이터");
-				console.log(list);
-				console.log(replyCnt);
+				var str = "";			
 				
-				if(list == null || list.length == 0) {
-					replyList.html("");
+				if(result.list == null || result.list.length == 0) {
+					//replyList.html("");
 					return;
 				}
 				
-				for(var i = 0, len = list.length || 0; i<len; i++) {
+				for(var i = 0, len = result.list.length || 0; i<len; i++) {
 					str += '<div class="reply-container container">';
 					str += '	<div class="d-flex row">';
 					str += '		<div class="col-md-12">';
-					str += '			<div class="d-flex flex-column comment-section" id="reply'+list[i].rno+'">';
+					str += '			<div class="d-flex flex-column comment-section" id="reply'+result.list[i].rno+'">';
 					str += '				<div class="bg-white p-2">';
 					str += '					<div class="d-flex flex-row user-info">';
 					str += '						<img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40" height="40">';
 					str += '						<div class="d-flex flex-column justify-content-start ml-2">';
-					str += '							<span class="d-block font-weight-bold name">'+list[i].replyer+'</span>';
-					str += '							<span class="date text-black-50">'+list[i].replyDate+'</span>';
+					str += '							<span class="d-block font-weight-bold name">'+result.list[i].replyer+'</span>';
+					str += '							<span class="date text-black-50">'+result.list[i].replyDate+'</span>';
 					str += '						</div>';
 					str += '						<div class="reply-content mt-2">';
-					str += '							<p class="comment-text">'+list[i].reply+'</p>';
+					str += '							<p class="comment-text">'+result.list[i].reply+'</p>';
 					str += '						</div>';
 					str += '						<div class="re-reply ml-auto mt-2">';
-					str += '							<span>댓글달기</span>';
-					str += '							<span>신고하기</span>';
+					str += '							<sec:authorize access="isAuthenticated()">';
+					str += '								<span>댓글달기</span>';
+					if(replyer == result.list[i].replyer) {
+						str += '									<span>수정</span>';
+						str += '									<span>삭제</span>';
+					} else {
+						str += '								<span>신고하기</span>';
+					}
+					str += '							</sec:authorize>';
 					str += '						</div>';
 					str += '</div></div></div></div></div></div>';
 				}
 				replyList.html(str);
-				showReplyPage(replyCnt);
+				showReplyPage(result.replyCount);
 			});
 		}
 		
@@ -453,28 +431,31 @@ var replyService = (function(){
 			
 			replyPaging.html(str);
 		}
+				
 		
-		//댓글등록 버튼을 클릭했을 때 이벤트 (댓글등록)
+		//등록버튼을 눌렀을 시
 		$("#replyBtn").on("click", function(e){
 			var reply = {
 					reply : $("#replyInput").val(),
-					replyer : '${userid}',
+					replyer : replyer,
 					bno : bnoValue
 			};
 			
 			replyService.add(reply, function(result){
-				console.log(result);
-				showList(1);
+				$("#replyInput").val("");
+				showList(-1);
 			});
 		});
 		
-		//댓글 페이징 링크를 눌렀을 때
+		//페이징 링크 눌렀을 시
 		replyPaging.on("click", "ul li a", function(e){
 			e.preventDefault();
+			console.log("page click");
+			
 			var targetPageNum = $(this).attr("href");
 			
+			console.log("targetPageNum : " + targetPageNum);
 			pageNum = targetPageNum;
-			
 			showList(pageNum);
 		});
 		
