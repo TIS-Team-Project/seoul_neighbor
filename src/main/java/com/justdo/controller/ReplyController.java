@@ -1,7 +1,6 @@
 package com.justdo.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.justdo.domain.Criteria;
+import com.justdo.domain.ReReplyVO;
 import com.justdo.domain.ReplyVO;
 import com.justdo.service.ReplyService;
 
@@ -35,6 +35,17 @@ public class ReplyController {
 		System.out.println(vo);
 		
 		int insertCount = service.register(vo);
+		
+		return insertCount == 1 ? 
+				new ResponseEntity<String>("success", HttpStatus.OK) :
+				new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	//대댓글 등록
+	@PostMapping(value = "/newRe", consumes = "application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> createRe(@RequestBody ReReplyVO vo) {
+		int insertCount = service.reRegister(vo);
+		System.out.println(vo);
 		
 		return insertCount == 1 ? 
 				new ResponseEntity<String>("success", HttpStatus.OK) :
@@ -69,10 +80,11 @@ public class ReplyController {
 	}
 	
 	//댓글 목록 조회
-	@GetMapping(value = "/pages/{bno}/{page}",
+	@GetMapping(value = "/pages/{bno}/{startRno}/{endRno}/{page}",
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<Map<String, Object>> getList(@PathVariable("page") int page, @PathVariable("bno") int bno){
+	public ResponseEntity<Map<String, Object>> getList(@PathVariable("page") int page, @PathVariable("bno") int bno, 
+			@PathVariable("startRno") int startRno, @PathVariable("endRno") int endRno){
 		
 		System.out.println("받은 bno : " + bno + " 받은 page : " + page);
 		
@@ -91,8 +103,8 @@ public class ReplyController {
 		System.out.println(cri);
 		
 		map.put("replyCount", service.getReplyCount(bno));
-		map.put("list", service.getList(cri, bno));
-		
+		map.put("replyList", service.getList(cri, bno));
+		map.put("reReplyList", service.getReList(bno, startRno, endRno));
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}

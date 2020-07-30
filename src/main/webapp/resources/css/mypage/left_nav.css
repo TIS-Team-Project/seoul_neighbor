@@ -1,8 +1,4 @@
-/* font *********************************/
-@font-face { font-family: 'HangeulNuri-Bold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/HangeulNuri-Bold.woff') format('woff'); font-weight: normal; font-style: normal; }
-@font-face { font-family: 'Handon3gyeopsal300g'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/Handon3gyeopsal300g.woff') format('woff'); font-weight: normal; font-style: normal; }
-@font-face { font-family: 'ImcreSoojin'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.3/ImcreSoojin.woff') format('woff'); font-weight: normal; font-style: normal; }
-/* font */
+
 
 .sidebar {
   height: 30vh;
@@ -35,7 +31,7 @@
 
 
 #hello{
-	font-family: 'HangeulNuri-Bold';
+	font-family:"IBM";
 	font-size:1.1rem;
 }
 
@@ -60,9 +56,10 @@
 
 #leftNavContainer{
 	border-right:solid 1px #E6E6E6;
-	height: 150%;
+	height: auto;
 	width: 300px;
 	margin:0 auto;
+	background-color:white;
 }
 
 #profileImg {

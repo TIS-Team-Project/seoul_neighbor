@@ -178,6 +178,7 @@
                                 </div>
                             </div>
                         </div>
+                        
 
                     </div>
                     <!--댓글목록-->
@@ -257,12 +258,37 @@ var replyService = (function(){
 		});
 	}
 	
+	//대댓글 등록
+	function reAdd(reply, callback, error) {
+		console.log("reply......");
+		
+		$.ajax({
+			type: "post",
+			url : "/reply/newRe",
+			data : JSON.stringify(reply),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if(callback){
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error(er);
+				}
+			}
+		});
+	}
+	
+	
 	//댓글 목록 사져오기
 	function getList(param, callback, error) {
 		var bno = param.bno;
 		var page = param.page || 1;
+		var startRno = param.startRno;
+		var endRno = param.endRno;
 		
-		$.getJSON("/reply/pages/" + bno + "/" + page + ".json",
+		$.getJSON("/reply/pages/" + bno + "/" + startRno + "/" + endRno + "/" + page + ".json",
 				function(data) {
 			if(callback){
 				console.log(data);
@@ -315,6 +341,7 @@ var replyService = (function(){
 	
 	return {
 		add : add,
+		reAdd : reAdd,
 		getList : getList,
 		remove : remove,
 		update : update
@@ -339,8 +366,14 @@ var replyService = (function(){
 			
 			console.log("show list " + page);
 			
+			var dataObj = {
+				bno : bnoValue, 
+				page : page || 1,
+			}
 			
-			replyService.getList({bno : bnoValue, page : page || 1}, 
+			console.log(dataObj);
+			
+			replyService.getList(dataObj, 
 			function(result) {
 				
 				console.log("replyCnt " + result.replyCount);
@@ -364,7 +397,7 @@ var replyService = (function(){
 					str += '<div class="reply-container container">';
 					str += '	<div class="d-flex row">';
 					str += '		<div class="col-md-12">';
-					str += '			<div class="d-flex flex-column comment-section" id="reply'+result.list[i].rno+'">';
+					str += '			<div class="d-flex flex-column comment-section">';
 					str += '				<div class="bg-white p-2">';
 					str += '					<div class="d-flex flex-row user-info">';
 					str += '						<img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40" height="40">';
@@ -375,18 +408,27 @@ var replyService = (function(){
 					str += '						<div class="reply-content mt-2">';
 					str += '							<p class="comment-text">'+result.list[i].reply+'</p>';
 					str += '						</div>';
-					str += '						<div class="re-reply ml-auto mt-2">';
+					str += '						<div class="re-reply ml-auto mt-2" data-rno="'+result.list[i].rno+'">';
 					str += '							<sec:authorize access="isAuthenticated()">';
-					str += '								<span>댓글달기</span>';
+					str += '								<span class="re-reply-create">댓글달기</span>';
 					if(replyer == result.list[i].replyer) {
-						str += '									<span>수정</span>';
-						str += '									<span>삭제</span>';
+						str += '									<span class="reply-update">수정</span>';
+						str += '									<span class="reply-delete">삭제</span>';
 					} else {
-						str += '								<span>신고하기</span>';
+						str += '								<span class="reply-report">신고하기</span>';
 					}
 					str += '							</sec:authorize>';
 					str += '						</div>';
-					str += '</div></div></div></div></div></div>';
+					str += '					</div>';
+					str += '				</div>';
+					str += '				<div id="re-reply'+result.list[i].rno+'">';			
+					str += '				</div>';			
+					str += '				<div id="point'+result.list[i].rno+'">';		
+					str += '				</div>';		
+					str += '			</div>';
+					str += '		</div>';
+					str += '	</div>';
+					str += '</div>';
 				}
 				replyList.html(str);
 				showReplyPage(result.replyCount);
@@ -458,6 +500,50 @@ var replyService = (function(){
 			pageNum = targetPageNum;
 			showList(pageNum);
 		});
+		
+		var reReplyToggle = true;
+		
+		//댓글달기 누를시 대댓글 입력 창 생성
+		replyList.on("click", ".re-reply-create", function(e){
+			var rno = $(this).closest("div").data("rno");
+			//var point = $(".re-reply-box");
+			var point = $("#point"+rno);
+			console.log(rno);
+			
+			var str = "";
+			str += '<div id="re-commentWrite">';
+			str += '	<div class="input-group mb-3">';
+			str += '		<textarea id="re-replyInput" class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>';
+			str += '		<div class="input-group-append">';
+			str += '			<button id="re-replyBtn" class="btn btn-outline-secondary" data-what="'+rno+'">댓글등록하기</button>';
+			str += '		</div>';
+			str += '	</div>';
+			str += '</div>';
+			
+			if(reReplyToggle){
+				point.html(str);
+				reReplyToggle = false;
+			} else {
+				point.html("");
+				reReplyToggle = true;
+			}
+			
+			
+		});
+		
+		replyList.on("click", "#re-replyBtn", function(e){
+			var re_reply = {
+				rno : $(this).data("what"),
+				bno : bnoValue,
+				r_reply : $("#re-replyInput").val(),
+				r_replyer : replyer
+			};
+			
+			replyService.reAdd(re_reply, function(result){
+				console.log("result");
+			});
+		});
+		
 		
 		
 	});

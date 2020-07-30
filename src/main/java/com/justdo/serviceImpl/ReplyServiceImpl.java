@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.justdo.domain.Criteria;
+import com.justdo.domain.ReReplyVO;
 import com.justdo.domain.ReplyVO;
 import com.justdo.mapper.ReplyMapper;
 import com.justdo.service.ReplyService;
@@ -23,6 +24,12 @@ public class ReplyServiceImpl implements ReplyService{
 	public int register(ReplyVO vo) {
 		mapper.updateReplyCnt(vo.getBno());
 		return mapper.insert(vo);
+	}
+	
+	@Override
+	public int reRegister(ReReplyVO vo) {
+		
+		return mapper.reInsert(vo);
 	}
 
 	@Override
@@ -45,11 +52,20 @@ public class ReplyServiceImpl implements ReplyService{
 	public List<ReplyVO> getList(Criteria cri, int bno) {
 		return mapper.getListWithPaging(cri, bno);
 	}
+	
+	@Override
+	public List<ReReplyVO> getReList(int bno, int startRno, int endRno) {
+		return mapper.getReReplyList(bno, startRno, endRno);
+	}
 
 	@Override
 	public int getReplyCount(int bno) {
 		return mapper.getCountByBno(bno);
 	}
+
+	
+
+
 	
 	
 

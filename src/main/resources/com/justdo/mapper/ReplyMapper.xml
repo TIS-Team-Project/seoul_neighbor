@@ -10,6 +10,12 @@
 		values(#{bno}, #{reply}, #{replyer})
 	</insert>
 	
+	<!-- 대댓글 등록 -->
+	<insert id="reInsert">
+		insert into tbl_r_reply(rno, bno, r_reply, r_replyer)
+		values(#{rno}, #{bno}, #{r_reply}, #{r_replyer})
+	</insert>
+	
 	<!-- 댓글 1개 조회 -->
 	<select id="read" resultType="com.justdo.domain.ReplyVO">
 		select * from tbl_reply where rno = #{rno}
@@ -32,6 +38,15 @@
 		where bno = #{bno}
 		order by rno asc
 		limit #{cri.startIndex}, #{cri.amount}
+	</select>
+	
+	<!-- 대댓글 가져오기 -->
+	<select id="getReReplyList">
+		select * from (
+			select * from tbl_r_reply
+			where bno = #{bno}
+		) as tempView
+		where rno between #{startRno} and #{endRno}
 	</select>
 	
 	
