@@ -30,10 +30,10 @@
 				</div>
 				<!-- 서울시 새소식 -->
 				<div class="page-header">
-					<!-- 상단 영역(추천 및 인기글 목록 테이블) ---------------------------------------------------------------------------------------------->
-						<div class="form-row">
+					<!-- 지역선택 -------------------------------------------------------------------------->
+					<div class="form-row">
 						<span class="mr-4" style="text-align: center; line-height:38px"><b>지역선택 : </b></span>
-									<select id="selectGu" style="Width:150px" name="gu" class="form-control selectBox" 
+							<select id="selectGu" style="Width:150px" name="gu" class="form-control selectBox" 
 									onchange="document.location='list?amount=<c:out value="${pageMaker.cri.amount}"/>&gu='+this.value;">
 										<option selected><c:out value="${criteria.gu}"/></option>
 										<option value="강남구">강남구</option>
@@ -61,10 +61,9 @@
 										<option value="종로구">종로구</option>
 										<option value="중구">중구</option>
 										<option value="중랑구">중랑구</option>
-									</select>
-								</div>
-								<!-- 지역선택 -->
-					
+							</select>
+					</div>
+					<!-- 지역선택 -->
       			</div>
      		 </div>
      		 <!-- 서울 문화공연 ---------------------------->
@@ -84,8 +83,23 @@
 		<div class="row">
 			<div class="col-xl-8">
 				<div class="panel panel-default ">
-					<div class="panel-heading pb-3">김서울님, <c:out value="${criteria.gu}"/>의 이야기를 들어보세요!</div>
-				</div>
+               		<div class="panel-heading pb-3">
+                  		<!-- 로그인 하지 않은 상태에서 노출 ::: 목록  -------------------------------------------------->
+                 		<sec:authorize access="isAnonymous()">
+                     		<div><p>서울이웃에 방문해주셔서 감사합니다.</p></div>
+                  		</sec:authorize>
+                  		<!-- 로그인 하지 않은 상태에서 노출 ::: 목z록  -->
+
+                  		<!-- 로그인 한 상태에서 노출 ::: 목록  -------------------------------------------------->
+                  		<sec:authorize access="isAuthenticated()">
+                     		<div>
+                        		<c:out value="${nickname}"/>님,
+                        		<c:out value="${criteria.gu}"/>의 이야기를 들어보세요!
+                     		</div>
+                  		</sec:authorize>
+                  		<!-- 로그인 한 상태에서 노출 ::: 목록  -->
+               		</div>
+            	</div>
 				<div class="panel panel-body">
 					<div class="row">
 						<div class="col-xl-6">
@@ -197,7 +211,9 @@
 					</div>
 					<div class="tab-content pt-4">
 						<div id="all" class="navlinktab tab-pane active">
-							<!-- 선택지역의 카테고리(전체) 글목록---------------------------------------------------------------------------------------------->
+							<!-- 카테고리 탭 선택 시 보여지는 게시판 테이블---------------------------------------------------------------------------------------------->
+							
+							<!-- 카테고리 글목록(전체)---------------------------------------------------------------------------------------------->
 							<table style="Width:100%"
 								class="table table-striped table-bordered table-hover" id="dataTables-example">
 								<thead>
@@ -227,9 +243,8 @@
 									</c:forEach>
 								</tbody>
 							</table>
-							<!-- 선택지역의 카테고리(전체) 글목록-->
+							<!-- 카테고리 글목록(전체)-->
 						</div>
-						
 						<div id="menu1" class="navlinktab tab-pane fade">
 							<table style="Width:100%"
 								class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -245,7 +260,6 @@
 									</tr>
 								</thead>
 								<tbody id="tbodyName">
-
 									
 								</tbody>
 							</table>
@@ -266,7 +280,6 @@
 								</thead>
 								<tbody id="tbodyName">
 
-									
 								</tbody>
 							</table>
 						</div>
@@ -286,11 +299,10 @@
 								</thead>
 								<tbody id="tbodyName">
 
-									
 								</tbody>
 							</table>
+							<!-- 카테고리 탭 선택 시 보여지는 게시판 테이블-->
 						</div>
-						
 					</div>
 				</div>
 				<!-- 페이징---------------------------------------------------------------------------------------------->
@@ -317,17 +329,14 @@
 				</form>
 				<!-- 페이징-->
 			</div>
-			<!-- col end -->
 		</div>
 		<!-- 하단 영역(선택지역 카테고리별 목록 테이블) -->
 		
+		<!-- 검색---------------------------------------------------------------------------------------------->
 		<div class='row'>
 			<div class="col-lg-12">
-				<!-- 검색---------------------------------------------------------------------------------------------->
 				<form id='searchForm' action="/board/list" method='get'>
 					<select name='type'>
-						<option value="" <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>---</option>
-						<option value="A" <c:out value="${pageMaker.cri.type eq 'A'?'selected':''}"/>>전체</option>
 						<option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
 						<option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
 						<option value="N" <c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>작성자</option>
@@ -338,18 +347,15 @@
 					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
 					<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 					<input type='hidden' name='gu' value='<c:out value="${criteria.gu}"/>'>
-
-									
 					<button class='btn btn-default'>검색</button>
 				</form>
-				<!-- 검색-->
 			</div>
-			<!-- col end -->
 		</div>
-		<!-- row end -->
+		<!-- 검색-->
 	</div>
 	<!--page-wrapper end  -->
 	</main>
+	
 	<!-- 뉴스 상세보기 모달 -->
 	<div class="modal" id="newsModal">
 	  <div class="modal-dialog modal-dialog-centered modal-xl">
