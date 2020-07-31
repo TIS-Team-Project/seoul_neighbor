@@ -4,7 +4,7 @@
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
         center: new kakao.maps.LatLng(37.575920, 126.976824), // 지도의 중심좌표 기본값 경복궁
-        level: 5 // 지도의 확대 레벨
+        level: 6 // 지도의 확대 레벨
     };
         
 // 지도를 생성합니다    
@@ -55,6 +55,11 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 	         	$("#selectGu").text(before_gu);
 	         	$("#selectDong").text(before_dong);
 	         	changeDong(before_gu);
+	         	
+	        	//알림글 변경
+	        	console.log("구알림글");
+	        	$("#gu_notice").css("display","block");
+	        	$("#dong_notice").css("display","none");
             }
         }   
     });
