@@ -1,10 +1,11 @@
 <!-- register.jsp ---------------->
 <!-- 
 1. 메인
-1.1 지도
+1.1 왼쪽 사이드
 1.1.1 이름으로 지역선택
 1.1.1.1 구선택
 1.1.1.2 동선택
+1.1.2 지도
 1.2 작성 폼
 1.2.1 카테고리 선택
 1.3 취소버튼
@@ -20,8 +21,12 @@
 <meta charset="UTF-8">
 <title>게시글 작성</title>
 <!-- customStyle ------------>
-<link rel="stylesheet" type="text/css" href="/resources/css/map/style.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/board/style.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-formpage.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/map/style.css">
+<link rel="stylesheet" href="/resources/css/board/register.css">
+<link rel="stylesheet" href="/resources/css/board/style.css">
 <!-- include summernote css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/summernote/summernote-lite.css">
 
@@ -33,16 +38,10 @@
 <!-- 1. 메인 ------------------------>
 	<main class="container">
 		<div class="row">
-			<div class="col-md-4" id="leftside">
-				<!-- 1.1 지도 ------------------------>
-				<p id="map_choice">지역선택</p>
-				<div class="map_wrap">
-				    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-				    <!-- 카카오 지도 앱키 -->
-					<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a12736a6f1b3f9306ad9531ab47e6e4&libraries=services"></script>
-				</div>
-				<!-- 1.1 지도 -->
-				<!-- 1.1.1 이름으로 지역선택 --------------->
+			<div class="col-md-3">
+				<!-- 1.1 왼쪽 사이드 ------------------->
+				<div id="left_side">
+					<!-- 1.1.1 이름으로 지역선택 --------------->
 				<div id="name_choice">
 					<!-- 1.1.1.1 구선택 ------------->
 					<div class="dropdown">
@@ -87,13 +86,25 @@
 					</div>
 					<!-- 1.1.1.2 동선택 -->
 				</div>
-				<!-- 1.1.1 이름으로 지역선택 -->				
+				<!-- 1.1.1 이름으로 지역선택 -->	
+				<div>
+					<p id="gu_notice" class="board_notice">다른 지역구에 작성하려면 구를 선택하세요!</p>
+					<p id="dong_notice" class="board_notice">동을 직접 선택하거나 지도를 클릭해보세요!</p>
+				</div>
+				<!-- 1.1.2 지도 ------------------------>
+				<div class="map_wrap">
+				    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+				    <!-- 카카오 지도 앱키 -->
+					<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9a12736a6f1b3f9306ad9531ab47e6e4&libraries=services"></script>
+				</div>
+				<!-- 1.1.2 지도 -->
+				</div>
+				<!-- 1.1 왼쪽 사이드 -->		
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-9">
 				<!-- 1.2 작성 폼 ------------------>
 		        <form name="frm" role="form" action="/board/register" method="Post">
        				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		        	<p id="writer">글쓰기</p>
 		        	<!-- 1.2.1 카테고리 선택 -------->
 		        	<div class="dropdown" id="category_wrap">
 					    <button class="btn btn-primary dropdown-toggle" type="button" id="selectcategory" data-toggle="dropdown">카테고리
@@ -107,8 +118,9 @@
 						</div>
 					</div>
 					<!-- 1.2.1 카테고리 선택 -->
-		            <input type="text" id="title" name="title" placeholder="제목"><br><!-- 글제목 -->      
+		            <input type="text" id="title" name="title" placeholder="제목"><br><!-- 글제목 -->  
 		            <input type="hidden" name="userid" value="<c:out value='${member.userid}'/>"><!-- 유저아이디 -->
+		            <input type="hidden" name="nickname" value="<c:out value='${member.nickname}'/>"><!-- 유저아이디 -->
 					<textarea name="content" id="content" class="summernote" cols="80" rows="15"></textarea><br><!-- 글내용 -->
 					<input type="hidden" id="location" name="location" value="<c:out value='${member.member_location}'/>"><!-- 지역 -->
 					<button type="submit" class="btn btn-primary bottomButton" onclick="return boardCheck()">작성</button><!-- 작성버튼 -->
@@ -116,7 +128,7 @@
 		        <!-- 1.2 수정 폼 -->
 		        <!-- 1.3 취소버튼 ----------->
 		        <form role="form" action="/board/list" method="get">
-		        	<button type="submit" class="btn btn-primary bottomButton">취소</button>
+		        	<button type="submit" class="btn btn-danger bottomButton">취소</button>
 		        </form>
 	        	<!-- 1.3 취소버튼 -->
 			</div>

@@ -412,6 +412,10 @@ $("#gu a").on("click", function() {
     $("#dong a")[0].click();
     //구선택시 지도변경
     gu_coordinate($(this).text());
+	//알림글 변경
+	console.log("동알림글");
+	$("#gu_notice").css("display","none");
+	$("#dong_notice").css("display","block");
 });
 
 //동
@@ -423,7 +427,11 @@ $("#dong").on("click",".dropdown-item", function() {
    console.log(gu+"_"+dong);
    
 	//주소정보를 전달
-   $("#location").val(gu+"_"+dong);
+	$("#location").val(gu+"_"+dong);
+	//알림글 변경
+	console.log("구알림글");
+	$("#gu_notice").css("display","block");
+	$("#dong_notice").css("display","none");
 });
 
 // 작성/수정 페이지 진입시 지역정보 자동선택
@@ -481,7 +489,6 @@ $(function() {
   $("#content").summernote({
 	    placeholder: "내용을 입력하세요",
         height: 400,
-        disableResizeEditor: true,
         focus: true,
         lang : "ko-KR",
         toolbar: [
