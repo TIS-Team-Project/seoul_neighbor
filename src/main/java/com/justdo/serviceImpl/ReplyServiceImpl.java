@@ -58,6 +58,12 @@ public class ReplyServiceImpl implements ReplyService{
 		return mapper.delete(rno);
 	}
 	
+	//대댓글이 달린 댓글 삭제
+	@Override
+	public int remove(int no, int exist) {
+		return 0;
+	}
+	
 	//대댓글 삭제
 	@Override
 	public int removeRe(int no) {
@@ -81,6 +87,15 @@ public class ReplyServiceImpl implements ReplyService{
 	public int getReplyCount(int bno) {
 		return mapper.getCountByBno(bno);
 	}
+
+	//tbl_board의 reply_count 구하기
+	@Override
+	public int getAllReplyCount(int bno) {
+
+		return mapper.getReplyCount(bno);
+	}
+
+	
 	
 	
 

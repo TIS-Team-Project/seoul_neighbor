@@ -69,6 +69,10 @@
 		select count(rno) from tbl_reply where bno = #{bno}
 	</select>
 	
+	<!-- TBL_BOARD의 REPLY_COUNT 구하기 -->
+	<select id="getReplyCount" resultType="int">
+		select reply_count from tbl_board where bno = #{bno}
+	</select>
 
 	
 </mapper>

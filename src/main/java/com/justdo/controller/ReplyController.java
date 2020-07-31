@@ -59,12 +59,14 @@ public class ReplyController {
 	}
 	
 	//댓글 삭제
-	@DeleteMapping(value="/delete/{no}/{type}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<String> remove(@PathVariable("no") int no, @PathVariable("type") int type) {
+	@DeleteMapping(value="/delete/{no}/{type}/{exist}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<String> remove(@PathVariable("no") int no, @PathVariable("type") int type, @PathVariable("exist") int exist) {
 		
 		System.out.println("댓글 삭제를 진행합니다.");
 		System.out.println(no);
 		System.out.println(type);
+		System.out.println(exist);
+		
 		
 		int result = 0;
 		
@@ -73,9 +75,16 @@ public class ReplyController {
 			result = service.removeRe(no); 
 			System.out.println(result);
 		} else if(type == 0) {
-			System.out.println("댓글입니다. 댓글 삭제 진행....");
-			result = service.remove(no);
-			System.out.println(result);
+			
+			if(exist == 0) {
+				System.out.println("댓글입니다. 댓글 삭제 진행....");
+				result = service.remove(no);
+				System.out.println(result);
+			} else if(exist == 1) {
+				
+			}
+			
+
 		}
 		return result == 1 ?
 				new ResponseEntity<>("success", HttpStatus.OK) :
@@ -133,6 +142,7 @@ public class ReplyController {
 		map.put("replyCount", service.getReplyCount(bno));
 		map.put("replyList", service.getList(cri, bno));
 		map.put("reReplyList", service.getReList(cri, bno));
+		map.put("displayCommentCount", service.getAllReplyCount(bno));
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}

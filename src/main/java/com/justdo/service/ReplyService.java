@@ -19,8 +19,13 @@ public interface ReplyService {
 	
 	public int modifyRe(ReplyVO vo);
 	
+	//대댓글이 안달린 댓글 삭제
 	public int remove(int no);
 	
+	//대댓글이 달린 댓글 삭제
+	public int remove(int no, int exist);
+	
+	//대댓글 삭제
 	public int removeRe(int no);
 	
 	public List<ReplyVO> getList(Criteria cri, int bno);
@@ -28,4 +33,6 @@ public interface ReplyService {
 	public List<ReReplyVO> getReList(Criteria cri, int bno);
 	
 	public int getReplyCount(int bno);
+	
+	public int getAllReplyCount(int bno);
 }

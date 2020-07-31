@@ -101,7 +101,7 @@
                                 <span><c:out value="${board.regdate}"/></span>
                                 <span>조회 <c:out value="${board.view_count}"/></span>
                                 <span>추천 <c:out value="${board.like_count}"/></span>
-                                <span>댓글 <c:out value="${board.reply_count}"/></span>
+                                <span id="replyCount">댓글 <c:out value="${board.reply_count}"/></span>
                                 <span>신고하기</span>
                                 <sec:authentication property="principal" var="pinfo" />
                             </div>
@@ -275,13 +275,11 @@ var replyService = (function(){
 		
 		var no = data.no;
 		var type = data.type;
-		
-		console.log(no);
-		console.log(type);
-		
+		var exist = data.exist;
+				
 		$.ajax({
 			type:"delete",
-			url:"/reply/delete/" + no + "/" + type,
+			url:"/reply/delete/" + no + "/" + type + "/" + exist,
 			dataType: "text",
 			success : function(deleteResult, status, xhr) {
 				if(callback) {
@@ -360,6 +358,7 @@ var replyService = (function(){
 				console.log("replyCnt " + result.replyCount);
 				console.log("replyList " + result.replyList);
 				console.log("reReplyList : " +result.reReplyList);
+				console.log("displayCommentCount : " +result.displayCommentCount);
 				
 				if(page == -1) {
 					pageNum = Math.ceil(result.replyCount/10.0);
@@ -373,6 +372,7 @@ var replyService = (function(){
 				
 				if(result.replyList == null || result.replyList.length == 0) {
 					replyList.html("");
+					replyPaging.html("");
 					return;
 				}
 				replyList.html("");
@@ -455,7 +455,7 @@ var replyService = (function(){
 					$("#re-reply" + result.reReplyList[i].rno).append(re_str);
 				}
 				
-				
+				$("#replyCount").text("댓글 " + result.displayCommentCount);
 				showReplyPage(result.replyCount);
 			});
 		}
@@ -552,7 +552,6 @@ var replyService = (function(){
 		});
 		
 		
-		
 		//댓글달기 누를시 대댓글 입력 창 생성
 		replyList.on("click", ".re-reply-create", function(e){
 			var rno = $(this).closest("div").data("rno");
@@ -583,25 +582,29 @@ var replyService = (function(){
 		//삭제
 		replyList.on("click", ".reply-delete", function(e){
 			
+			if(!confirm("삭제하시겠습니까?")) {
+				return;
+			}
+			
 			//data.type이 0이면 댓글, 1이면 대댓글
 			var data = {
 					no : $(this).closest("div").data("rno"),
-					type : $(this).closest("div").data("type")
+					type : $(this).closest("div").data("type"),
+					exist : 0
 			};
 			console.log(data);
 			
 			//삭제하는 녀석이 type = 0 (댓글) 이고 댓글에 대댓글이 달려있을때
 			if(data.type == 0 && $("#re-reply"+data.no).children().length != 0){
-				replyService.remove(data, function(deleteResult){
-					alert(deleteResult);
-					showList(pageNum);
-				});
+				 data.exist = 1;
+				console.log("얘는 대댓글이 달린 댓글이네");
+			} else {
+				console.log("대댓글이 없는 댓글이거나 대댓글이네");
 			}
 			
 			replyService.remove(data, function(deleteResult){
-				alert(deleteResult);
 				showList(pageNum);
-				console.log("댓글 목록 갱신");
+				alert("삭제되었습니다.");
 			});
 		});
 		

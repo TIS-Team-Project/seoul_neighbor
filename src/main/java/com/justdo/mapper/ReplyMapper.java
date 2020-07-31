@@ -41,4 +41,7 @@ public interface ReplyMapper {
 	//댓글 전체 개수 가져오기
 	public int getCountByBno(int bno);
 	
+	//tbl_board의 reply_count 가져오기
+	public int getReplyCount(int bno);
+	
 }
