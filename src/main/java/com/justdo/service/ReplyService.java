@@ -17,7 +17,11 @@ public interface ReplyService {
 	
 	public int modify(ReplyVO vo);
 	
-	public int remove(int rno);
+	public int modifyRe(ReplyVO vo);
+	
+	public int remove(int no);
+	
+	public int removeRe(int no);
 	
 	public List<ReplyVO> getList(Criteria cri, int bno);
 	

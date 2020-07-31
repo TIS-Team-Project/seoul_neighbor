@@ -10,5 +10,5 @@ public class ReReplyVO {
 	private String r_reply;
 	private String r_replyer;
 	private String r_replyDate;
-	private String updateDate;
+	private String r_updatedate;
 }

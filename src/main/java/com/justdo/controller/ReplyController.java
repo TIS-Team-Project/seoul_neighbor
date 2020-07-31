@@ -59,22 +59,51 @@ public class ReplyController {
 	}
 	
 	//댓글 삭제
-	@DeleteMapping(value="/{rno}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<String> remove(@PathVariable("rno") int rno) {
-		return service.remove(rno) == 1 
-				? new ResponseEntity<>("success", HttpStatus.OK)
-						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	@DeleteMapping(value="/delete/{no}/{type}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<String> remove(@PathVariable("no") int no, @PathVariable("type") int type) {
+		
+		System.out.println("댓글 삭제를 진행합니다.");
+		System.out.println(no);
+		System.out.println(type);
+		
+		int result = 0;
+		
+		if(type == 1) {
+			System.out.println("대댓글입니다. 대댓글 삭제 진행....");
+			result = service.removeRe(no); 
+			System.out.println(result);
+		} else if(type == 0) {
+			System.out.println("댓글입니다. 댓글 삭제 진행....");
+			result = service.remove(no);
+			System.out.println(result);
+		}
+		return result == 1 ?
+				new ResponseEntity<>("success", HttpStatus.OK) :
+				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	//댓글 수정
 	@RequestMapping(method= {RequestMethod.PUT, RequestMethod.PATCH}, 
-			value = "/{rno}",
+			value = "/update/{no}/{type}",
 			consumes = "application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("rno") int rno){
-		vo.setRno(rno);
+	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("no") int no, @PathVariable("type") int type){
+		vo.setRno(no);
 		
-		return service.modify(vo) == 1 
+		int result = 0;
+		
+		if(type == 1) {
+			System.out.println("대댓글입니다. 대댓글 수정 진행....");
+			result = service.modifyRe(vo);
+			System.out.println(result);
+		} else if(type == 0) {
+			System.out.println("댓글입니다. 댓글 수정 진행....");
+			result = service.modify(vo);
+			System.out.println(result);
+		}
+		
+		
+		return result == 1 
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

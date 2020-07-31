@@ -20,10 +20,16 @@ public interface ReplyMapper {
 	public ReplyVO read(int bno);
 	
 	//댓글 삭제
-	public int delete(int rno);
+	public int delete(int no);
+	
+	//대댓글 삭제
+	public int deleteRe(int no);
 	
 	//댓글 수정
 	public int update(ReplyVO vo);
+	
+	//댓글 수정
+	public int updateRe(ReplyVO vo);
 	
 	//댓글 목록 조회
 	public List<ReplyVO> getListWithPaging(@Param("cri") Criteria cri, @Param("bno") int bno);

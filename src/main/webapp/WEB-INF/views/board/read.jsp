@@ -276,9 +276,13 @@ var replyService = (function(){
 		var no = data.no;
 		var type = data.type;
 		
+		console.log(no);
+		console.log(type);
+		
 		$.ajax({
 			type:"delete",
-			url:"/reply/" + rno + "/" + type,
+			url:"/reply/delete/" + no + "/" + type,
+			dataType: "text",
 			success : function(deleteResult, status, xhr) {
 				if(callback) {
 					callback(deleteResult);
@@ -293,10 +297,10 @@ var replyService = (function(){
 	}
 	
 	//댓글 수정
-	function update(reply, callback, error) {
+	function update(reply, type, callback, error) {
 		$.ajax({
 			type : 'put',
-			url : '/reply/' + reply.rno,
+			url : '/reply/update/' + reply.no +"/" + type,
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
@@ -368,10 +372,10 @@ var replyService = (function(){
 				
 				
 				if(result.replyList == null || result.replyList.length == 0) {
-					//replyList.html("");
+					replyList.html("");
 					return;
 				}
-				
+				replyList.html("");
 				//먼저 댓글들을 생성해주고
 				for(var i = 0, len = result.replyList.length || 0; i<len; i++) {
 					str += '<div class="reply-container container">';
@@ -461,6 +465,10 @@ var replyService = (function(){
 		
 		//페이징 부분 만드는 함수
 		function showReplyPage(replyCnt) {
+			if(replyCnt == 0) {
+				replyPaging.html("");
+				return;
+			}
 			var endNum = Math.ceil(pageNum / 10.0) * 10;
 			var startNum = endNum - 9;
 			
@@ -511,17 +519,21 @@ var replyService = (function(){
 		});
 		
 		//등록버튼을 눌렀을 시 (대댓글 입력)
-		replyList.on("click", "#re-replyBtn", function(e){
+		replyList.on("click", ".re-reply-submit", function(e){
+			var rno = $(this).data("what");
+			
 			var re_reply = {
-				rno : $(this).data("what"),
-				bno : bnoValue,
-				r_reply : $("#re-replyInput").val(),
+				rno : rno,
+				r_reply : $("#re-replyInput"+rno).val(),
 				r_replyer : replyer
 			};
 			
+			var rno = $(this).closest("div").data("rno");
+			var point = $("#point"+rno);
+			
 			replyService.reAdd(re_reply, function(result){
 				console.log("result");
-				showList(-1);
+				showList(pageNum);
 				point.html("");
 				reReplyToggle = true;
 			});
@@ -551,9 +563,9 @@ var replyService = (function(){
 			var str = "";
 			str += '<div id="re-commentWrite">';
 			str += '	<div class="input-group mb-3">';
-			str += '		<textarea id="re-replyInput" class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>';
+			str += '		<textarea id="re-replyInput'+rno+'" class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>';
 			str += '		<div class="input-group-append">';
-			str += '			<button id="re-replyBtn" class="btn btn-outline-secondary" data-what="'+rno+'">댓글등록하기</button>';
+			str += '			<button id="re-replyBtn'+rno+'" class="re-reply-submit btn btn-outline-secondary" data-what="'+rno+'">댓글등록하기</button>';
 			str += '		</div>';
 			str += '	</div>';
 			str += '</div>';
@@ -570,13 +582,71 @@ var replyService = (function(){
 		
 		//삭제
 		replyList.on("click", ".reply-delete", function(e){
+			
+			//data.type이 0이면 댓글, 1이면 대댓글
 			var data = {
 					no : $(this).closest("div").data("rno"),
 					type : $(this).closest("div").data("type")
 			};
-			
 			console.log(data);
-		})
+			
+			//삭제하는 녀석이 type = 0 (댓글) 이고 댓글에 대댓글이 달려있을때
+			if(data.type == 0 && $("#re-reply"+data.no).children().length != 0){
+				replyService.remove(data, function(deleteResult){
+					alert(deleteResult);
+					showList(pageNum);
+				});
+			}
+			
+			replyService.remove(data, function(deleteResult){
+				alert(deleteResult);
+				showList(pageNum);
+				console.log("댓글 목록 갱신");
+			});
+		});
+		
+		//수정
+		replyList.on("click", ".reply-update", function(e){
+			var rno = $(this).closest("div").data("rno");
+			var point = $(this).closest(".bg-white");
+			
+			var type = $(this).closest("div").data("type");
+			
+			var temp = $(this).parent().prev().children("p").text();
+			
+			console.log(temp);
+			var str = "";
+			str += '<div id="re-commentWrite">';
+			str += '	<div class="input-group mb-3">';
+			str += '		<textarea id="updateInput'+rno+'" class="form-control">'+temp+'</textarea>';
+			str += '		<div class="input-group-append">';
+			str += '			<button id="updateBtn'+rno+'" class="update-submit btn btn-outline-secondary" data-type="'+type+'" data-what="'+rno+'">댓글등록하기</button>';
+			str += '		</div>';
+			str += '	</div>';
+			str += '</div>';
+			point.html(str);
+		});
+		
+		replyList.on("click", ".update-submit", function(e){
+			e.preventDefault();
+			var rno = $(this).data("what");
+			var type = $(this).data("type");
+			
+			var point = $("#point"+rno);
+			
+			//보낼 데이터
+			var data = {
+					no : rno,
+					reply : $("#updateInput"+rno).val()
+			};
+			replyService.update(data, type, function(result){
+				alert(result);
+				showList(pageNum);
+				point.html("");
+				reReplyToggle = true;
+			});
+		});
+		
 		
 	});
 </script>
