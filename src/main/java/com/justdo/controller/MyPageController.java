@@ -151,6 +151,10 @@ public class MyPageController {
 		String uploadFolder = "c://Project/seoulneighbor/seoulNeighbor/src/main/webapp/resources/img/mypage";
 		
 		UUID uuid = UUID.randomUUID();
+<<<<<<< Updated upstream
+=======
+		
+>>>>>>> Stashed changes
 		String uploadFileName = vo.getMember_filename();
 		
 		String fileChanged = isFileChanged;

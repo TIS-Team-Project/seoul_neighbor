@@ -4,7 +4,8 @@
 1.1 프로필 이미지
 1.2 메뉴바
 2. 드롭다운 버튼
-3. 자바스크립트 -->
+3. 프로필 사진 바꾸기 모달
+4. 자바스크립트 -->
 <!-- leftNav.jsp -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -16,12 +17,17 @@
 <meta charset="UTF-8">
 <!-- leftNav.css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/mypage/left_nav.css">
+<<<<<<< Updated upstream
 <link rel="stylesheet" type="text/css" href="/resources/css/mypage/right_div.css">
+=======
+<link rel="stylesheet" href="/resources/css/mypage/profile-formpage.css">
+>>>>>>> Stashed changes
 </head>
 <body>
 <!-- 1.왼쪽 메뉴 ---------------------------------------------->
 	<div id="leftNavContainer" class="container-fluid">
 	<!-- 1.1 프로필 이미지 --------------------------->
+		<div></div>
 		<div id="profileImg" class="card text-center">
 			<c:choose>
 				<c:when test = "${member.member_filename eq null }">
@@ -31,9 +37,9 @@
 		  		<img class="card-img-top" src="/resources/img/mypage/<c:out value="${member.member_filename}"/>" alt="프로필 사진">
 		  		</c:when>
 		  	</c:choose>
-		  <div class="card-body">
-				    <p id="hello" class="card-title"><c:out value="${member.nickname}"/>님 안녕하세요?</p>
-		  </div>
+			<div class="card-body filebox text-center"  data-toggle="modal" data-target="#changePicture" style="overflow:hidden; top:-45px; position:relative">
+				<label id="changeProfilePictureBtn"><i class="fas fa-camera"></i></label>
+			</div>
 		</div>
 	<!-- 1.1 프로필 이미지 -->
 	
@@ -65,9 +71,9 @@
 	<button id="dropDownBtn" class="btn btn-secondary justify-content-center"><i id="dropDownBtnIcon" class="fas fa-angle-right"></i></button>
 <!-- 2. 드롭다운 버튼 -->
 
-
-<!-- 3.자바스크립트------------------------>
+<!-- 4.자바스크립트------------------------>
+<%@include file="/resources/js/mypage/profile_js.jsp"%>
 <%@include file="/resources/js/mypage/left_nav_js.jsp"%>
-<!-- 3.자바스크립트 -->
+<!-- 4.자바스크립트 -->
 </body>
 </html>

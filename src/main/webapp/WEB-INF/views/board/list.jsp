@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<<<<<<< Updated upstream
 
 <STYLE TYPE="text/css">
 	.table{
@@ -24,6 +25,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+=======
+<link rel="stylesheet" href="/resources/css/board/list.css">
+<title>Insert title here</title>
+</head>
+<body>
+ <header id="parallax_main" class="collapsing-parallax">
+
+<div id="includehe">
+>>>>>>> Stashed changes
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
@@ -52,7 +62,22 @@
 		<div class="row">
 			<div class="col-xl-8">
 				<div class="panel panel-default ">
-					<div class="panel-heading pb-3">김서울님, <c:out value="${criteria.gu}"/>의 이야기를 들어보세요!</div>
+					<div class="panel-heading pb-3">
+					     <!-- 로그인 하지 않은 상태에서 노출 ::: 목록  -------------------------------------------------->
+		                 <sec:authorize access="isAnonymous()">
+		                    <div>서울이웃에 방문해주셔서 감사합니다.</div>
+		                 </sec:authorize>
+		                 <!-- 로그인 하지 않은 상태에서 노출 ::: 목z록  -->
+		
+		                 <!-- 로그인 한 상태에서 노출 ::: 목록  -------------------------------------------------->
+		                 <sec:authorize access="isAuthenticated()">
+		                    <div>
+		                       <c:out value="${member.nickname}"/>님,
+		                       <c:out value="${criteria.gu}"/>의 이야기를 들어보세요!
+		                    </div>
+		                 </sec:authorize>
+		                 <!-- 로그인 한 상태에서 노출 ::: 목록  -->
+					</div>
 				</div>
 				<div class="panel panel-body">
 					<div class="row">
@@ -72,7 +97,7 @@
 												<c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
-											<td><c:out value="${board.like_count}"/></td>
+											<td><i class="far fa-thumbs-up"></i> <c:out value="${board.like_count}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -95,7 +120,7 @@
 												<c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
-											<td><c:out value="${board.like_count}"/></td>
+											<td><i class="far fa-thumbs-up"></i> <c:out value="${board.like_count}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -122,7 +147,7 @@
 												<c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
-											<td><c:out value="${board.like_count}"/></td>
+											<td><i class="far fa-thumbs-up"></i> <c:out value="${board.like_count}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -192,9 +217,22 @@
 												<c:out value="${board.title}"/></a>
 												<b>[<c:out value="${board.reply_count}"/>]</b>
 											</td>
+<<<<<<< Updated upstream
 											<td><c:out value="${board.userid}"/></td>
+=======
+											<sec:authorize access="isAnonymous()">
+		                    				<td><c:out value="${board.nickname}"/></td> <!-- 로그인 안하면 닉네임만 -->
+		                 					</sec:authorize>
+		                 					<sec:authorize access="isAuthenticated()"> <!-- 로그인 하면 닉네임 클릭시 쪽지보내기 가능 -->
+		                 					<td><span class="userNickname" data-toggle="dropdown"><c:out value="${board.nickname}"/></span>
+												<div class="dropdown-menu">
+												<a class="dropdown-item sendMessageToUser" data-toggle='modal' data-target='#sendMessageUser'>쪽지 보내기</a>
+												</div>
+											</td>
+		                 					</sec:authorize>
+>>>>>>> Stashed changes
 											<td><c:out value="${board.view_count}"/></td>
-											<td><c:out value="${board.like_count}"/></td>
+											<td><i class="far fa-thumbs-up"></i> <c:out value="${board.like_count}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -210,7 +248,7 @@
 							<li class="paginate_button previous"><a class="page-link" href="${pageMaker.startPage -1}">Previous</a></li>
 						</c:if>
 						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-							<li class="paginate_button" ${pageMaker.cri.pageNum==num? "active":""}><a class="page-link" href="${num}">${num}</a></li>
+							<li class="paginate_button page-item ${pageMaker.cri.pageNum==num ? "active":""}"><a class="page-link" href="${num}">${num}</a></li>
 						</c:forEach>
 						<c:if test="${pageMaker.next}">
 							<li class="paginate_button"><a class="page-link" href="${pageMaker.endPage +1}">Next</a></li>
@@ -235,7 +273,6 @@
 				<!-- 검색---------------------------------------------------------------------------------------------->
 				<form id='searchForm' action="/board/list" method='get'>
 					<select name='type'>
-						<option value="" <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>---</option>
 						<option value="A" <c:out value="${pageMaker.cri.type eq 'A'?'selected':''}"/>>전체</option>
 						<option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
 						<option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
@@ -257,6 +294,7 @@
 		<!-- row end -->
 	</div>
 	<!--page-wrapper end  -->
+<<<<<<< Updated upstream
 </body>
 
 <script type="text/javascript">
@@ -290,4 +328,37 @@ $(document).ready(function(){
     });
 });
 </script>
+=======
+	</main>
+	<!-- 뉴스 상세보기 모달 -->
+	<div class="modal" id="newsModal">
+	  <div class="modal-dialog modal-dialog-centered modal-xl">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 id="newsHeader" class="modal-title">Modal Heading</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+	      <!-- Modal body -->
+	      <div id="newsContent" class="modal-body">
+	        Modal body..
+	      </div>
+	
+	      <!-- Modal footer -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+	      </div>
+	
+	    </div>
+	  </div>
+	</div>
+	<!--  자바 스크립트 ------------->
+	<%@include file="/resources/js/board/userClick_js.jsp"%>
+	<%@include file="/resources/js/board/list_js.jsp" %>
+	<!-- 자바 스크립트 -->
+</body>
+
+>>>>>>> Stashed changes
 </html>

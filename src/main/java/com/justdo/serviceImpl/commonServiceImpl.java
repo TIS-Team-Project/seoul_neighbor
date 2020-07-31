@@ -87,8 +87,29 @@ public class commonServiceImpl implements commonService {
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public String getWeather() throws IOException {
 		String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst";
+=======
+	public boolean remove(int bno) {
+		return boardMapper.delete(bno)==1;
+	}
+
+	@Override
+	public String selectGuForWeather(String userid) {
+		return mapper.selectGuForWeather(userid);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public String[] getWeather(String gu) throws IOException {
+		Date date = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyMMdd");
+		SimpleDateFormat hourFormat = new SimpleDateFormat("HH");
+		String today = dateFormat.format(date);
+		String todayHour = hourFormat.format(date);
+		String apiUrl = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst";
+>>>>>>> Stashed changes
 		// 홈페이지에서 받은 키
 		String serviceKey = "0a%2BsATcqfSi69BN%2Fz4gXhd%2BVbPgLPenFhWceGZGW5KImNgeyJ%2Bv27NhAOEqNXRHEvmBPLXzDaZ0sBTDHNplZIQ%3D%3D";
 		String nx = "60";	//위도
@@ -134,7 +155,173 @@ public class commonServiceImpl implements commonService {
         String result= sb.toString();
         System.out.println(result);
         
+<<<<<<< Updated upstream
         return result;
+=======
+
+        
+        //jsonparser로 문자열 객체화
+        JsonParser parser = new JsonParser();
+        JsonObject obj = (JsonObject) parser.parse(result);
+        
+        JsonObject parseResponse = (JsonObject) obj.get("response");
+        JsonObject parseBody = (JsonObject) parseResponse.get("body");
+        JsonObject parseItems = (JsonObject) parseBody.get("items");
+        
+        //items에서 item 배열로 받아옴
+        JsonArray parseItem = (JsonArray) parseItems.get("item");
+        
+        JsonObject weather=null;
+        JsonObject temperature=null;
+        JsonObject isRain=null;
+        
+        for(int i=0; i<parseItem.size(); i++) {
+        	JsonObject temp = (JsonObject) parseItem.get(i);
+        	if(temp.get("category").getAsString().equals("SKY")) {
+        		weather = (JsonObject) parseItem.get(i);
+        	}
+        	else if(temp.get("category").getAsString().equals("T3H")) {
+        		temperature = (JsonObject) parseItem.get(i);
+        	}
+        	else if(temp.get("category").getAsString().equals("PTY")) {
+        		isRain = (JsonObject) parseItem.get(i);
+        	}
+        }
+
+        
+		String nowWeather=""; 
+		String nowTemperature=temperature.get("fcstValue").getAsString();
+		
+		
+		if(isRain.get("fcstValue").getAsInt()==0) {
+			if(weather.get("fcstValue").getAsInt()==1) {
+				nowWeather = "맑음";
+			}
+			else if(weather.get("fcstValue").getAsInt()==3) {
+				nowWeather = "구름많음";
+			}
+			else if(weather.get("fcstValue").getAsInt()==4) {
+				nowWeather = "흐림";
+			}
+		}
+		else if(isRain.get("fcstValue").getAsInt()==1){
+			if(isRain.get("fcstValue").getAsInt()==1) {
+				nowWeather = "비";
+			}
+			else if(isRain.get("fcstValue").getAsInt()==2) {
+				nowWeather = "비/눈";
+			}
+			else if(isRain.get("fcstValue").getAsInt()==3) {
+				nowWeather = "눈";
+			}
+			else if(isRain.get("fcstValue").getAsInt()==4) {
+				nowWeather = "소나기";
+			}
+			else if(isRain.get("fcstValue").getAsInt()==6) {
+				nowWeather = "진눈개비";
+			}
+			else{
+				nowWeather = "눈날림";
+			}
+		}
+
+
+		String[] weatherData = {nowWeather,nowTemperature,gu};
+        
+        return weatherData;
+	}
+	
+	//문화정보 받아오기 ////////////////////////////////
+	@SuppressWarnings("deprecation")
+	@Override
+	public String[] getCulture() throws IOException {
+		String apiUrl = "http://openapi.seoul.go.kr:8088/706c7563486767613930667662646c/json/culturalEventInfo/1/10";        
+        /*
+         * GET방식으로 전송해서 파라미터 받아오기
+         */
+        URL url = new URL(apiUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/json");
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        String result= sb.toString();
+        
+        //jsonparser로 문자열 객체화
+        JsonParser parser = new JsonParser();
+        JsonObject obj = (JsonObject) parser.parse(result);
+        
+        JsonObject parseResponse = (JsonObject) obj.get("culturalEventInfo");
+        JsonArray parseItems = (JsonArray) parseResponse.get("row");
+        int randInt = (int)((Math.random())*9);
+
+        JsonObject tempCultureInfo = (JsonObject)parseItems.get(randInt);
+        String[] culutreInfo = {tempCultureInfo.get("TITLE").getAsString(),tempCultureInfo.get("DATE").getAsString(),tempCultureInfo.get("PLACE").getAsString(),tempCultureInfo.get("ORG_LINK").getAsString(),tempCultureInfo.get("MAIN_IMG").getAsString()};
+		return culutreInfo;
+        
+	}
+	//문화 정보 받아오기//
+
+	//새소식 받아오기 /////////////////////////
+	@SuppressWarnings("deprecation")
+	@Override
+	public JsonArray getNews() throws IOException {
+		String apiUrl = "http://openapi.seoul.go.kr:8088/706c7563486767613930667662646c/json/SeoulNewsList/1/5/";        
+        /*
+         * GET방식으로 전송해서 파라미터 받아오기
+         */
+        URL url = new URL(apiUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/json");
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        String result= sb.toString();
+        
+        //jsonparser로 문자열 객체화
+        JsonParser parser = new JsonParser();
+        JsonObject obj = (JsonObject) parser.parse(result);
+        
+        JsonObject parseResponse = (JsonObject) obj.get("SeoulNewsList");
+        JsonArray parseItems = (JsonArray) parseResponse.get("row");
+
+		return parseItems;
+	}
+	//새소식 받아오기//
+	
+	//이메일로 회원 아이디 찾기
+	@Override
+	public String findIdByEmail(String email) {
+		return mapper.findID(email);
+	}
+
+	@Override
+	public String changePassword(String userid, String email, String userpw) {
+		mapper.updateNewPassword(userid, email, userpw);
+		return "true";
+>>>>>>> Stashed changes
 	}
 
 }

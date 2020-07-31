@@ -12,7 +12,7 @@
 	padding:0;
 	width:auto;
 	font-family: 'Handon3gyeopsal300g';
-	z-index:100;
+	z-index:1;
 }
 
 #leftNav a{
@@ -25,6 +25,11 @@
 	width:300px;
 	background:white;
 	margin:0 auto;
+<<<<<<< Updated upstream
+=======
+	background-color:white;
+	z-index:100;
+>>>>>>> Stashed changes
 }
 
 #profileImg {
@@ -62,6 +67,17 @@
 	width:25px;
 	height:50px;
 	z-index:100;
+}
+
+#changeProfilePictureBtn{
+	width:150px;
+	height:150px;
+	background:rgba(0,0,0,0.7);
+	color:white;
+	border:none;
+	border-radius:70% !important;
+	margin-top:-105px;
+	line-height:230px;
 }
 
 /* input border focus 변경 **************************/
