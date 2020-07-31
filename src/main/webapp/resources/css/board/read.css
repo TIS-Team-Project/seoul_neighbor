@@ -121,6 +121,7 @@
 
 .re-reply>span {
 	font-size: 10px;
+	cursor: pointer;
 }
 
 .re-reply>span::before {

@@ -12,8 +12,8 @@
 	
 	<!-- 대댓글 등록 -->
 	<insert id="reInsert">
-		insert into tbl_r_reply(rno, bno, r_reply, r_replyer)
-		values(#{rno}, #{bno}, #{r_reply}, #{r_replyer})
+		insert into tbl_r_reply(rno, r_reply, r_replyer)
+		values(#{rno}, #{r_reply}, #{r_replyer})
 	</insert>
 	
 	<!-- 댓글 1개 조회 -->
@@ -41,22 +41,24 @@
 	</select>
 	
 	<!-- 대댓글 가져오기 -->
-	<select id="getReReplyList">
-		select * from (
-			select * from tbl_r_reply
+	<select id="getReReplyList" resultType="com.justdo.domain.ReReplyVO">
+		select rr.*
+		from tbl_r_reply rr, (
+			select rno
+			from tbl_reply
 			where bno = #{bno}
-		) as tempView
-		where rno between #{startRno} and #{endRno}
+			limit #{cri.startIndex}, #{cri.amount}
+		) r
+		where rr.rno = r.rno;
 	</select>
 	
 	
-	<!-- 댓글 등록 시 댓글 수 +1-->
-	<update id="updateReplyCnt">
-		update tbl_board set reply_count = reply_count + 1 where bno = #{bno}
-	</update>
 	
+	<!-- 댓글 총 개수 가져오기 (페이징) -->
 	<select id="getCountByBno" resultType="int">
 		select count(rno) from tbl_reply where bno = #{bno}
 	</select>
+	
+
 	
 </mapper>

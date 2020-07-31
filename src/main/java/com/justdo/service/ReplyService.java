@@ -21,7 +21,7 @@ public interface ReplyService {
 	
 	public List<ReplyVO> getList(Criteria cri, int bno);
 	
-	public List<ReReplyVO> getReList(int bno, int startRno, int endRno);
+	public List<ReReplyVO> getReList(Criteria cri, int bno);
 	
 	public int getReplyCount(int bno);
 }

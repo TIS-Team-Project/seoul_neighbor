@@ -29,10 +29,8 @@ public interface ReplyMapper {
 	public List<ReplyVO> getListWithPaging(@Param("cri") Criteria cri, @Param("bno") int bno);
 	
 	//대댓글 가져오기
-	public List<ReReplyVO> getReReplyList(@Param("bno") int bno, @Param("startRno") int startRno, @Param("endRno") int endRno);
+	public List<ReReplyVO> getReReplyList(@Param("cri") Criteria cri, @Param("bno") int bno);
 	
-	//댓글 등록 시 댓글 수 +1
-	public int updateReplyCnt(int bno);
 	
 	//댓글 전체 개수 가져오기
 	public int getCountByBno(int bno);

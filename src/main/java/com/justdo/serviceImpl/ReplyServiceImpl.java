@@ -22,7 +22,6 @@ public class ReplyServiceImpl implements ReplyService{
 
 	@Override
 	public int register(ReplyVO vo) {
-		mapper.updateReplyCnt(vo.getBno());
 		return mapper.insert(vo);
 	}
 	
@@ -54,8 +53,8 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 	
 	@Override
-	public List<ReReplyVO> getReList(int bno, int startRno, int endRno) {
-		return mapper.getReReplyList(bno, startRno, endRno);
+	public List<ReReplyVO> getReList(Criteria cri, int bno) {
+		return mapper.getReReplyList(cri, bno);
 	}
 
 	@Override

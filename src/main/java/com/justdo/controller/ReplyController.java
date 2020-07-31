@@ -80,11 +80,10 @@ public class ReplyController {
 	}
 	
 	//댓글 목록 조회
-	@GetMapping(value = "/pages/{bno}/{startRno}/{endRno}/{page}",
+	@GetMapping(value = "/pages/{bno}/{page}",
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<Map<String, Object>> getList(@PathVariable("page") int page, @PathVariable("bno") int bno, 
-			@PathVariable("startRno") int startRno, @PathVariable("endRno") int endRno){
+	public ResponseEntity<Map<String, Object>> getList(@PathVariable("page") int page, @PathVariable("bno") int bno){
 		
 		System.out.println("받은 bno : " + bno + " 받은 page : " + page);
 		
@@ -104,12 +103,12 @@ public class ReplyController {
 		
 		map.put("replyCount", service.getReplyCount(bno));
 		map.put("replyList", service.getList(cri, bno));
-		map.put("reReplyList", service.getReList(bno, startRno, endRno));
+		map.put("reReplyList", service.getReList(cri, bno));
 		
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
-	//댓글 총 개수 구하기
+	//댓글 총 개수 구하기 (tbl_reply 에서만 rno 개수를 셈, 페이징을 위한 갯수)
 	@GetMapping(value = "/getCount/{bno}")
 	public ResponseEntity<String> getCount(@PathVariable("bno") int bno) {
 		int replyCount = service.getReplyCount(bno);
