@@ -130,7 +130,7 @@ public class BoardController {
 		
 		rttr.addFlashAttribute("result",board.getBno());
 		
-		return "redirect:/board/list";
+		return "redirect:/";
 	};
 	
 	// 상세보기
