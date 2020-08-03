@@ -60,8 +60,9 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	//대댓글이 달린 댓글 삭제
 	@Override
-	public int remove(int no, int exist) {
-		return 0;
+	public int removeExist(int no) {
+		System.out.println("removeExist...");
+		return mapper.deleteExist(no);
 	}
 	
 	//대댓글 삭제
@@ -73,6 +74,7 @@ public class ReplyServiceImpl implements ReplyService{
 	//댓글 리스트 with paging
 	@Override
 	public List<ReplyVO> getList(Criteria cri, int bno) {
+		System.out.println(mapper.getListWithPaging(cri, bno));
 		return mapper.getListWithPaging(cri, bno);
 	}
 	

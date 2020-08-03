@@ -209,7 +209,6 @@ var replyService = (function(){
 	
 	//댓글 등록
 	function add(reply, callback, error) {
-		console.log("reply......");
 		
 		$.ajax({
 			type: "post",
@@ -231,7 +230,6 @@ var replyService = (function(){
 	
 	//대댓글 등록
 	function reAdd(reply, callback, error) {
-		console.log("reply......");
 		
 		$.ajax({
 			type: "post",
@@ -260,7 +258,6 @@ var replyService = (function(){
 		$.getJSON("/reply/pages/" + bno + "/" + page + ".json",
 				function(data) {
 			if(callback){
-				console.log(data);
 				callback(data);
 			}
 		}).fail(function(xhr, status, err) {
@@ -343,22 +340,17 @@ var replyService = (function(){
 		//댓글목록 불러오기 함수
 		function showList(page) {
 			
-			console.log("show list " + page);
 			
 			var dataObj = {
 				bno : bnoValue, 
 				page : page || 1,
 			}
 			
-			console.log(dataObj);
 			
 			replyService.getList(dataObj, 
 			function(result) {
 				
-				console.log("replyCnt " + result.replyCount);
-				console.log("replyList " + result.replyList);
-				console.log("reReplyList : " +result.reReplyList);
-				console.log("displayCommentCount : " +result.displayCommentCount);
+				console.log(result);
 				
 				if(page == -1) {
 					pageNum = Math.ceil(result.replyCount/10.0);
@@ -378,41 +370,68 @@ var replyService = (function(){
 				replyList.html("");
 				//먼저 댓글들을 생성해주고
 				for(var i = 0, len = result.replyList.length || 0; i<len; i++) {
-					str += '<div class="reply-container container">';
-					str += '	<div class="d-flex row">';
-					str += '		<div class="col-md-12">';
-					str += '			<div class="d-flex flex-column comment-section">';
-					str += '				<div class="bg-white p-2">';
-					str += '					<div class="d-flex flex-row user-info">';
-					str += '						<img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40" height="40">';
-					str += '						<div class="d-flex flex-column justify-content-start ml-2">';
-					str += '							<span class="d-block font-weight-bold name">'+result.replyList[i].replyer+'</span>';
-					str += '							<span class="date text-black-50">'+result.replyList[i].replyDate+'</span>';
-					str += '						</div>';
-					str += '						<div class="reply-content mt-2">';
-					str += '							<p class="comment-text">'+result.replyList[i].reply+'</p>';
-					str += '						</div>';
-					str += '						<div class="re-reply ml-auto mt-2" data-rno="'+result.replyList[i].rno+'" data-type="0">';
-					str += '							<sec:authorize access="isAuthenticated()">';
-					str += '								<span class="re-reply-create">댓글달기</span>';
-					if(replyer == result.replyList[i].replyer) {
-						str += '									<span class="reply-update">수정</span>';
-						str += '									<span class="reply-delete">삭제</span>';
+					
+					if(result.replyList[i].exist == 0) {
+						str += '<div class="reply-container container">';
+						str += '	<div class="d-flex row">';
+						str += '		<div class="col-md-12">';
+						str += '			<div class="d-flex flex-column comment-section">';
+						str += '				<div class="bg-white p-2">';
+						str += '					<div class="d-flex flex-row user-info">';
+						str += '						<img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40" height="40">';
+						str += '						<div class="d-flex flex-column justify-content-start ml-2">';
+						str += '							<span class="d-block font-weight-bold name">'+result.replyList[i].replyer+'</span>';
+						str += '							<span class="date text-black-50">'+result.replyList[i].replyDate+'</span>';
+						str += '						</div>';
+						str += '						<div class="reply-content mt-2">';
+						str += '							<p class="comment-text">'+result.replyList[i].reply+'</p>';
+						str += '						</div>';
+						str += '						<div class="re-reply ml-auto mt-2" data-rno="'+result.replyList[i].rno+'" data-type="0">';
+						str += '							<sec:authorize access="isAuthenticated()">';
+						str += '								<span class="re-reply-create">댓글달기</span>';
+						if(replyer == result.replyList[i].replyer) {
+							str += '									<span class="reply-update">수정</span>';
+							str += '									<span class="reply-delete">삭제</span>';
+						} else {
+							str += '								<span class="reply-report">신고하기</span>';
+						}
+						str += '							</sec:authorize>';
+						str += '						</div>';
+						str += '					</div>';
+						str += '				</div>';
+						str += '				<div id="re-reply'+result.replyList[i].rno+'">';			
+						str += '				</div>';			
+						str += '				<div id="point'+result.replyList[i].rno+'">';		
+						str += '				</div>';		
+						str += '			</div>';
+						str += '		</div>';
+						str += '	</div>';
+						str += '</div>';
 					} else {
-						str += '								<span class="reply-report">신고하기</span>';
+						str += '<div class="reply-container container">';
+						str += '	<div class="d-flex row">';
+						str += '		<div class="col-md-12">';
+						str += '			<div class="d-flex flex-column comment-section">';
+						str += '				<div class="bg-white p-2">';
+						str += '					<div class="d-flex flex-row user-info">';
+						str += '						<div class="re-reply ml-auto mt-2" data-rno="'+result.replyList[i].rno+'" data-type="0">';
+						str += '						</div>';
+						str += '					</div>';
+						str += '					<div>';
+						str += '						<p>[삭제된 댓글입니다.]</p>';
+						str += '					</div>';
+						str += '				</div>';
+						str += '				<div id="re-reply'+result.replyList[i].rno+'">';			
+						str += '				</div>';			
+						str += '				<div id="point'+result.replyList[i].rno+'">';		
+						str += '				</div>';		
+						str += '			</div>';
+						str += '		</div>';
+						str += '	</div>';
+						str += '</div>';
 					}
-					str += '							</sec:authorize>';
-					str += '						</div>';
-					str += '					</div>';
-					str += '				</div>';
-					str += '				<div id="re-reply'+result.replyList[i].rno+'">';			
-					str += '				</div>';			
-					str += '				<div id="point'+result.replyList[i].rno+'">';		
-					str += '				</div>';		
-					str += '			</div>';
-					str += '		</div>';
-					str += '	</div>';
-					str += '</div>';
+					
+					
 				}
 				
 				replyList.html(str);
@@ -532,7 +551,6 @@ var replyService = (function(){
 			var point = $("#point"+rno);
 			
 			replyService.reAdd(re_reply, function(result){
-				console.log("result");
 				showList(pageNum);
 				point.html("");
 				reReplyToggle = true;
@@ -542,7 +560,6 @@ var replyService = (function(){
 		//페이징 링크 눌렀을 시
 		replyPaging.on("click", "ul li a", function(e){
 			e.preventDefault();
-			console.log("page click");
 			
 			var targetPageNum = $(this).attr("href");
 			
@@ -557,7 +574,6 @@ var replyService = (function(){
 			var rno = $(this).closest("div").data("rno");
 			//var point = $(".re-reply-box");
 			var point = $("#point"+rno);
-			console.log(rno);
 			
 			var str = "";
 			str += '<div id="re-commentWrite">';

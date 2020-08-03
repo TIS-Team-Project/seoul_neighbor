@@ -26,6 +26,11 @@
 		delete from tbl_reply where rno = #{no}
 	</delete>
 	
+	<!-- 대댓글이 달린 댓글 삭제 -->
+	<update id="deleteExist">
+		update tbl_reply set exist = 1 where rno = #{no}
+	</update>
+	
 	<!-- 대댓글 삭제 -->
 	<delete id="deleteRe">
 		delete from tbl_r_reply where r_rno = #{no}
@@ -43,7 +48,7 @@
 	
 	<!-- 댓글 목록 가져오기 -->
 	<select id="getListWithPaging" resultType="com.justdo.domain.ReplyVO">
-		select rno, bno, reply, replyer, replydate, updatedate
+		select rno, bno, reply, replyer, replydate, updatedate, exist
 		from tbl_reply
 		where bno = #{bno}
 		order by rno asc

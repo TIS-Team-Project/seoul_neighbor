@@ -21,10 +21,12 @@ import com.justdo.domain.ReplyVO;
 import com.justdo.service.ReplyService;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 @RestController
 @RequestMapping("/reply/")
 @AllArgsConstructor
+@Log4j
 public class ReplyController {
 	private ReplyService service;
 	
@@ -81,7 +83,9 @@ public class ReplyController {
 				result = service.remove(no);
 				System.out.println(result);
 			} else if(exist == 1) {
-				
+				System.out.println("댓글인데 대댓글이 달린 댓글이네요....");
+				result = service.removeExist(no);
+				System.out.println("결과는 " + result);
 			}
 			
 

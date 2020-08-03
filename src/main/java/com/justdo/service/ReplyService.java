@@ -23,7 +23,7 @@ public interface ReplyService {
 	public int remove(int no);
 	
 	//대댓글이 달린 댓글 삭제
-	public int remove(int no, int exist);
+	public int removeExist(int no);
 	
 	//대댓글 삭제
 	public int removeRe(int no);
