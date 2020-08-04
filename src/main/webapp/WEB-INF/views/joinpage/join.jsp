@@ -39,31 +39,31 @@
 					<div class="input-group mb-3">
 	            		<label for="userId">아이디</label>
 	            		<div class="wrap-input validate-input">
-							<input id="userId" name="userid" class="input-text" type="text" placeholder="아이디(5~20자의 영소문자, 숫자)" 
+							<input id="userId" name="userid" class="input-text" type="text" placeholder="5~20자의 영소문자, 숫자" 
 							maxlength="20" onfocusout="verifyID()"> 
 							<span class="focus-on-input"></span>
 						</div>
-						<p id="userId-wrong-text" class="wrong-text">*ID를 정확히 입력해 주세요.(5~20자의 영소문자, 숫자만 가능합니다.)</p>
-	            		<p id="userId-duplicated-text" class="wrong-text">*이미 사용중인 아이디 입니다. 다시 작성해주세요</p>
+						<p id="userId-wrong-text" class="wrong-text">*아이디를 정확히 입력해 주세요.</p>
+	            		<p id="userId-duplicated-text" class="wrong-text">*이미 사용중인 아이디 입니다. 다른 아이디를 입력하세요.</p>
 	            	</div>	            	
 	            	<div class="input-group mb-3">
 	            		<label for="nickName">닉네임</label>
 	            		<div class="wrap-input validate-input">
-							<input id="nickName" class="input-text" type="text" name="nickname" placeholder="닉네임(2~10자)" 
+							<input id="nickName" class="input-text" type="text" name="nickname" placeholder="2~10자" 
 							maxlength="10" onfocusout="verifyNickName()"> 
 							<span class="focus-on-input"></span>
 						</div>
-						<p id="nickName-wrong-text" class="wrong-text">*닉네임을 정확히 입력하세요.(2~10글자)</p>
-	            		<p id="nickName-duplicated-text" class="wrong-text">*중복된 닉네임입니다. 다른 닉네임을 입력하세요</p>
+						<p id="nickName-wrong-text" class="wrong-text">*닉네임을 정확히 입력해주세요.</p>
+	            		<p id="nickName-duplicated-text" class="wrong-text">*중복된 닉네임입니다. 다른 닉네임을 입력하세요.</p>
 	            	</div>	            	
 	            	<div id="pw-input" class="input-group mb-3">
 	            		<label for="pw">비밀번호</label>
 	            		<div class="wrap-input validate-input">
-							<input id="pw" class="input-text" type="password" name="userpw" placeholder="비밀번호(영문,숫자,특수문자 포함 6~15자)" 
+							<input id="pw" class="input-text" type="password" name="userpw" placeholder="영문, 숫자, 특수문자 포함 6~15자" 
 							maxlength="15" onfocusout="verifyPW()"> 
 							<span class="focus-on-input"></span>
 						</div>
-						<p id="pw-wrong-text" class="wrong-text">*영문 숫자 특수문자 섞어서 6~15자 이내</p>
+						<p id="pw-wrong-text" class="wrong-text">*영문, 숫자, 특수문자를 모두 포함해야 합니다.</p>
 	            	</div>	            	
 	            	<div id="pwcheck-input" class="input-group mb-3">
 	            		<label for="pwcheck">비밀번호 확인</label>
@@ -72,7 +72,7 @@
 							maxlength="15" onfocusout="verifyPWcheck()"> 
 							<span class="focus-on-input"></span>
 						</div>
-	            		<p id="pwc-wrong-text" class="wrong-text">*비밀번호가 일치하지 않거나 형식에 맞지 않습니다.</p>
+	            		<p id="pwc-wrong-text" class="wrong-text">*새 비밀번호가 일치하지 않습니다.</p>
 	            	</div>	            	
 	            	<div id="email-input-group" class="input-group mb-3">
 	            		<label for="email">이메일</label>
@@ -81,15 +81,15 @@
 							<button id="emailSend" type="button" class="button-colored email-button">인증번호 발송</button>
 							<span class="focus-on-input"></span>
 						</div>						
-		            	<p id="email-wrong-text" class="wrong-text">*이메일을 형식이 맞지 않습니다. </p>
-		            	<p id="email-duplicated-text" class="wrong-text">*사용중인 이메일입니다. 다른 이메일을 입력하세요</p>
+		            	<p id="email-wrong-text" class="wrong-text">*이메일 형식이 올바르지 않습니다.</p>
+		            	<p id="email-duplicated-text" class="wrong-text">*사용중인 이메일입니다. 다른 이메일을 입력하세요.</p>
 		            	<p id="certification-not-text" class="wrong-text">*이메일 인증이 이루어지지 않았습니다.</p>
 	            	</div>					
 					<div id="location-select" class="input-group mb-3">
 	            		<label for="userid">지역</label>
 	            		<div class="wrap-input validate-input">
 							<select id="selectGu" class="form-control selectBox">
-								<option value="-1" selected>지역을 선택하세요</option>
+								<option value="-1" selected>구</option>
 								<option>강남구</option>
 								<option>강동구</option>
 								<option>강북구</option>
@@ -117,10 +117,11 @@
 								<option>중랑구</option>
 							</select> 
 							<select id="selectDong" class="form-control selectBox">
+								<option value="-1" selected>동</option>
 							</select>
 							<span class="focus-on-input"></span>
 						</div>
-						<p id="location-wrong-text" class="wrong-text">*지역을 선택해 주세요</p>
+						<p id="location-wrong-text" class="wrong-text">*지역을 선택해 주세요.</p>
 						<input id="memberLocation" type="hidden" name="member_location" value=""> 
 	            	</div>
 					<c:if test="${param.error}">

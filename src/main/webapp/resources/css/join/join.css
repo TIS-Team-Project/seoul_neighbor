@@ -164,7 +164,7 @@ iframe {
 
 /* 로그인  ////////////////////////////////////////////*/
 .wrap-login {
-  width: 80%;
+  width: 90%;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -181,6 +181,10 @@ iframe {
     padding-left: 15px;
     padding-right: 15px;
   }
+}
+
+.login-body {
+	margin: 0px 5% 0px 10%;
 }
 
 .container-form {
@@ -203,11 +207,11 @@ label {
 	line-height: 40px;
 }
 #pwcheck-input > label {
-	width: 110px;
+	width: 105px;
 }
 
 .wrap-input {
-  width: 70%;
+  width: 67%;
   position: relative;
   float: left;
   background-color: #e6e6e6;
@@ -224,10 +228,10 @@ label {
 	display: flex;
 }
 .input-group {
-	width: 50% !important;
+	width: 45% !important;
 }
 #email-input-group {
-	width: 72% !important;
+	width: 75% !important;
 }
 #emailSend{
 	font-size: 12px;
@@ -420,7 +424,7 @@ label {
 	margin: 0px 0px 0px 2%;
 }
 #location-select {
-	width: 70% !important;
+	width: 50% !important;
 }
 #location-select .wrap-input {
 	background-color: white;
