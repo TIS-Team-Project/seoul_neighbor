@@ -6,7 +6,7 @@
 .collapsing-parallax {
 	height: 350px;
 	width: 100%;
-	background: url("/resources/img/common/list_background.png")
+	background: url("/resources/img/common/img6666.jpg")
 		center center no-repeat;
 	background-color: rgb(33,14,61);
 	background-size: cover;
@@ -28,13 +28,21 @@
 }
 
 .tab-content thead{
-	font-family:"ImcreSoojin";
+	
 	font-size:0.9rem;
 }
 
 tbody{
 	font-family:"SC";
 	font-size:0.8rem;
+}
+
+.userNickname{
+	cursor:pointer;
+}
+
+.sendMessageToUser{
+	cursor:pointer;
 }
 
 /* 서울 소식 */
@@ -92,5 +100,4 @@ tbody{
 	#listLeft{
 		order:2;
 	}
-	#se
 }
