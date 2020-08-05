@@ -59,7 +59,6 @@ public class commonServiceImpl implements commonService {
 	//회원가입 
 	@Override
 	public void join(MemberVO vo) {
-		System.out.println("회원가입을 처러하기 위한 mapper를 호출합니다.");
 		mapper.insertUser(vo);
 		mapper.insertUserAuth(vo.getUserid());
 	}
@@ -68,10 +67,8 @@ public class commonServiceImpl implements commonService {
 	@Override
 	public boolean isUniqueID(String userId) {
 		if(mapper.checkID(userId) == 0) {
-			System.out.println("중복된 아이디가 없습니다. 사용가능합니다.");
 			return true;
 		}
-		System.out.println(" *Warning!!! 아이디가 중복되었습니다!!! ***********");
 		return false;
 	}
 
@@ -79,20 +76,16 @@ public class commonServiceImpl implements commonService {
 	@Override
 	public boolean isUniqueNickName(String nickName) {
 		if(mapper.checkNickName(nickName) == 0) {
-			System.out.println("중복된 닉네임이 없습니다. 사용가능합니다.");
 			return true;
 		}
-		System.out.println(" *Warning!!! 닉네임이 중복되었습니다!!! ***********");
 		return false;
 	}
 
 	@Override
 	public boolean isUniqueEmail(String email) {
 		if(mapper.checkEmail(email) == 0) {
-			System.out.println("중복된 이메일이 없습니다. 사용가능합니다.");
 			return true;
 		}
-		System.out.println(" *Warning!!! 이메일이 중복되었습니다!!! ***********");
 		return false;
 	}
 
@@ -150,11 +143,11 @@ public class commonServiceImpl implements commonService {
 		else if(Integer.parseInt(todayHour) >=20 && Integer.parseInt(todayHour) <23) {
 			baseTime = "2000";
 		}
-		else if(Integer.parseInt(todayHour) >=23 && Integer.parseInt(todayHour) <2) {
+		else if(Integer.parseInt(todayHour) >=23 || Integer.parseInt(todayHour) <2) {
 			baseTime = "2300";
 		}
 		else {
-			baseTime ="0500";
+			baseTime ="2300";
 		}
 		if(gu == null) {
 			nx = "60"; //중구
@@ -290,7 +283,14 @@ public class commonServiceImpl implements commonService {
         String result= sb.toString();
         
 
+        JsonObject weather=null;
+        JsonObject temperature=null;
+        JsonObject isRain=null;
         
+        String nowWeather="";
+        String nowTemperature="";
+        
+        try {
         //jsonparser로 문자열 객체화
         JsonParser parser = new JsonParser();
         JsonObject obj = (JsonObject) parser.parse(result);
@@ -302,9 +302,7 @@ public class commonServiceImpl implements commonService {
         //items에서 item 배열로 받아옴
         JsonArray parseItem = (JsonArray) parseItems.get("item");
         
-        JsonObject weather=null;
-        JsonObject temperature=null;
-        JsonObject isRain=null;
+
         
         for(int i=0; i<parseItem.size(); i++) {
         	JsonObject temp = (JsonObject) parseItem.get(i);
@@ -320,8 +318,8 @@ public class commonServiceImpl implements commonService {
         }
 
         
-		String nowWeather=""; 
-		String nowTemperature=temperature.get("fcstValue").getAsString();
+		 
+		nowTemperature=temperature.get("fcstValue").getAsString();
 		
 		
 		if(isRain.get("fcstValue").getAsInt()==0) {
@@ -355,6 +353,9 @@ public class commonServiceImpl implements commonService {
 				nowWeather = "눈날림";
 			}
 		}
+        }catch(NullPointerException e) {
+        	e.printStackTrace();
+        }
 
 
 		String[] weatherData = {nowWeather,nowTemperature,gu};
@@ -398,7 +399,11 @@ public class commonServiceImpl implements commonService {
         int randInt = (int)((Math.random())*9);
 
         JsonObject tempCultureInfo = (JsonObject)parseItems.get(randInt);
-        String[] culutreInfo = {tempCultureInfo.get("TITLE").getAsString(),tempCultureInfo.get("DATE").getAsString(),tempCultureInfo.get("PLACE").getAsString(),tempCultureInfo.get("ORG_LINK").getAsString(),tempCultureInfo.get("MAIN_IMG").getAsString()};
+        String temp = tempCultureInfo.get("MAIN_IMG").getAsString();
+        if(temp.lastIndexOf("http")>0) {
+        	temp = temp.substring(temp.lastIndexOf("http"));
+        }
+        String[] culutreInfo = {tempCultureInfo.get("TITLE").getAsString(),tempCultureInfo.get("DATE").getAsString(),tempCultureInfo.get("PLACE").getAsString(),tempCultureInfo.get("ORG_LINK").getAsString(),temp};
 		return culutreInfo;
         
 	}
