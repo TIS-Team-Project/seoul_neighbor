@@ -27,7 +27,7 @@
 	<!-- nav -------------------------------------------------------------------------------->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="/">
-			<img src="../resources/img/common/logoblack-borderw.png" width="140px" alt="logo">
+			<img src="/resources/img/common/logoblack-borderw.png" width="140px" alt="logo">
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
@@ -90,11 +90,11 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="/profile"	id="nav-profile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<c:choose>
-								<c:when test="${user.member_filename eq null }">
-									 <img src="../resources/img/mypage/<c:out value="${member.member_filename}"/>" width="35" height="35" class="rounded-circle" alt="프로필 사진">
+								<c:when test="${member.member_filename eq null }">
+									 <img src="/resources/img/mypage/profile_sample.png" width="35" height="35" class="rounded-circle" alt="프로필 사진">
 								</c:when>
-								<c:when test="${user.member_filename != null}">
-									<img src="/resources/img/mypage/<c:out value="${user.member_filename}"/>" width="35" height="35" class="rounded-circle" alt="프로필 사진">
+								<c:when test="${member.member_filename != null}">
+									<img src="/resources/img/mypage/<c:out value="${member.member_filename}"/>" width="35" height="35" class="rounded-circle" alt="프로필 사진">
 								</c:when>
 							</c:choose>
 						</a>
@@ -197,7 +197,7 @@
 			</div>
        
        <!-- Modal body -->
-       		<select class="form-control">
+       		<select id="reportType" class="form-control">
        			<option value="none">-- 신고 사유를 선택해주세요 --</option>
        			<option value="badWord">욕설/비속어</option>
        			<option value="annoying">불쾌감 조성</option>
@@ -210,8 +210,9 @@
 			</div>
        <!-- Modal footer -->
 			<div class="modal-footer">
-			<span id="warnReport">(0/100)글자</span><button type="button" id="reportUserBtn" class="btn btn-warning" data-dismiss="modal">신고</button>
+			<span id="warnReport">(0/100)글자</span><button type="button" id="reportUserBtn" class="btn btn-warning">신고</button>
 			</div>
+			<div id="reportInfo"></div>
 		</div>
 	</div>
 </div>

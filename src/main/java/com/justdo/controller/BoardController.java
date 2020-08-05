@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.JsonObject;
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.Criteria;
+import com.justdo.domain.LikeVO;
+import com.justdo.domain.MemberVO;
 import com.justdo.domain.PageDTO;
+import com.justdo.domain.ReportVO;
 import com.justdo.security.CustomUserDetailsService;
 import com.justdo.service.BoardService;
 import com.justdo.service.commonService;
@@ -88,17 +92,14 @@ public class BoardController {
 			model.addAttribute("temperature",weatherData[1]);
 			model.addAttribute("weatherGu",weatherData[2]);
 			
-		} else {
-			log.warn("로그인 하지 않았음!");
 		}
 	}
 	
 	@GetMapping("BoardTabListAjax")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> BoardTabListAjax(Criteria cri) {
+		//카테고리 별 탭 선택 시 해당 글목록 및 페이징 정보 넘기기 
 		Map<String, Object> map = new HashMap<>();
-		
-		System.out.println(cri.getCategory());
 		
 		map.put("voList", service.getListWithPagingTabs(cri));
 		map.put("pagedto",new PageDTO(cri,service.getTotal(cri)));
@@ -110,49 +111,53 @@ public class BoardController {
 	
 	// 등록화면
 	@GetMapping("/register")
-	public String register(Model model, Principal principal) {
-		log.info("/register");
-		if (principal != null) {
-			String username = principal.getName();
-			model.addAttribute("member", myPageService.selectUser(username));
-			return "/board/register";
-		} else {
-			return "/login/subLogin";
-		}
+	@PreAuthorize("isAuthenticated()")
+	public String register() {
+		return "/board/register";
 	}
 	
 	// 등록처리
 	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated()")
 		public String register(BoardVO board, RedirectAttributes rttr) {
-		log.info("register: " + board);
-		System.out.println(board);
 		service.register(board);
 		
 		rttr.addFlashAttribute("result",board.getBno());
 		
-		return "redirect:/board/list";
+		return "redirect:/";
 	};
 	
 	// 상세보기
 	@GetMapping("/get/{bno}")
 	public String get(@PathVariable("bno") Long bno, Model model) {
-		log.info("/get");
 		model.addAttribute("board", service.get(bno));
 		return "/board/get";
 	}
 	
 	// 수정화면불러오기
 	@GetMapping("/modify")
-	public void modify(@RequestParam("bno") Long bno, Model model) {
-		log.info("/modify");
-		model.addAttribute("board", service.get(bno));
+	public String modify(@RequestParam("bno") Long bno, Model model, Principal principal) {
+		if (principal != null) {
+			String username = principal.getName();
+			MemberVO mvo =  myPageService.selectUser(username);
+			BoardVO bvo = service.get(bno);
+			if(mvo.getUserid().equals(bvo.getUserid())) {
+				model.addAttribute("member", mvo);
+				model.addAttribute("board", bvo);
+				return "/board/modify";
+			}else {
+				return "redirect:/";
+			}
+
+		} else {
+			return "/login/subLogin";
+		}
 	}
 		
 	// 수정처리
 	@PostMapping("/modify")
+	@PreAuthorize("principal.username == #board.userid")
 	public String modify(BoardVO board, RedirectAttributes rttr) {
-		log.info("modify : " + board);
-		
 		if(service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -161,8 +166,8 @@ public class BoardController {
 	
 	//삭제
 	@PostMapping("/remove")
+	@PreAuthorize("principal.username == #userid")
 	public String remoce(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
-		log.info("remove..."+ bno);
 		if(service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -187,7 +192,6 @@ public class BoardController {
 			InputStream fileStream = multipartFile.getInputStream();
 			FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
 			jsonObject.addProperty("url", "/upload/image/"+savedFileName);
-			System.out.println("/upload/image/"+savedFileName);
 			//jsonObject.addProperty("responseCode", "success");
 				
 		} catch (IOException e) {
@@ -196,8 +200,41 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
-		System.out.println(jsonObject);
-		
 		return jsonObject.toString();
 	}
+	
+	// 글신고하기 ///////////////////////////////////
+	@PostMapping("reportAjax")
+	@ResponseBody public void reportAjax(ReportVO rvo){
+		service.reportBoard(rvo);
+	}
+	// 글신고하기 //
+	
+	// 좋아요 테이블 넣기/////////////////////////
+	@PostMapping("insertLikeAjax")
+	@ResponseBody public void insertLikeAjax(LikeVO vo){
+		service.insertLike(vo);
+	}
+	// 좋아요 테이블 넣기 //
+	
+	// 좋아요한지 체크/////////////////////////
+	@GetMapping("likeCheck")
+	@ResponseBody public String likeCheck(LikeVO vo){
+		return service.likeCheck(vo);
+	}
+	// 좋아요한지 체크//
+	
+	// 좋아요 취소 /////////////////////////
+	@PostMapping("cancelLike")
+	@ResponseBody void likeCancel(LikeVO vo){
+		service.cancelLike(vo);
+		if(vo.getType() == 'L') {
+			service.downLike(vo.getBno());
+		}
+		else if(vo.getType() == 'U') {
+			service.downUnLike(vo.getBno());
+		}
+	}
+	// 좋아요한지 체크//
+	
 }

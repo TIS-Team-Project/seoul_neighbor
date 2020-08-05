@@ -8,11 +8,14 @@ $(document).ready(function(){
 		$("#leftNav").css("left",-$("#leftNav").width()-100);
 		$("#leftNav").css("position","fixed");
 		$("#dropDownBtn").css("left","0px");
+		$("#dontEditEmail").css("margin-left","0px");
+		$(".label").css("float","none");
 		$("#dropDownBtn").show();
 	}else{
 		$("#dropDownBtn").hide();
 		$("#leftNav").css("position","relative");
 		$("#leftNav").css("left","0");
+		$("#dontEditEmail").css("margin-left","90px");
 		$("#dropDownBtn").css("left","0px");
 	}
 	//초기값 설정
@@ -24,13 +27,17 @@ $(document).ready(function(){
 			$("#leftNav").css("position","fixed");
 			$("#dropDownBtnIcon").css("transform","rotate(0deg)");
 			$("#dropDownBtn").css("left","0px");
+			$("#dontEditEmail").css("margin-left","0");
+			$(".label").css("float","none");
 			isDropDownClicked = false;
 			$("#dropDownBtn").show();
 		}else{
 			$("#leftNav").css("position","relative");
 			$("#leftNav").css("left","0");
 			$("#dropDownBtn").css("left","0px");
+			$(".label").css("float","left");
 			$("#dropDownBtnIcon").css("transform","rotate(0deg)");
+			$("#dontEditEmail").css("margin-left","90px");
 			isDropDownClicked = false;
 			$("#dropDownBtn").hide();
 		}
@@ -89,5 +96,11 @@ $(document).ready(function(){
 		$(".flex-column").children().eq(4).css("border-left","solid 5px #827FFE").css("font-weight","bold");
 	}
 	// 무슨 페이지인지 읽어오기 //
+	
+	// 프로필 사진 모닫창 z-index ///////////////////////////
+	$("#changePicture").on("click",function(){
+		$("#changePicture").css("z-index","1500");
+	})
+	// 프로필 사진 모달창 z-index //
 })
 </script>

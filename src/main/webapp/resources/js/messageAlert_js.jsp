@@ -25,9 +25,6 @@ $(document).ready(function(){
 	           	}
 	           	isLinkChanged = false;
 	           	beforeCount = 0;
-	           },
-	           error: function(){
-	               alert("simpleWithObject err");
 	           }
 	       });
 	}
@@ -49,7 +46,6 @@ $(document).ready(function(){
 	        type: "GET",
 	        data: form,
 	        success: function(data){
-	        	console.log(data);
 				$("#subMessageDiv").empty();
             	$("#subMessageDiv").append(
             			"<h5 class='dropdown-header'>최근 5개 메시지</h5>"
@@ -75,9 +71,6 @@ $(document).ready(function(){
 	                    "<a class='dropdown-item' href='/myMessage' style='background-color:white;color:black'>쪽지함 이동 <i class='fas fa-angle-right'></i></a>"
 				);
 	            cutContent();
-	        },
-	        error: function(){
-	            alert("simpleWithObject err");
 	        }
 	    });
 	}
@@ -88,7 +81,6 @@ $(document).ready(function(){
 	$(document).on({
 		mouseenter:function(){
 			$($(this)[0]).addClass("subMessageDivHover");
-			console.log($(this)[0]);
 		},
 		mouseleave:function(){
 			$(this).removeClass("subMessageDivHover");
@@ -124,9 +116,6 @@ $(document).ready(function(){
 	       },
 	       data: form,
 	       success: function(data){
-	       },
-	       error: function(){
-	           alert("simpleWithObject err");
 	       }
 	   });
 		
@@ -186,9 +175,6 @@ $(document).ready(function(){
 	           data: form,
 	           success: function(data){
 	           	alert("답장했습니다!");
-	           },
-	           error: function(){
-	               alert("simpleWithObject err");
 	           }
 	       });
 	})
@@ -256,14 +242,8 @@ $(document).ready(function(){
 	    	                	}
 	    	                });
 	    	                cutContent();
-	    	            },
-	    	            error: function(){
-	    	                alert("simpleWithObject err");
 	    	            }
 	    	        });
-	            },
-	            error: function(){
-	                alert("simpleWithObject err");
 	            }
 	        });
 		}

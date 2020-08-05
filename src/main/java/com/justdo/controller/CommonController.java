@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,8 +33,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.justdo.domain.BoardVO;
+import com.justdo.domain.Criteria;
 import com.justdo.domain.MemberVO;
 import com.justdo.security.CustomUserDetailsService;
+import com.justdo.service.BoardService;
 import com.justdo.service.commonService;
 import com.justdo.service.myPageService;
 import com.justdo.util.JoinValidator;
@@ -50,6 +54,7 @@ public class CommonController {
 	 private commonService service;
 	 private BCryptPasswordEncoder pwdEncoder;
 	 private JavaMailSender mailSender;
+	 private BoardService boardService;
 	 
 	// test //
 	// 메인 이동 //////////////////////////////////
@@ -61,20 +66,6 @@ public class CommonController {
 			String username = principal.getName();
 			String gu = loginService.loadLocationByUsername(username);
 			String encodedGu = URLEncoder.encode(gu, "UTF-8");
-			model.addAttribute("member", myPageService.selectUser(username));
-			
-			//날씨 정보 불러오는 구문
-			String weatherData[]=null;
-			try {
-				weatherData = service.getWeather(service.selectGuForWeather(principal.getName()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			model.addAttribute("weather",weatherData[0]);
-			model.addAttribute("temperature",weatherData[1]);
-			model.addAttribute("weatherGu",weatherData[2]);
-			//
-			
 			return "redirect:/board/list?gu="+encodedGu;
 		}
 
@@ -113,20 +104,53 @@ public class CommonController {
 	
 	//bno로 상세페이지 부르기   ---이 주석의 오른쪽 설명란은 볼 필요 없음.         board/read/*란 주소 board/read슬래쉬 뒤에 붙는 애들은 이녀석 적용이란 의미 -> httpServletRequest request는 clinet가 주소창에 입력한 요청을 담은 객체로 request.getRequestURI는 클라이언트가 친 주소창이고, 그걸 잘라서 http://localhost:8181/board/read/1의 bno인 1만 따로 bno라는 변수에 저장하고, vo에 bno=1담아서 jsp에 어트리뷰트 속성으로 보내서 jsp는 그 데이터로 클라이언트에게 보여줌/////////////////////
 	@GetMapping("board/read/*")
-	public String read(Model model, HttpServletRequest request) {
+	public String read(Model model, HttpServletRequest request,HttpServletResponse response,Principal principal,Criteria cri) {
 		
 		int bno =  Integer.parseInt(request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/")+1));
-		BoardVO vo=service.read(bno);
+		BoardVO vo = service.read(bno);
 		
-		if(vo != null) {										//client가 주소창에 board/read/3해서 bno가 3짜리인 boardVO를 부르면 bno가 3짜리인 vo 데이터를 받는데 만약 삭제를해서 없다면 데이터가 null인 상세페이지 말고, list 페이지로 보낸다.
-		      System.out.println(vo);
+		HttpSession sessions = request.getSession();
+		
+        // 비교하기 위해 새로운 쿠키
+        String viewSession = null;
+
+        
+        // 쿠키가 있을 경우 
+        if (sessions != null) {
+        	if(sessions.getAttribute("readSession"+vo.getBno().toString()) != null) {
+        		viewSession = sessions.getAttribute("readSession"+vo.getBno()).toString();
+        	}
+        }
+		
+		if(vo != null) {
 		      model.addAttribute("board",vo);
-		      System.out.println(vo);
+		      model.addAttribute("fileName",boardService.selectWriterProfile(vo.getNickname()));
+		      model.addAttribute("hotList",boardService.selectHotListFromRead(cri));
+				if(principal != null) {
+					String username = principal.getName();
+					model.addAttribute("member", myPageService.selectUser(username));
+					String weatherData[]=null;
+					try {
+						weatherData = service.getWeather(service.selectGuForWeather(principal.getName()));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					model.addAttribute("weather",weatherData[0]);
+					model.addAttribute("temperature",weatherData[1]);
+					model.addAttribute("weatherGu",weatherData[2]);
+					
+					  // 만일 viewCookie가 null일 경우 세션을 생성해서 조회수 증가 로직을 처리함.
+					if (viewSession == null) {
+					  // 세션 생성(이름, 값) 
+					  sessions.setAttribute("readSession"+vo.getBno(), "test");
+					  // 세션을 추가 시키고 조회수 증가시킴 
+					  boardService.updateViewCount(vo.getBno());
+					  }
+				}
 		      return "board/read";  
 		}else {
 			return "redirect:/board/list";
 		}
-		      
 	}
 	//bno로 상세페이지 부르기 
 	
@@ -165,30 +189,24 @@ public class CommonController {
 	//회원가입 페이지 호출
 	@GetMapping("join")
 	public String joinForm() {
-		System.out.println("회원가입페이지로 이동합니다.");
 		return "joinpage/join";
 	}
 	
 	//회원가입 진행
 	@PostMapping("/join")
 	public String join(MemberVO vo, BindingResult result, RedirectAttributes rttr) {
-		System.out.println("회원가입 처리 서비스를 호출합니다.");
-		System.out.println("받은 회원 정보 : " + vo.toString());
 		
 		boolean isDuplicated = 
 				service.isUniqueID(vo.getUserid()) && service.isUniqueNickName(vo.getNickname());
-		System.out.println(isDuplicated);
 		
 		try {
 			if(!isDuplicated) {
-				System.out.println("아이디 or 닉네임 뭔가가 중복되었다");
 				rttr.addFlashAttribute("warning", "회원가입에 실패하였습니다.");
 				return "redirect:/join";
 			} else {
 				JoinValidator validator = new JoinValidator();
 				validator.validate(vo, result);
 				if(result.hasErrors()) {
-					System.out.println("유호성검사 실패");
 					rttr.addFlashAttribute("warning", "당신은 거절당했습니다. 가입불가");
 					return "redirect:/join";
 				}
@@ -228,7 +246,6 @@ public class CommonController {
 	//이메일 중복됬는지 체크
 	@RequestMapping(value = "/checkEmail" , method = RequestMethod.GET, produces = "application/text; charset=utf-8")
 	public @ResponseBody ResponseEntity<String> checkEmail(@RequestParam("email") String email) throws UnsupportedEncodingException{
-		System.out.println("이메일 중복확인 컨트롤러, 검증할 값 : " + email.trim());
 		String responseMsg;
 		if(service.isUniqueEmail(email.trim())) {
 			responseMsg = "new";
@@ -261,7 +278,6 @@ public class CommonController {
 			messageHelper.setTo(tomail);
 			messageHelper.setSubject(title);
 			messageHelper.setText(content);
-			System.out.println("메일은 실제 보내진 않았습니다");
 			
 			mailSender.send(message);
 		} catch(Exception e) {
@@ -275,7 +291,6 @@ public class CommonController {
 			consumes = "application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> compareEmailAuth(@RequestBody HashMap<String, Object> map){
-		System.out.println(map);
 		
 		String userNumber = (String) map.get("userNumber"); //유저가 입력한 번호
 		String originNumber = (String) map.get("originNumber"); //서버에서 만들어 유저에게 보내준 번호
