@@ -387,6 +387,7 @@ $("#gu a").on("click", function() {
 	$("#gu_notice").css("display","none");
 	$("#dong_notice").css("display","block");
 });
+
 //동
 $("#dong").on("click",".dropdown-item", function() {
     // 드롭다운에 선택된 항목 텍스트 넣기 
@@ -399,24 +400,41 @@ $("#dong").on("click",".dropdown-item", function() {
 	$("#gu_notice").css("display","block");
 	$("#dong_notice").css("display","none");
 });
+
 // 작성/수정 페이지 진입시 지역정보 자동선택
 var before_location = document.getElementById("location").value
+var criteria_gu = document.getElementById("criteria_gu").value
 if(before_location == ""){
 }else{
-	//수정
+	console.log(before_location);
+	console.log(criteria_gu);
+	
 	//글자자르기
 	var after_location = before_location.split("_");
 	var before_gu = after_location[0]
 	var before_dong = after_location[1]
-	//자른글자 대입
-	$("#selectGu").text(before_gu);
-	$("#selectDong").text(before_dong);
 	
-	//구선택시 동추가
-    changeDong($("#selectGu").text());
-	//지도에도 표시한다
-	gu_coordinate(before_gu)
+	//자른글자 대입
+	//구
+	for(var i = 0; i <$("#gu a").length; i++){
+		console.log($("#gu a")[i].text);
+		if($("#gu a")[i].text == criteria_gu){
+			$("#gu a")[i].click();
+		}			
+	}
+	
+	//목록 페이지의 지역과 프로필상 지역이 같을때
+	if(before_gu == criteria_gu){
+		//동
+		for(var i = 0; i <$("#dong a").length; i++){
+			console.log($("#dong a")[i].text);
+			if($("#dong a")[i].text == before_dong){
+				$("#dong a")[i].click();
+			}			
+		}
+	}	
 };
+
 //구선택시 지도변경 함수
 function gu_coordinate(gu){
 	$.ajax({
@@ -437,6 +455,7 @@ function gu_coordinate(gu){
 	});
 };
 // 구 -> 동 선택하기 //
+
 //스마트에디터 summernote
 $(function() {
   $("#content").summernote({
