@@ -15,7 +15,6 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +25,7 @@
 <link rel="stylesheet" href="/resources/css/mypage/profile-formpage.css">
 <link rel="stylesheet" href="/resources/css/common/basic.css">
 <link rel="stylesheet" href="/resources/css/map/map.css">
-<link rel="stylesheet" href="/resources/css/board/register.css">
+<link rel="stylesheet" href="/resources/css/board/style.css">
 <!-- include summernote css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/summernote/summernote-lite.css">
 

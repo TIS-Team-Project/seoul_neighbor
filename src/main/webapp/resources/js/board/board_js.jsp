@@ -25,20 +25,17 @@ function boardCheck() {
 $("#selectcategory ~ div a").on("click", function() {
     // 버튼에 선택된 항목 텍스트 넣기 
     $("#selectcategory").text($(this).text());
-    console.log($(this).text())
     $("#category").val($(this).text());
 });
 // 구 -> 동 선택하기 /////////////////////////////////////
 var gu = "";
 var dong = "";
-
 //구가 바뀔때 동 옵션값 바뀌는 함수
 function changeDong(gu){	
 	var dong = $("#dong");
 	
 	dong.empty();
 	if(gu=="강남구"){
-		console.log(gu+"선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>신사동</a>"+
 				"<a class='dropdown-item' href='#'>논현동</a>"+
@@ -55,7 +52,6 @@ function changeDong(gu){
 				)
 	}
 	else if(gu=="강동구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>강일동</a>"+
 				"<a class='dropdown-item' href='#'>고덕동</a>"+
@@ -69,7 +65,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="강북구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>미아동</a>"+
 				"<a class='dropdown-item' href='#'>번동</a>"+
@@ -83,7 +78,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="강서구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>가양동</a>"+
 				"<a class='dropdown-item' href='#'>공항동</a>"+
@@ -96,7 +90,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="관악구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>낙성대동</a>"+
 				"<a class='dropdown-item' href='#'>난곡동</a>"+
@@ -122,7 +115,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="광진구"){
-		console.log(gu+"가 선택됨");	
 		dong.append(
 				"<a class='dropdown-item' href='#'>광장동</a>"+
 				"<a class='dropdown-item' href='#'>구의동</a>"+
@@ -134,7 +126,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="구로구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>가리봉동</a>"+
 				"<a class='dropdown-item' href='#'>개봉동</a>"+
@@ -147,7 +138,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="금천구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>가산동</a>"+
 				"<a class='dropdown-item' href='#'>독산동</a>"+
@@ -155,7 +145,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="노원구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>공릉동</a>"+
 				"<a class='dropdown-item' href='#'>상계동</a>"+
@@ -165,7 +154,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="도봉구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>도봉동</a>"+
 				"<a class='dropdown-item' href='#'>방학동</a>"+
@@ -174,7 +162,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="동대문구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>답십리동</a>"+
 				"<a class='dropdown-item' href='#'>용신동</a>"+
@@ -188,7 +175,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="동작구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>노량진동</a>"+
 				"<a class='dropdown-item' href='#'>대방동</a>"+
@@ -199,7 +185,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="마포구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>공덕동</a>"+
 				"<a class='dropdown-item' href='#'>대흥동</a>"+
@@ -217,7 +202,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="서대문구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>남가좌동</a>"+
 				"<a class='dropdown-item' href='#'>북가좌동</a>"+
@@ -230,7 +214,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="서초구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>내곡동</a>"+
 				"<a class='dropdown-item' href='#'>반포동</a>"+
@@ -241,7 +224,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="성동구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>금호동</a>"+
 				"<a class='dropdown-item' href='#'>마장동</a>"+
@@ -256,7 +238,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="성북구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>길음동</a>"+
 				"<a class='dropdown-item' href='#'>돈암동</a>"+
@@ -273,7 +254,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="송파구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>가락동</a>"+
 				"<a class='dropdown-item' href='#'>거여동</a>"+
@@ -291,7 +271,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="양천구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>목동</a>"+
 				"<a class='dropdown-item' href='#'>신월동</a>"+
@@ -299,7 +278,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="영등포구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>당산동</a>"+
 				"<a class='dropdown-item' href='#'>대림동</a>"+
@@ -313,7 +291,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="용산구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>남영동</a>"+
 				"<a class='dropdown-item' href='#'>보광동</a>"+
@@ -331,7 +308,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="은평구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>갈현동</a>"+
 				"<a class='dropdown-item' href='#'>구산동</a>"+
@@ -347,7 +323,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="종로구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>가회동</a>"+
 				"<a class='dropdown-item' href='#'>교남동</a>"+
@@ -366,7 +341,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="중구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>광희동</a>"+
 				"<a class='dropdown-item' href='#'>다산동</a>"+
@@ -386,7 +360,6 @@ function changeDong(gu){
 		)
 	}
 	else if(gu=="중랑구"){
-		console.log(gu+"가 선택됨");
 		dong.append(
 				"<a class='dropdown-item' href='#'>망우동</a>"+
 				"<a class='dropdown-item' href='#'>면목동</a>"+
@@ -398,12 +371,10 @@ function changeDong(gu){
 	}
 }
 /* 드롭다운으로 지역선택 */
-
 //구
 $("#gu a").on("click", function() {
     // 드롭다운에 선택된 항목 텍스트 넣기 
     $("#selectGu").text($(this).text());
-    console.log($(this).text());
     gu = $(this).text()
     
     //구선택시 동추가
@@ -413,41 +384,30 @@ $("#gu a").on("click", function() {
     //구선택시 지도변경
     gu_coordinate($(this).text());
 	//알림글 변경
-	console.log("동알림글");
 	$("#gu_notice").css("display","none");
 	$("#dong_notice").css("display","block");
 });
-
 //동
 $("#dong").on("click",".dropdown-item", function() {
     // 드롭다운에 선택된 항목 텍스트 넣기 
     $("#selectDong").text($(this).text());
-   console.log($(this).text());
    dong = $(this).text()
-   console.log(gu+"_"+dong);
    
 	//주소정보를 전달
 	$("#location").val(gu+"_"+dong);
 	//알림글 변경
-	console.log("구알림글");
 	$("#gu_notice").css("display","block");
 	$("#dong_notice").css("display","none");
 });
-
 // 작성/수정 페이지 진입시 지역정보 자동선택
 var before_location = document.getElementById("location").value
 if(before_location == ""){
-	console.log("지역정보 오류");
 }else{
 	//수정
-	console.log(before_location);
 	//글자자르기
 	var after_location = before_location.split("_");
 	var before_gu = after_location[0]
 	var before_dong = after_location[1]
-	console.log("자른글자")
-	console.log(before_gu);
-	console.log(before_dong);
 	//자른글자 대입
 	$("#selectGu").text(before_gu);
 	$("#selectDong").text(before_dong);
@@ -457,7 +417,6 @@ if(before_location == ""){
 	//지도에도 표시한다
 	gu_coordinate(before_gu)
 };
-
 //구선택시 지도변경 함수
 function gu_coordinate(gu){
 	$.ajax({
@@ -467,13 +426,8 @@ function gu_coordinate(gu){
 			xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
 		},
 		success:function (data){
-			console.log("json 연동성공");
-			console.log("gu = "+ gu);
 			for(var i in data.DATA){
 				if(data.DATA[i].sig_kor_nm.toString() == gu){
-					console.log("sig_kor_nm = " + data.DATA[i].sig_kor_nm.toString());
-					console.log(data.DATA[i].lat);
-					console.log(data.DATA[i].lng);
 					//지도 위치 재설정
 					centerChange(data.DATA[i].lat,data.DATA[i].lng);
 					break;
@@ -483,7 +437,6 @@ function gu_coordinate(gu){
 	});
 };
 // 구 -> 동 선택하기 //
-
 //스마트에디터 summernote
 $(function() {
   $("#content").summernote({
@@ -511,7 +464,6 @@ $(function() {
 				}
 			}
 	});
-
 	/**
 	* 이미지 파일 업로드
 	*/
@@ -533,5 +485,22 @@ $(function() {
 			}
 		});
 	}
+	
+	//제목 길면 자르기 ////////////////////////////////////
+	function cutTitleLength(){
+		var forCutTitleLength = $("#title")
+		
+		if($(forCutTitleLength).val().length >20){
+			var tempMessageContent = $(forCutTitleLength).val();
+			$(forCutTitleLength).val(forCutTitleLength.val().substring(0,20));
+		}
+	}
+	
+	$("#title").on("propertychange change keyup paste",function(){
+		cutTitleLength();
+	})
+	// 제목 길면 자르기 //
+	
+	// 1:1문의 작성 문자 길이 제한 ////////////////////////////////////
 });
 </script>
