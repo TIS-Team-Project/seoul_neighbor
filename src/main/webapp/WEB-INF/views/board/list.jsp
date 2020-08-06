@@ -66,7 +66,11 @@ a {
 	border-bottom: 1px solid #cccccc;
 }
 
-.best-ol li{
+.best-ol {
+	padding-left: 15px;
+}
+
+.best-ol li {
 	display: inline-block;
 	line-height: 30px !important;
 	overflow: hidden;
@@ -83,7 +87,7 @@ a {
 }
 
 .best-ol li div:nth-of-type(2){
-	width: 180px;
+	width: 170px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
@@ -271,8 +275,8 @@ tbody > tr:active {
 			<!-- 상단 영역(지역선택 + 서울시 새소식 + 서울의 문화공연 소식) -->
 
 			<!-- 중간 테이블 --------------------------------------------------------------------->
-			<div class="row pb-3">
-				<div class="col-xl-8">
+			<div class="row">
+				<div class="col-xl-12">
 					<div class="panel panel-default">
 						<div class="panel-heading title-box">
 							<!-- 로그인 하지 않은 상태에서 노출 ::: 목록  -------------------------------------------------->
@@ -292,12 +296,10 @@ tbody > tr:active {
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- 중간 테이블 -->
- 			<!-- 추천수가 많은 소식 ~ 테이블 시작 -------------------------------->
-	        <div class="row pb-5">
+				
+				<!-- 추천수가 많은 소식 ~ 테이블 시작 -------------------------------->
 	            <div class="col-xl-12">
-					<div class="row">
+					<div class="row pt-3">
 						<div class="col-xl-4 best-row">
 							<!-- 선택된 지역의 추천수가 많은 테이블 ---------------------------------------------------------------------------------------------->
 							<div class="best-content-title">
@@ -350,10 +352,17 @@ tbody > tr:active {
 						</div>
 					</div>
 				</div>
-			</div>
+			
 			<!-- 상단 영역(추천 및 인기글 목록 테이블) -->
-		</div>
-		<!-- 물결 위 컨테이너(추천 및 인기글 목록 테이블) -->
+				
+				
+				
+			</div>
+			<!-- 물결 위 컨테이너(추천 및 인기글 목록 테이블) -->
+				
+			</div>
+			<!-- 중간 테이블 -->
+ 			
 		
 		<!-- 물결 ------------------------------------------------->
 		<svg class="editorial mt-5 mb-3" xmlns="http://www.w3.org/2000/svg"
@@ -394,7 +403,7 @@ tbody > tr:active {
 						</ul>
 						<!-- 카테고리별 네비게이션  목록-->
 						
-						<div class="pull-right">
+						<div class="pull-right pt-3 pb-3">
 							<!-- 테이블 리스트 갯수 조절---------------------------------------------------------------------------------------------->
 							<form id="searchFormNum" action="/board/list" method='get'>
 								<select  name="amount" class="selectpicker float-right" data-style="text-right"  dir="rtl">

@@ -672,7 +672,15 @@ $(document).ready(function(){
         actionForm.submit();
 	 });
   //지역별 전체 소식 글 상세보기 링크연결//
-    
+  
+	//지역별 추천 글 상세보기 링크연결/////////////////////////////
+	$(".move").on('click',function(e){
+		e.preventDefault();
+		actionForm.attr("action","/board/read/"+$(this).attr('href'));
+		actionForm.submit();
+	});
+	//지역별 추천 글 상세보기 링크연결//
+  
   //게시판 에서 보여질 글 갯수 설정/////////////////////////////
     var searchFormNum = $("#searchFormNum");
     
