@@ -244,7 +244,7 @@ label {
   background: transparent;
   height: 48px;
   width: 100%;
-  margin-left: 7px;
+  padding-left: 7px;
 }
 
 .focus-on-input {
@@ -398,6 +398,10 @@ label {
 
 .mini-button:hover {
   background-color: #403866;
+}
+
+#emailAuthContainer {
+	margin-left: 80px;
 }
 
 .selectBox {

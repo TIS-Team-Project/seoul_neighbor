@@ -43,7 +43,7 @@
 				<div id="gudongchoice_wrap">
 					<!-- 1.1.1.1 구선택 ------------->
 					<div class="dropdown">
-						<input type="hidden" id="criteria_gu" name="criteria_gu" value="<%= request.getParameter("criteria_gu") %>">
+						<input type="hidden" id="criteria_gu" name="criteria_gu" value="<c:out value="${criteria.gu}"/>">
 					    <button class="btn dropdown-toggle" type="button" id="selectGu" data-toggle="dropdown" disabled>구
 					    <span class="caret"></span></button>
 				    	<div id="gu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -108,7 +108,7 @@
 	       				<!-- 1.2.1.1 카테고리 선택 -------->
 			        	<div class="dropdown" id="category_wrap">
 			        		<input type="hidden" id="category" name="category" value="<c:out value='${board.category}'/>">
-						    <button class="btn dropdown-toggle" type="button" id="selectcategory" data-toggle="dropdown">카테고리
+						    <button class="btn dropdown-toggle" type="button" id="selectcategory" data-toggle="dropdown"><c:out value='${board.category}'/>
 						    	<span class="caret"></span>
 						    </button>
 					    	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -129,9 +129,7 @@
 		        </form>
 		        <!-- 1.2 수정 폼 -->
 		        <!-- 1.3 취소버튼 ----------->
-		        <form role="form" action="/" method="get">
-		        	<button type="submit" class="btn button-gray bottomButton">취소</button>
-		        </form>
+		        <button type="submit" class="btn button-gray bottomButton"  onClick="history.go(-2)">취소</button>
 		        <!-- 1.3 취소버튼 -->
 			</div>
 		</div>

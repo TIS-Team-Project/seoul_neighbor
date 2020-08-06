@@ -371,28 +371,30 @@ function changeDong(gu){
 	}
 }
 /* 드롭다운으로 지역선택 */
+
 //구
 $("#gu a").on("click", function() {
-    // 드롭다운에 선택된 항목 텍스트 넣기 
-    $("#selectGu").text($(this).text());
     gu = $(this).text()
+    // 드롭다운에 선택된 항목 텍스트 넣기 
+    $("#selectGu").text(gu);
+    $("input[name='gu']").val(gu);
     
     //구선택시 동추가
-    changeDong($(this).text());
+    changeDong(gu);
     //구선택시 첫번째 클릭
     $("#dong a")[0].click();
     //구선택시 지도변경
-    gu_coordinate($(this).text());
+    gu_coordinate(gu);
 	//알림글 변경
 	$("#gu_notice").css("display","none");
 	$("#dong_notice").css("display","block");
 });
 
 //동
-$("#dong").on("click",".dropdown-item", function() {
-    // 드롭다운에 선택된 항목 텍스트 넣기 
-    $("#selectDong").text($(this).text());
-   dong = $(this).text()
+$("#dong").on("click",".dropdown-item", function() { 
+    dong = $(this).text()
+    // 드롭다운에 선택된 항목 텍스트 넣기
+    $("#selectDong").text(dong);
    
 	//주소정보를 전달
 	$("#location").val(gu+"_"+dong);
@@ -400,7 +402,6 @@ $("#dong").on("click",".dropdown-item", function() {
 	$("#gu_notice").css("display","block");
 	$("#dong_notice").css("display","none");
 });
-
 // 작성/수정 페이지 진입시 지역정보 자동선택
 var before_location = document.getElementById("location").value
 var criteria_gu = document.getElementById("criteria_gu").value
@@ -434,7 +435,6 @@ if(before_location == ""){
 		}
 	}	
 };
-
 //구선택시 지도변경 함수
 function gu_coordinate(gu){
 	$.ajax({
@@ -455,7 +455,6 @@ function gu_coordinate(gu){
 	});
 };
 // 구 -> 동 선택하기 //
-
 //스마트에디터 summernote
 $(function() {
   $("#content").summernote({

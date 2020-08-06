@@ -468,7 +468,7 @@ var replyService = (function(){
  						xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}')
  					 },
  		 	         success: function(result, status, xhr){
- 		 	        	likeCheck()
+ 		 	        	likeCheck();
  		 	        	$(".unlikeCount").html(parseInt($(".unlikeCount").text()) -1)
  		 	         }
  		 	      });
