@@ -373,25 +373,26 @@ function changeDong(gu){
 /* 드롭다운으로 지역선택 */
 //구
 $("#gu a").on("click", function() {
-    // 드롭다운에 선택된 항목 텍스트 넣기 
-    $("#selectGu").text($(this).text());
     gu = $(this).text()
+    // 드롭다운에 선택된 항목 텍스트 넣기 
+    $("#selectGu").text(gu);
+    $("input[name='gu']").val(gu);
     
     //구선택시 동추가
-    changeDong($(this).text());
+    changeDong(gu);
     //구선택시 첫번째 클릭
     $("#dong a")[0].click();
     //구선택시 지도변경
-    gu_coordinate($(this).text());
+    gu_coordinate(gu);
 	//알림글 변경
 	$("#gu_notice").css("display","none");
 	$("#dong_notice").css("display","block");
 });
 //동
-$("#dong").on("click",".dropdown-item", function() {
-    // 드롭다운에 선택된 항목 텍스트 넣기 
-    $("#selectDong").text($(this).text());
-   dong = $(this).text()
+$("#dong").on("click",".dropdown-item", function() { 
+    dong = $(this).text()
+    // 드롭다운에 선택된 항목 텍스트 넣기
+    $("#selectDong").text(dong);
    
 	//주소정보를 전달
 	$("#location").val(gu+"_"+dong);
@@ -515,7 +516,5 @@ $(function() {
 		cutTitleLength();
 	})
 	// 제목 길면 자르기 //
-	
-	// 1:1문의 작성 문자 길이 제한 ////////////////////////////////////
 });
 </script>

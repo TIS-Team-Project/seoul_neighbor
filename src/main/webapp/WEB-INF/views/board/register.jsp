@@ -127,7 +127,7 @@
 		            <input type="hidden" name="userid" value="<c:out value='${member.userid}'/>"><!-- 유저아이디 -->
 		            <input type="hidden" name="nickname" value="<c:out value='${member.nickname}'/>"><!-- 유저아이디 -->
 					<textarea name="content" id="content" class="summernote" cols="80" rows="15"></textarea><br><!-- 글내용 -->
-					<input type="hidden" id="location" name="location" value="<c:out value='${member.member_location}'/>"><!-- 지역 -->
+					<input type="hidden" id="location" name="location" value="<c:out value="${criteria.gu}"/>"><!-- 지역 -->
 					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
 					<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 					<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>'>

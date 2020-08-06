@@ -8,171 +8,6 @@
 <link rel="stylesheet" href="/resources/css/board/list.css">
 <link rel="stylesheet" href="/resources/css/common/basic.css">
 <title>서울이웃 :: I SEOUL U</title>
-<style>
-a {
-	color: #000000 !important;
-}
-
-/* 아이콘  */
-.fa-thumbs-up {
-	color: #994A70;
-}
-.fa-comment {
-	color: #F6C544;
-}
-
-/* 검색   */
-#searchFormBtn {
-	margin-bottom: 5px;
-	padding: 0;
-	width: 80px;
-	height: 30px;
-	border: 1px solid #dadada;
-	background-color: #f2f2f2;
-	text-align: center;
-}
-
-/* 글쓰기 버튼  */
-#regBtn {
-	background-color:#827FFE;
-	color:#ffffff;
-}
-
-/* 페이징 */
-.page-item.active .page-link {
-	background: #827FFE !important;
-	border-color: #827FFE !important;
-	color:#ffffff !important;
-}
-
-.pagination{
-	justify-content: center;
-}
-
-/* 테이블 리스트 갯수 버튼 */
-.selectpicker{
-	border: 2px solid #c3c3c3;
-	border-radius: 5px;
-}
-
-/* 지역별 추천소식  */
-.best-content-title h5 {
-	font-weight: bold;
-	font-family:"Spoqa-reg";
-	font-size:120%;
-	text-align:center;
-}
-.best-content-title {
-	border-bottom: 1px solid #cccccc;
-}
-
-.best-ol {
-	padding-left: 15px;
-}
-
-.best-ol li {
-	display: inline-block;
-	line-height: 30px !important;
-	overflow: hidden;
-}
-
-.best-ol li div{
-	display: inline-block;
-	vertical-align: middle;
-}
-
-.best-ol li div:nth-of-type(1){
-	width: 70px;
-	font-size:90%;
-}
-
-.best-ol li div:nth-of-type(2){
-	width: 170px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-}
-
-.best-ol li div:nth-of-type(3){
-	width: 80px;
-	font-size:80%;
-	padding-left: 10px;
-}
-/* 지역별 추천소식 (end) */
-
-/* 테이블  */
-.table {
-	font-size: 15px !important;
-	border-radius:10px !important;
-	text-overflow: ellipsis !important;
-}
-
-.tabtable {
-	border: 1px solid #e2e2e2;
-}
-.tabtable th{
-	background-color: #827FFE;
-	color:#ffffff;
-}
-
-#tbodyName td:nth-of-type(1){
-	width: 80px;
-	vertical-align: middle;
-}
-
-#tbodyName td:nth-of-type(2){
-	width: 100px;
-	vertical-align: middle;
-}
-
-#tbodyName td:nth-of-type(3){
-	width: 120px;
-	white-space: normal;
-	vertical-align: middle;
-}
-
-#tbodyName td:nth-of-type(4){
-	width: 400px;
-	white-space: normal;
-	text-align: left;
-}
-#tbodyName td:nth-of-type(5){
-	width: 130px;
-	vertical-align: middle;
-}
-#tbodyName td:nth-of-type(6){
-	width: 60px;
-	text-align: left;
-	vertical-align: middle;
-}
-#tbodyName td:nth-of-type(7){
-	width: 60px;
-	text-align: left;
-	vertical-align: middle;
-}
-
-.tab-content tr{
-	text-align:center;
-}
-
-th {
-	font-size: 16px;
-	line-height: 1.4;
-	 background-color: transparent;
-	border-bottom: 2px solid #e2e2e2;
-}
-
-tbody > tr:hover {
-	background-color: #ececff;
-	cursor: pointer;
-}
-
-tbody > tr:active {
-	color: #827FFE;
-	cursor: pointer;
-}
-
-</style>
 </head>
 <body>
 
@@ -181,7 +16,9 @@ tbody > tr:active {
 	<!-- header include -->
 
 	<!-- 그라데이션 배경 -------------------->
-	<div id="bg-box"></div>
+	<div id="bg-box">
+		<div class="shape"></div>
+	</div>
 	<!-- 그라데이션 배경 -->
 	
 	<main id="#content" class="site-main" role="main">
@@ -448,7 +285,7 @@ tbody > tr:active {
 													</div>
 												</td>
 			                 					</sec:authorize>
-												<td><c:out value="${board.view_count}"/></td>
+												<td><i class='far fa-eye'></i> <c:out value="${board.view_count}"/></td>
 												<td><i class="far fa-thumbs-up"></i> <c:out value="${board.like_count}"/></td>
 											</tr>
 										</c:forEach>
@@ -604,8 +441,7 @@ tbody > tr:active {
 	<!--  자바 스크립트 ------------->
 	<%@include file="/resources/js/board/userClick_js.jsp"%>
 	<%@include file="/resources/js/board/list_js.jsp" %>
-	<!-- 자바 스크립트 -->
+	<!-- 자바 스크립트 -->	
 </body>
 
 </html>
-© 2020 GitHub, Inc.

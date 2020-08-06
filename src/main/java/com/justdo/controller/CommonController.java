@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,10 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.justdo.domain.Criteria;
 import com.justdo.domain.MemberVO;
 import com.justdo.security.CustomUserDetailsService;
-import com.justdo.service.BoardService;
 import com.justdo.service.commonService;
 import com.justdo.service.myPageService;
 import com.justdo.util.JoinValidator;
@@ -49,8 +46,6 @@ public class CommonController {
 	 private myPageService myPageService;
 	 private commonService service;
 	 private BCryptPasswordEncoder pwdEncoder;
-	 private JavaMailSender mailSender;
-	 private BoardService boardService;
 	 
 	// 메인 이동
 	@RequestMapping(value = "/", method = RequestMethod.GET)

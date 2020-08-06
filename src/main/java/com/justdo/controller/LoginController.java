@@ -1,11 +1,8 @@
 package com.justdo.controller;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +25,6 @@ public class LoginController {
 	
 	private CustomUserDetailsService loginService;
 	private commonServiceImpl service;
-	private JavaMailSender mailSender;
 	private BCryptPasswordEncoder pwEncoder;
 	
 	// 메인 로그인 페이지로 이동 //////////////////////////////////

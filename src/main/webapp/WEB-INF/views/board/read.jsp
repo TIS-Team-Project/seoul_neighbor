@@ -92,52 +92,51 @@
             	</div>
             	<!-- 왼쪽 사이드메뉴 -->
 
-         <!-- 상세보기 본문 ------------------------------------------------------->
-            <div class="col-sm-9">
+			<!-- 상세보기 본문 ------------------------------------------------------->
+            <div class="col-lg-9" style="background-color:rgba(255,255,255,0.4)">
                 <div id="contentTitle">
-                    <div id="writer" class="d-flex justify-content-between">
-                        <div id="contentInfo">
-                            <div>
-                                <h2><c:out value="${board.title}"/></h2>
-                            </div>
-                            <div>
-                                <span><c:out value="${board.regdate}"/></span>
-                                <span>조회 <c:out value="${board.view_count}"/></span>
-                                <span  id="likeCount">추천 <c:out value="${board.like_count}"/></span>
-                                <span>댓글 <c:out value="${board.reply_count}"/></span>
-                                <span id="reportBoard">신고하기</span>
-                            </div>
+                    <div id="writer" class="d-flex justify-content-between row">
+                    	<div class="col-lg-8">
+	                    	<div id="contentInfo">
+	                            <div>
+	                                <h2><c:out value="${board.title}"/></h2>
+	                            </div>
+	                            <div style="font-size:0.85rem;">
+	                                <span><c:out value="${board.regdate}"/></span>
+	                                <span>조회 <c:out value="${board.view_count}"/></span>
+	                                <span  id="likeCount">추천 <c:out value="${board.like_count}"/></span>
+	                                <span>댓글 <c:out value="${board.reply_count}"/></span>
+	                                <span id="reportBoard">신고하기</span>
+	                            </div>
+	                        </div>
+                    	</div>
+                    	<div class="col-lg-4" style="line-height:70px">
 
-                        </div>
-   
-                        <div id="writerProfile">
-                            <span> 
-                               <c:choose>
-                           <c:when test="${fileName eq null }">
-                              <img id="profileChangeImg"
-                                 class="card-img-top"
-                                 src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
-                           </c:when>
-                           <c:when test="${fileName != null }">
-                              <img id="profileChangeImg" class="card-img-top"
-                                 src="/resources/img/mypage/<c:out value="${fileName}"/>"
-                                 alt="프로필 이미지">
-                           </c:when>
-                        </c:choose>
-                     </span>
-                            <span class="userNickname" data-toggle="dropdown">${board.nickname }</span>
-                            <div class="dropdown-menu">
-                     <a class="dropdown-item sendMessageToUser">쪽지 보내기</a>
-                        </div>
-                    </div>
-
+	                        <div id="writerProfile" class="name">
+	                            <span> 
+	                            	<c:choose>
+										<c:when test="${fileName eq null }">
+											<img id="profileChangeImg"
+												class="card-img-top rounded-circle"
+												src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
+										</c:when>
+										<c:when test="${fileName != null }">
+											<img id="profileChangeImg" class="card-img-top rounded-circle"
+												src="/resources/img/mypage/<c:out value="${fileName}"/>"
+												alt="프로필 이미지">
+										</c:when>
+									</c:choose>
+								</span>
+	                            <span class="userNickname" data-toggle="dropdown">${board.nickname }</span>
+	                            <div class="dropdown-menu">
+									<a class="dropdown-item sendMessageToUser">쪽지 보내기</a>
+	                        	</div>
+	                    	</div>                   	
+                    	</div>
                 </div>
-
                 <div id="contentBody">
-                     ${board.content}
+               		${board.content}
                 </div>
-
-
                 <div class="recomend_box d-flex justify-content-between">
                     <div>
                         <span class="likeCount"><c:out value="${board.like_count}"/></span>
@@ -149,50 +148,19 @@
                     </div>
                 </div>
                 
-            <!-- 댓글창 ----------------------------------------------------->
-                <div id="commentDiv">
-                     
-                    <!--댓글 목록--------------------------------------->
-                    <div id="commentList">
-
-                    </div>
-                    <!--댓글목록-->
-
-                    <!--댓글페이징------------------------>
-                    <div id="replyPaging">
-
-               </div>
-                    <!--댓글페이징-->
-
-                    <!--댓글 입력---------------------------------------->
-                    <div id="commentWrite">
-                        <div class="input-group mb-3">
-                            <textarea id="replyInput" class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>
-                            <div class="input-group-append">
-                              <button id="replyBtn" class="btn btn-outline-secondary">댓글등록하기</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!--댓글입력-->
-
-                </div>
-                <!-- 댓글창 -->
-
                 <!-- 버튼 모음 -------------------------------->
-                <div class="btn-box d-flex">
-
-                    <button id="listButton" class="btn btn-primary mr-auto m-1">목록으로</button>
-                    <c:set var = "userid" value ="${board.userid}" />
+                <div class="btn-box">
+                    <button id="registerButton" class="btn">글쓰기</button>
                     <sec:authorize access="isAuthenticated()">
-	                    <sec:authentication property="principal.username" var="loginid"/> 
-	                    	<c:if test ="${userid eq loginid}" >
-	                    		<button id="modfiyButton" class="btn btn-warning m-1">수정하기</button>
-	                    		<button id="deleteButton" class="btn btn-warning m-1">삭제하기</button>
-	                    	</c:if>
-	                    </sec:authorize>
-                    <button id="registerButton" class="btn btn-primary m-1">글쓰기</button>
+                    	<sec:authentication property="principal.username" var="loginid"/> 
+                    </sec:authorize>
+                    <c:set var = "userid" value ="${board.userid}" />
+                    <c:if test ="${userid eq loginid}" >
+	                    		<button id="modfiyButton" class="btn">수정</button>
+	                    		<button id="deleteButton" class="btn">삭제</button>
+                    </c:if>
+                    <button id="listButton" class="btn">목록</button>
                 </div>
-                <!-- 버튼모음 -->
                 
                 <form id="actionForm" action='' method="get">
                 	<input type="hidden" name='bno' value="${board.bno }">
@@ -204,9 +172,41 @@
                 </form>
 				
 				<form id="deleteForm" action = '/board/remove' method = 'post'>
+				    <c:set var = "userid" value ="${board.userid}" />
+   					<sec:authentication property="principal.username" var="loginid"/> 
 					<input type="hidden" name="bno" value="${board.bno }">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form>
+                <!-- 버튼모음 -->
+                
+				<!-- 댓글창 ----------------------------------------------------->
+                <div id="commentDiv">
+                     
+                    <!--댓글 목록--------------------------------------->
+                    <div id="commentList">
+
+                    </div>
+                    <!--댓글목록-->
+
+                    <!--댓글페이징------------------------>
+                    <div id="replyPaging">
+
+					</div>
+                    <!--댓글페이징-->
+
+                    <!--댓글 입력---------------------------------------->
+                    <div id="commentWrite">
+                        <div class="input-group mb-3">
+                            <textarea id="replyInput" class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>
+                            <div class="input-group-append">
+                              <button id="replyBtn" class="btn">댓글등록하기</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--댓글입력-->
+
+                </div>
+                <!-- 댓글창 -->
             </div>
             <!-- 상세보기 본문 -->
         </div>

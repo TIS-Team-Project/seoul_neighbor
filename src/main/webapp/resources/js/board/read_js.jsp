@@ -131,41 +131,25 @@ var replyService = (function(){
 		
 		var actionForm = $("#actionForm");
 		
-		// 목록,수정,삭제,등록 버튼
-		/* $("#listButton").click(function(){
-		   location.href = "/board/list";
-		});
-		
-		$("#modfiyButton").click(function(){
-		   location.href = "/board/modify?bno="+'${board.bno}';
-		});
-		
-		$("#deleteButton").click(function(){
-		   location.href = "/board/modify?bno="+'${board.bno}';
-		});
-		
-		$("#registerButton").click(function(){
-		   if('${member.userid}' == ""){
-		      alert("신고하려면 로그인 해주세요");
-		   }else{
-		      location.href = "/board/register";
-		   }
-		}); */
-		
 		$(".btn-box button").click(function(e){
 			e.preventDefault();
 			var thisid = $(this).attr('id');
-			console.log(thisid);
 			
 			if(thisid == 'listButton') {
 				actionForm.attr('action', '/board/list');
 			} else if(thisid == 'modfiyButton') {
-				actionForm.attr('action', "/board/modify?bno="+'${board.bno}');
+				actionForm.attr('action', '/board/modify');
 			} else if(thisid == 'deleteButton') {
-				actionForm.append('<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />');
-				actionForm.attr('action', '/board/remove').attr('method', 'post').submit();
+				if(confirm("삭제하시겠습니까?")){
+					actionForm.append('<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />');
+					actionForm.attr('action', '/board/remove').attr('method', 'post').submit();
+				}
+				else{
+					return;
+				}
+
 			} else if(thisid == 'registerButton') {
-				actionForm.attr('action', '/board/list');
+				actionForm.attr('action', '/board/register');
 			}
 			
 			actionForm.submit();
@@ -356,10 +340,7 @@ var replyService = (function(){
 					return;
 				}
 				
-				
 				var str = "";	
-				
-				console.log("displayCommentCount : " +result.displayCommentCount);
 				
 				if(result.replyList == null || result.replyList.length == 0) {
 					replyList.html("");
@@ -376,7 +357,7 @@ var replyService = (function(){
 						str += '			<div class="d-flex flex-column comment-section">';
 						str += '				<div class="bg-white p-2">';
 						str += '					<div class="d-flex flex-row user-info">';
-						str += '						<img class="rounded-circle" src="/resources/img/mypage/'+result.replyList[i].member_filename+'" width="40" height="40">';
+						str += '						<img class="rounded-circle" src="/resources/img/mypage/'+result.replyList[i].member_filename+'" onerror="this.src="/resources/img/mypage/profile_sample.png"" width="40" height="40">';
 						str += '						<div class="d-flex flex-column justify-content-start ml-2">';
 						str += '							<span class="d-block font-weight-bold name">'+result.replyList[i].replyer+'</span>';
 						str += '							<span class="date text-black-50">'+result.replyList[i].replyDate+'</span>';
@@ -443,7 +424,7 @@ var replyService = (function(){
 					re_str += '				<div class="bg-white p-2">';
 					re_str += '					<div class="d-flex flex-row user-info">';
 					re_str += '						<img src="/resources/img/board/replyArrow.png" width="30" height="30">';
-					re_str += '						<img class="rounded-circle" src="/resources/img/mypage/'+result.reReplyList[i].member_filename+'" width="40" height="40">';
+					re_str += '						<img class="rounded-circle" src="/resources/img/mypage/'+result.reReplyList[i].member_filename+'" onerror="this.src="/resources/img/mypage/profile_sample.png"" width="40" height="40">';
 					re_str += '						<div class="d-flex flex-column justify-content-start ml-2">';
 					re_str += '							<span class="d-block font-weight-bold name userNickname" data-toggle="dropdown">'+result.reReplyList[i].r_replyer+'</span>';
 					re_str += '							<div class="dropdown-menu">'
@@ -551,9 +532,6 @@ var replyService = (function(){
 			
 			var rno = $(this).data("what");
 			var r_reply = $("#re-replyInput"+rno).val();
-			
-			console.log(r_reply);
-			console.log(rno);
 			
 	    	if('${member.userid}' == ""){
 	    		alert("로그인 해주세요");
