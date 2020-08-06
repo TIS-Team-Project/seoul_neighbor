@@ -9,24 +9,20 @@
 <link rel="stylesheet" href="/resources/css/common/basic.css">
 <title>서울이웃 :: I SEOUL U</title>
 <style>
-.fa-thumbs-up{
-	color: #994A70;
+a {
+	color: #000000 !important;
 }
 
-.fa-comment{
+/* 아이콘  */
+.fa-thumbs-up {
+	color: #994A70;
+}
+.fa-comment {
 	color: #F6C544;
 }
 
-.best-content-title h5{
-	font-weight: bold;
-	font-family:"Spoqa-reg";
-	font-size:120%;
-	text-align:center;
-}
-.best-content-title{
-	border-bottom: 1px solid #cccccc;
-}
-#searchFormBtn{
+/* 검색   */
+#searchFormBtn {
 	margin-bottom: 5px;
 	padding: 0;
 	width: 80px;
@@ -35,14 +31,14 @@
 	background-color: #f2f2f2;
 	text-align: center;
 }
-#board-title{
-	font-size: 120%;
-}
 
-#regBtn{
+/* 글쓰기 버튼  */
+#regBtn {
 	background-color:#827FFE;
 	color:#ffffff;
 }
+
+/* 페이징 */
 .page-item.active .page-link {
 	background: #827FFE !important;
 	border-color: #827FFE !important;
@@ -53,28 +49,21 @@
 	justify-content: center;
 }
 
+/* 테이블 리스트 갯수 버튼 */
 .selectpicker{
 	border: 2px solid #c3c3c3;
 	border-radius: 5px;
 }
 
-
-.panel-heading{
-	font-size:150%;
+/* 지역별 추천소식  */
+.best-content-title h5 {
+	font-weight: bold;
+	font-family:"Spoqa-reg";
+	font-size:120%;
+	text-align:center;
 }
-
-#locationSelect{
+.best-content-title {
 	border-bottom: 1px solid #cccccc;
-}
-.page-header{
-	font-size:150%;
-	font-family:"Ridi";
-  	padding: 15px;
-  	margin: 10px;
-}
-
-a {
-	color: #000000 !important;
 }
 
 .best-ol li{
@@ -105,8 +94,9 @@ a {
 	font-size:80%;
 	padding-left: 10px;
 }
+/* 지역별 추천소식 (end) */
 
-
+/* 테이블  */
 .table {
 	font-size: 15px !important;
 	border-radius:10px !important;
@@ -114,7 +104,11 @@ a {
 }
 
 .tabtable {
-	border: 1px solid #e2e2e2 !important;
+	border: 1px solid #e2e2e2;
+}
+.tabtable th{
+	background-color: #827FFE;
+	color:#ffffff;
 }
 
 #tbodyName td:nth-of-type(1){
@@ -230,7 +224,7 @@ tbody > tr:active {
 		            </div>
 	         	</div>
 	         	
-	         	<div id="board-title" class="pt-3 pb-1 pl-2">
+	         	<div class="pt-3 pb-1 pl-2">
 						<!-- 로그인 하지 않은 상태에서 노출 ::: 목록  -------------------------------------------------->
 	                    <sec:authorize access="isAnonymous()">
 	                    	<div>서울이웃에 방문해주셔서 감사합니다.</div>
