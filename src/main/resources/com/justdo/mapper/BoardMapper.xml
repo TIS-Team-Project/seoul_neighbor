@@ -11,7 +11,7 @@
 			<if test="type == 'C'.toString()">and content LIKE CONCAT('%',#{keyword},'%')</if>
 			<if test="type == 'N'.toString()">and nickname LIKE CONCAT('%',#{keyword},'%')</if>
 			<if test="type == 'L'.toString()">and location LIKE CONCAT('%',#{keyword},'%')</if>
-			<if test="type == 'A'.toString()">and nickname LIKE CONCAT('%',#{keyword},'%') or content LIKE CONCAT('%',#{keyword},'%') or title LIKE CONCAT('%',#{keyword},'%')</if>
+			<!-- <if test="type == 'A'.toString()">and nickname LIKE CONCAT('%',#{keyword},'%') or content LIKE CONCAT('%',#{keyword},'%') or title LIKE CONCAT('%',#{keyword},'%')</if> -->
 		</if>
 		<if test="category == category">
 			<if test="category == null or (category eq '전체'.toString())">and category LIKE CONCAT('%','','%')</if>
@@ -133,10 +133,10 @@
    
    <!-- 상세보기 인기글 -->
    <select id="selectHotListFromRead" resultType="com.justdo.domain.BoardVO">
-   		(select substring_index(location,'_',-1) as location, bno, title, reply_count,like_count 
+   		(select substring_index(location,'_',-1) as location, bno, title, category, reply_count,like_count 
 		from TBL_BOARD where location like concat('%',#{gu},'%') order by like_count desc limit 0,3)
 		UNION ALL
-		(select substring_index(location,'_',-1) as location, bno, title, reply_count,like_count 
+		(select substring_index(location,'_',-1) as location, bno, title, category, reply_count,like_count 
 		from TBL_BOARD where location like concat('%',#{gu},'%') order by reply_count desc limit 0,3)
    </select>
    
