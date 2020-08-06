@@ -371,7 +371,6 @@ function changeDong(gu){
 	}
 }
 /* 드롭다운으로 지역선택 */
-
 //구
 $("#gu a").on("click", function() {
     gu = $(this).text()
@@ -389,7 +388,6 @@ $("#gu a").on("click", function() {
 	$("#gu_notice").css("display","none");
 	$("#dong_notice").css("display","block");
 });
-
 //동
 $("#dong").on("click",".dropdown-item", function() { 
     dong = $(this).text()
@@ -406,19 +404,14 @@ $("#dong").on("click",".dropdown-item", function() {
 var before_location = document.getElementById("location").value
 var criteria_gu = document.getElementById("criteria_gu").value
 if(before_location == ""){
-}else{
-	console.log(before_location);
-	console.log(criteria_gu);
-	
+}else{	
 	//글자자르기
 	var after_location = before_location.split("_");
 	var before_gu = after_location[0]
 	var before_dong = after_location[1]
-	
 	//자른글자 대입
 	//구
 	for(var i = 0; i <$("#gu a").length; i++){
-		console.log($("#gu a")[i].text);
 		if($("#gu a")[i].text == criteria_gu){
 			$("#gu a")[i].click();
 		}			
@@ -428,7 +421,6 @@ if(before_location == ""){
 	if(before_gu == criteria_gu){
 		//동
 		for(var i = 0; i <$("#dong a").length; i++){
-			console.log($("#dong a")[i].text);
 			if($("#dong a")[i].text == before_dong){
 				$("#dong a")[i].click();
 			}			
@@ -518,7 +510,5 @@ $(function() {
 		cutTitleLength();
 	})
 	// 제목 길면 자르기 //
-	
-	// 1:1문의 작성 문자 길이 제한 ////////////////////////////////////
 });
 </script>
