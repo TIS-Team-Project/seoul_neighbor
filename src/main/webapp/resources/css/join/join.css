@@ -396,12 +396,12 @@ label {
 	height: 100%;
 }
 
-.mini-button:hover {
-  background-color: #403866;
-}
-
 #emailAuthContainer {
 	margin-left: 80px;
+}
+
+.mini-button:hover {
+  background-color: #403866;
 }
 
 .selectBox {

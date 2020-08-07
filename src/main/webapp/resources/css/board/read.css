@@ -1,4 +1,23 @@
-ul, li {
+.container::before {
+  background-image: url("../../img/mypage/profile_background.png");
+  background-repeat: no-repeat;
+  background-size:contain;
+  opacity: 0.6;
+  
+  position: fixed;
+  top: 60%;
+  left: 0;
+  
+  width: 100%;
+  height: 120%;
+  
+  content: "";
+  display: block;
+  z-index: -1;
+  /* pointer-events: none; */
+}
+
+.left-menu ul,.left-menu li {
 	margin: 0px;
 	padding: 4px;
 	list-style: none;
@@ -39,9 +58,8 @@ h5 {
 	font-size: 12px;
 }
 
-#contentTitle {
-	border-top: solid 1px black;
-	border-bottom: solid 1px black;
+#contentInfo div{
+	overflow:hidden;
 }
 
 #contentInfo>span {
@@ -67,6 +85,17 @@ h5 {
 	height: 40px;
 }
 
+#writerProfile{
+	float:right;
+	font-weight:bold;
+}
+
+#writer{
+	border-top: 3px solid #f1f3f5;
+	border-bottom: 3px solid #f1f3f5;
+	padding:15px;
+}
+
 #contentBody {
 	margin: 15px;
 	margin-bottom: 100px;
@@ -80,7 +109,7 @@ h5 {
 	margin: 0 auto 36px;
 	padding-top: 0;
 	border-radius: 2px;
-	background: #fff;
+	background: transparent;
 }
 
 .recomend_box>div {
@@ -94,10 +123,6 @@ h5 {
 }
 
 /* 댓글창 css */
-#commentDiv {
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-}
 
 .date {
 	font-size: 11px
@@ -116,7 +141,13 @@ h5 {
 }
 
 .name {
-	color: #007bff
+	color: #007bff;
+	cursor:pointer;
+	font-size:0.85rem;
+}
+
+.name:hover{
+	color:#4263eb;
 }
 
 .cursor:hover {
@@ -127,8 +158,8 @@ h5 {
 	cursor: pointer
 }
 
-#commentWrite textarea {
-	resize: none
+#commentWrite textarea .re-replyInput {
+	resize: none;
 }
 
 .fa {
@@ -142,8 +173,21 @@ h5 {
 	width: 60%;
 }
 
+.reply-content pre{
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
 .re-reply {
-	font-size: 13px;
+	font-size: 0.8rem;
+}
+
+.re-reply-create{
+	cursor:pointer;
+}
+
+.re-reply-create:hover{
+	color:#9775fa;
 }
 
 .re-reply>span::before {
@@ -160,19 +204,71 @@ h5 {
 	display: none;
 }
 
-.reply-container {
-	border-bottom: 1px solid #b6b3b3 !important;
-}
 
 #replyPaging {
 	margin-top : 20px;
+}
+
+/* 새봄 추가 */
+input:focus::-webkit-input-placeholder, textarea:focus::-webkit-input-placeholder {
+   /* WebKit browsers */ 
+   color:transparent; 
+}
+
+textarea {
+   resize: none;
+   border-radius: 5px !important;
+   margin-right: 10px !important;
+   margin-top: 10px !important;
+}
+
+button {
+   border-radius: 5px !important;
+   margin-top: 10px !important;
+}
+
+.comment-section {
+   border-radius: 5px;
+   background: white;
+}
+
+.user-info{
+   padding:10px;
+}
+
+.reply-container {
+   border-bottom: 1px solid #e6e6e6;
+}
+
+/* 새봄 추가 */
+
+/* 드롭다운 */
+.dropdown-menu{
+	text-align:center !important;
+}
+
+.sendMessageToUser{
+	line-height:15px;
 }
 
 /* 버튼 뭉치들 */
 .btn-box {
 	margin-top: 15px;
 	margin-bottom: 15px;
+	height: 38px;
+	border-bottom: 3px solid #e9ecef;
 }
+
+.btn-box button{
+	margin:0;
+	float:right;
+	transition:0.3s;
+}
+
+.btn-box button:hover{
+	color:#9775fa;
+}
+
 
 #commentWrite {
 	margin-top: 50px;
@@ -187,6 +283,19 @@ h5 {
 	color:red;
 }
 
+.reply-report{
+	cursor:pointer;
+}
+
+.reply-report:hover{
+	color:red;
+}
+
+.warn{
+	border-color:red !important;
+	box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6) !important;
+}
+
 /* 쪽지 */
 .userNickname{
 	cursor:pointer;
@@ -198,5 +307,5 @@ h5 {
 
 /* 좋아요 */
 .likeClicked{
-	color:#ae3ec9 !important;
+	color:#b197fc !important;
 }

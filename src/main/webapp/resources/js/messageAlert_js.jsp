@@ -67,8 +67,7 @@ $(document).ready(function(){
 	                
 	            });
 	            $("#subMessageDiv").append(
-	            		"<h5 class='dropdown-header'>더 보기</h5>"+
-	                    "<a class='dropdown-item' href='/myMessage' style='background-color:white;color:black'>쪽지함 이동 <i class='fas fa-angle-right'></i></a>"
+	            		"<a href='/myMessage'><h5 class='dropdown-header'>더 보기<i class='fas fa-angle-right'></i></h5></a>"
 				);
 	            cutContent();
 	        }

@@ -404,11 +404,13 @@ $("#dong").on("click",".dropdown-item", function() {
 var before_location = document.getElementById("location").value
 var criteria_gu = document.getElementById("criteria_gu").value
 if(before_location == ""){
-}else{	
+}else{
+	
 	//글자자르기
 	var after_location = before_location.split("_");
 	var before_gu = after_location[0]
 	var before_dong = after_location[1]
+	
 	//자른글자 대입
 	//구
 	for(var i = 0; i <$("#gu a").length; i++){
@@ -496,19 +498,5 @@ $(function() {
 		});
 	}
 	
-	//제목 길면 자르기 ////////////////////////////////////
-	function cutTitleLength(){
-		var forCutTitleLength = $("#title")
-		
-		if($(forCutTitleLength).val().length >20){
-			var tempMessageContent = $(forCutTitleLength).val();
-			$(forCutTitleLength).val(forCutTitleLength.val().substring(0,20));
-		}
-	}
-	
-	$("#title").on("propertychange change keyup paste",function(){
-		cutTitleLength();
-	})
-	// 제목 길면 자르기 //
 });
 </script>

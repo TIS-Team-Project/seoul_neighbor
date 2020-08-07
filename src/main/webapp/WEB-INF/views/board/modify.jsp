@@ -122,19 +122,19 @@
        				<!-- 1.2.1 타이틀 -->
 					<input type="hidden" id="bno" name="bno" value="<c:out value='${board.bno}'/>"><!-- 글번호 -->      
 		            <input type="hidden" name="userid" value="<c:out value='${board.userid}'/>"><!-- 유저아이디 -->
-		            <input type="hidden" name="nickname" value="<c:out value='${board.nickname}'/>"><!-- 유저아이디 -->
 		            <textarea name="content" id="content" class="summernote" cols="80" rows="15"><c:out value='${board.content}'/></textarea><br><!-- 글내용 -->
 					<input type="hidden" id="location" name="location" value="<c:out value='${board.location}'/>"><!-- 지역 -->
+					<input type="hidden" name="nickname" value="<c:out value='${board.nickname}'/>"><!-- 지역 -->
 					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'> 
 					<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 					<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>'>
 					<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'>
-					<input type='hidden' id= "criteria_gu" name='gu' value='<c:out value="${criteria.gu}"/>'>
+					<input type='hidden' id="criteria_gu" name='gu' value='<c:out value="${criteria.gu}"/>'>
 					<button type="submit" class="btn button-colored bottomButton" onclick="return boardCheck()">수정</button><!-- 수정버튼 -->
+					<button type="button" class="btn button-gray bottomButton"  onClick="history.go(-2)">취소</button>
 		        </form>
 		        <!-- 1.2 수정 폼 -->
 		        <!-- 1.3 취소버튼 ----------->
-		        <button type="submit" class="btn button-gray bottomButton"  onClick="history.go(-2)">취소</button>
 		        <!-- 1.3 취소버튼 -->
 			</div>
 		</div>

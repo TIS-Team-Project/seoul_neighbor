@@ -5,7 +5,7 @@ $(document).ready(function(){
 	// 신고하기 ////////////////////////////
 	$("#reportBoard").on("click",function(){
 		if('${member.userid}' == ""){
-			alert("신고하려면 로그인 해주세요");
+			alert("로그인한 회원만 이용할 수 있습니다");
 		}
 		else{
 			$('#reportUserModal').modal("show");

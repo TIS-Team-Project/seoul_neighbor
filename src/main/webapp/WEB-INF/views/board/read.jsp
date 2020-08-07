@@ -13,7 +13,7 @@
 
 <!-- CSS style ------------------------------>
 <link rel="stylesheet" href="/resources/css/board/read.css">
-
+<link rel="stylesheet" href="/resources/css/common/basic.css">
 
 </head>
 
@@ -37,7 +37,7 @@
 	            			<ul>
 							<c:forEach items="${hotList}" var="board" begin="0" end="2" step="1" varStatus="i">
 							    <li class="nav-item">
-			                        <span>[<c:out value='${board.category}'/>]</span> <a href='<c:out value="${board.bno}"/>?gu=${criteria.gu}'><c:out value="${board.title}"/></a>
+			                        <span>[<c:out value='${board.category}'/>]</span> <a class="smallList" href='<c:out value="${board.bno}"/>?gu=${criteria.gu}'><c:out value="${board.title}"/></a>
 			                    </li>
 							</c:forEach>
 							</ul>
@@ -45,7 +45,7 @@
 							<ul>
 							<c:forEach items="${hotList}" var="board" begin="3" end="5" step="1" varStatus="i">
 							    <li class="nav-item">
-			                        [<c:out value='${board.category}'/>] <a href='<c:out value="${board.bno}"/>?gu=${criteria.gu}'><c:out value="${board.title}"/></a>
+			                        [<c:out value='${board.category}'/>] <a class="smallList" href='<c:out value="${board.bno}"/>?gu=${criteria.gu}'><c:out value="${board.title}"/></a>
 			                    </li>
 							</c:forEach>
 							</ul>
@@ -98,14 +98,14 @@
                     <div id="writer" class="d-flex justify-content-between row">
                     	<div class="col-lg-8">
 	                    	<div id="contentInfo">
-	                            <div>
-	                                <h2><c:out value="${board.title}"/></h2>
+	                            <div class="pt-2">
+	                                <h4><c:out value="${board.title}"/></h4>
 	                            </div>
 	                            <div style="font-size:0.85rem;">
 	                                <span><c:out value="${board.regdate}"/></span>
 	                                <span>조회 <c:out value="${board.view_count}"/></span>
 	                                <span  id="likeCount">추천 <c:out value="${board.like_count}"/></span>
-	                                <span>댓글 <c:out value="${board.reply_count}"/></span>
+	                                <span id="replyCount">댓글 <c:out value="${board.reply_count}"/></span>
 	                                <span id="reportBoard">신고하기</span>
 	                            </div>
 	                        </div>
@@ -118,12 +118,13 @@
 										<c:when test="${fileName eq null }">
 											<img id="profileChangeImg"
 												class="card-img-top rounded-circle"
-												src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
+												src="/resources/img/mypage/profile_sample.png" onError='this.src="/resources/img/mypage/profile_sample.png"' alt="프로필 사진">
 										</c:when>
 										<c:when test="${fileName != null }">
-											<img id="profileChangeImg" class="card-img-top rounded-circle"
-												src="/resources/img/mypage/<c:out value="${fileName}"/>"
-												alt="프로필 이미지">
+											<img id="profileChangeImg" 
+												class="card-img-top rounded-circle"
+												src="/resources/img/mypage/<c:out value="${fileName}"/>" 
+												onError='this.src="/resources/img/mypage/profile_sample.png"' alt="프로필 사진">
 										</c:when>
 									</c:choose>
 								</span>
@@ -153,12 +154,13 @@
                     <button id="registerButton" class="btn">글쓰기</button>
                     <sec:authorize access="isAuthenticated()">
                     	<sec:authentication property="principal.username" var="loginid"/> 
+                    	<c:set var = "userid" value ="${board.userid}" />
+	                    <c:if test ="${userid eq loginid}" >
+		                    		<button id="modfiyButton" class="btn">수정</button>
+		                    		<button id="deleteButton" class="btn">삭제</button>
+	                    </c:if>
                     </sec:authorize>
-                    <c:set var = "userid" value ="${board.userid}" />
-                    <c:if test ="${userid eq loginid}" >
-	                    		<button id="modfiyButton" class="btn">수정</button>
-	                    		<button id="deleteButton" class="btn">삭제</button>
-                    </c:if>
+
                     <button id="listButton" class="btn">목록</button>
                 </div>
                 
@@ -173,7 +175,10 @@
 				
 				<form id="deleteForm" action = '/board/remove' method = 'post'>
 				    <c:set var = "userid" value ="${board.userid}" />
-   					<sec:authentication property="principal.username" var="loginid"/> 
+				    <sec:authorize access="isAuthenticated()">
+   						<sec:authentication property="principal.username" var="loginid"/> 
+   					</sec:authorize>
+   					<input type='hidden' name='gu' value='<c:out value="${criteria.gu}"/>'>
 					<input type="hidden" name="bno" value="${board.bno }">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form>
@@ -197,9 +202,9 @@
                     <!--댓글 입력---------------------------------------->
                     <div id="commentWrite">
                         <div class="input-group mb-3">
-                            <textarea id="replyInput" class="form-control" placeholder="남에게 상처주는 말을 하지 맙시다."></textarea>
+                            <textarea id="replyInput" class="form-control mr-3" placeholder="무분별한 비판과 비난은 서로에게 상처가 될 수 있습니다."></textarea>
                             <div class="input-group-append">
-                              <button id="replyBtn" class="btn">댓글등록하기</button>
+                              <button id="replyBtn" class="btn button-colored">댓글등록하기</button>
                             </div>
                         </div>
                     </div>
