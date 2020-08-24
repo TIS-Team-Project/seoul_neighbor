@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.justdo.domain.BoardVO;
 import com.justdo.domain.Criteria;
+import com.justdo.domain.LikeVO;
+import com.justdo.domain.ReportVO;
 import com.justdo.mapper.BoardMapper;
 import com.justdo.service.BoardService;
 
@@ -32,6 +34,11 @@ public class BoardServicelmpl implements BoardService{
 	public List<BoardVO> getList(Criteria cri) {
 		return mapper.getListWithPaging(cri);
 	}
+	
+	@Override
+	public List<BoardVO> getListWithPagingTabs(Criteria cri) {
+		return mapper.getListWithPagingTabs(cri);
+	}
 
 
 	@Override
@@ -54,7 +61,7 @@ public class BoardServicelmpl implements BoardService{
 	
 	//상세보기
 	@Override
-	public BoardVO get(Long bno) {
+	public BoardVO get(int bno) {
 		log.info("get......" + bno);
 		return mapper.read(bno);
 	}
@@ -78,6 +85,51 @@ public class BoardServicelmpl implements BoardService{
 	public List<BoardVO> getList() {
 		log.info("getList......");
 		return mapper.getList();
+	}
+
+	@Override
+	public String selectWriterProfile(String nickname) {
+		return mapper.selectWriterProfile(nickname);
+	}
+
+	@Override
+	public void reportBoard(ReportVO rvo) {
+		mapper.reportBoard(rvo);
+	}
+
+	@Override
+	public List<BoardVO>selectHotListFromRead(Criteria cri) {
+		return mapper.selectHotListFromRead(cri);
+	}
+
+	@Override
+	public void updateViewCount(Long bno) {
+		mapper.updateViewCount(bno);
+	}
+
+	@Override
+	public void insertLike(LikeVO vo) {
+		mapper.insertLike(vo);
+	}
+
+	@Override
+	public String likeCheck(LikeVO vo) {
+		return mapper.likeCheck(vo);
+	}
+
+	@Override
+	public void cancelLike(LikeVO vo) {
+		mapper.cancelLike(vo);
+	}
+
+	@Override
+	public void downLike(int bno) {
+		mapper.downLike(bno);
+	}
+
+	@Override
+	public void downUnLike(int bno) {
+		mapper.downUnLike(bno);
 	}
 
 }

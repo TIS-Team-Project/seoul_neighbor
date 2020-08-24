@@ -1,2 +1,2 @@
-# 서울이웃
-## 💻 팀장: 강민성
+# SeoulNeighbor
+ TIS 팀프로젝트

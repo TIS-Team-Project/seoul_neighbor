@@ -12,29 +12,31 @@
 <html>
 <head>
 <title>1:1 문의</title>
-<link rel="stylesheet" type="text/css" href="/resources/css/mypage/myQA.css">
+<link rel="stylesheet" href="/resources/css/common/basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-basic.css">
+<link rel="stylesheet" href="/resources/css/mypage/profile-tablepage.css">
 </head>
 <body>
 	<!-- header include ------------>
 	<%@include file="../common/header.jsp"%>
 	<!-- header include -->
-	<div style="position:fixed"><img src="/resources/img/mypage/left_background.png"></div>
 	<!-- 1. 메인 ------------------------------------------------->
-	<div class="container" style="margin-top:60px">
+	<div class="container pt-0">
 		<div class="row">
 		<!-- 1.1 왼쪽 메뉴 ---------------------------->
-			<div id="leftNav" class="col-lg-3 d-flex justify-content-center">
+			<div id="leftNav" class="col-lg-3">
 				<!-- header include ------------>
 				<%@include file="leftNav.jsp"%>
 				<!-- header include -->
 			</div>
 		<!-- 1.1 왼쪽 메뉴 -->
 		<!-- 1.2 1:1 문의 레이아웃 ---------------------------------->
-			<div id="rightDiv" class="col-lg-9">
-				<h1>1:1 문의</h1>
-				<div id="rightDivContent" class="container text-center">
-					<h5>도움이 필요하신가요?</h5>
-					<button type="button" id="QABtn" class="btn form-control" data-toggle="modal" data-dismiss="modal" data-target="#sendQA">1:1 문의 하기</button>
+			<div id="rightDiv" class="col-md-9 p-5">
+				<h4>1:1 문의</h4>
+				<p>서울이웃 서비스에 대해 궁금한 모든 것을 물어보세요!</p>
+				<button type="button" id="QABtn" class="btn form-control" data-toggle="modal" data-dismiss="modal" data-target="#sendQA">1:1 문의 하기</button>
+				<div id="rightDivContent" class="mt-5">
+				<div class="content-box">
 					<table class="table text-center table-hover">
 						<thead class="thead">
 							<tr>
@@ -58,6 +60,7 @@
 						<ul id="pageNumBtnList" class="pagination justify-content-center"></ul>
 					</nav>
 				</div>
+				</div>
 			</div>
 		<!-- 1.2 1:1 문의 레이아웃 -->
 		</div>
@@ -78,14 +81,15 @@
 					<textarea id="writeQAContent" class="form-control" rows="10" placeholder="문의 내용(1000자 이내)"></textarea>
 				</div>
 				<div class="modal-footer">
-					<span id="warn">(0/1000)글자</span><button type="button" id="insertQABtn" class="btn" data-toggle="modal" data-dismiss="modal" data-target="#sendMessage">문의하기</button>
+					<span id="qaWarn">(0/1000)글자</span><button type="button" id="insertQABtn" class="btn" data-toggle="modal" data-dismiss="modal">문의하기</button>
 				</div>
 				<div id="messageInfo"></div>
 			</div>
 		</div>
 	</div>
+	<!-- 2. 문의하기 모달창 -------------------------------------->
 	<!-- 3. 문의내용 모달창 -->
-		<!-- 2. 문의하기 모달창 -------------------------------------->
+		
 	<div class="modal" id="readQA">
 		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
@@ -98,12 +102,62 @@
 				<div class="modal-body">
 					<h5 id="QAStatus">처리상태: </h5>
 					<h4>문의 내용</h4>
-					<p id="QAContent"></p>
+					<p id="QAContent" style="word-break: break-all;"></p>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 3. 문의내용 모달창 -->
+	
+	<!-- 3. 프로필 사진 바꾸기 모달 ----------------------->
+	<div class="modal" id="changePicture">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
+			<div class="modal-content">
+        <!-- Modal Header -->
+				<div class="modal-header">
+				<h4 id="pictureHeader" class="modal-title">프로필 이미지 변경</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+        <!-- Modal body -->
+				<div class="modal-body">
+						<div id="profileChangeImgBox" class="card">
+						<form class="form-group" method="post" action="updateUser" enctype="multipart/form-data">
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+							<c:choose>
+								<c:when test="${member.member_filename eq null }">
+									<img id="profileChangeImg"
+										class="card-img-top"
+										src="/resources/img/mypage/profile_sample.png" alt="프로필 사진">
+								</c:when>
+								<c:when test="${member.member_filename != null }">
+									<img id="profileChangeImg" class="card-img-top"
+										src="/profile/image/<c:out value="${member.member_filename}"/>"
+										alt="프로필 이미지">
+								</c:when>
+							</c:choose>
+	
+							<div class="card-body filebox text-center">
+								<label id="uploadBtn" for="uploadFile">업로드</label> <input
+									type="file" id="uploadFile" name="uploadFile" /> <input
+									type="hidden" id="isFileChanged" name="isFileChanged"
+									value="false" />
+							</div>
+							<div id="fileNameContainer">
+								<input type="hidden" name="member_filename"
+									value="${member.member_filename }">
+							</div>
+							<input type="hidden" name="userid" value="${member.userid }">
+							<input type="hidden" name="nickname" value="${member.nickname }">
+							<input type="hidden" name="email" value="${member.email }">
+							<input type="hidden" name="member_location" value="${member.member_location }">
+							<input type="submit" class="btn" value="프로필 저장" style="background-color:#827FFE; color:white">
+						</form>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 3. 프로필 사진 바꾸기 모달 -->
 <!-- 4.자바스크립트------------------------>
 <%@include file="/resources/js/mypage/myQA_js.jsp"%>
 <!-- 4.자바스크립트 -->

@@ -26,14 +26,23 @@ public interface myPageMapper {
 	//쪽지함 리스트 가져오기
 	public List<MessageVO> selectMessageList(@Param("userid") String userid,@Param("pageNum") int pageNum);
 	
+	//미니 쪽지함 리스트 가져오기
+	public List<MessageVO> selectMiniMessageList(String userid);
+	
 	//쪽지 총 개수
 	public int selectCountMessage(String userid);
 	
-	//쪽지 보내기
+	//쪽지 답장하기
 	public void sendMessage(MessageVO vo);
+	
+	//쪽지 사람 선택해서 보내기
+	public void sendMessageToUser(MessageVO vo);
 	
 	//쪽지 받는 사람 아이디 가져오기
 	public String selectFindReceiver(int mno);
+	
+	//쪽지 삭제
+	public void deleteMessage(int mno);
 	
 	//나의 게시글 불러오기
 	public List<BoardVO> selectMyBoardList(@Param("userid") String userid, @Param("pageNum") int pageNum);
@@ -49,4 +58,11 @@ public interface myPageMapper {
 	
 	//1:1 문의 올리기
 	public void insertQA(QAVO qvo);
+	
+	//쪽지 읽음 업데이트
+	public void updateReadCheck(int mno);
+	
+	//비밀번호 변경위한 비밀번호 가져오기
+	public String selectUserPw(String userid);
+
 }

@@ -53,10 +53,19 @@ public class myPageServiceImpl implements myPageService {
 	public void sendMessage(MessageVO vo) {
 		mapper.sendMessage(vo);
 	}
-
+	
+	@Override
+	public void sendMessageToUser(MessageVO vo) {
+		mapper.sendMessageToUser(vo);
+	}
 	@Override
 	public String selectFindReceiver(int mno) {
 		return mapper.selectFindReceiver(mno);
+	}
+	
+	@Override
+	public void deleteMessage(int mno) {
+		mapper.deleteMessage(mno);
 	}
 
 	@Override
@@ -82,6 +91,21 @@ public class myPageServiceImpl implements myPageService {
 	@Override
 	public void insertQA(QAVO qvo) {
 		mapper.insertQA(qvo);
+	}
+
+	@Override
+	public List<MessageVO> selectMiniMessageList(String userid) {
+		return mapper.selectMiniMessageList(userid);
+	}
+
+	@Override
+	public void updateReadCheck(int mno) {
+		mapper.updateReadCheck(mno);
+	}
+
+	@Override
+	public String selectUserPw(String userid) {
+		return mapper.selectUserPw(userid);
 	}
 
 
